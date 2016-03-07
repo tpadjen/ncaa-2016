@@ -82,10 +82,10 @@ module.exports = {
     ],
     loaders: [
       { test: /\.ts$/,                      loader: 'ts',    exclude: /node_modules/ },
-      { test: /\.html$/,                    loader: 'html' },
-      { test: /\.css$/,                     loader: 'to-string!css' },
-      { test: /\.scss$/,                    loader: 'to-string!css!sass' },
-      { test: /\.(svg|eot|woff|woff2|ttf)/, loader: 'url' },
+      { test: /\.html$/,                    loader: 'exports?module.exports.toString()!html' },
+      { test: /\.css$/,                     loader: 'exports?module.exports.toString()!css' },
+      { test: /\.scss$/,                    loader: 'exports?module.exports.toString()!css!sass' },
+      { test: /\.(svg|eot|woff|woff2|ttf)/, loader: 'file?name=fonts/[name].[ext]' },
       { test: /\.(jpeg|jpg|png|gif)/,       loader: 'file?name=[path][name].[ext]&attrs=img:src link:href' }
     ],
     noParse: [ /zone\.js\/dist\/.+/, /angular2\/bundles\/.+/ ]

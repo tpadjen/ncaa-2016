@@ -1,5 +1,7 @@
+import {School} from '../schools/school';
+
 export class FantasyTeam {
   name: string;
   id: number;
-  teams: Array<any>;
+  schools: Array<School>;
 }

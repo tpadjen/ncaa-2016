@@ -1,41 +1,26 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
 
 import {FantasyTeam} from './fantasy-team';
+import {School} from '../schools/school';
+import {SchoolService} from '../schools/school.service';
 
-let fantasyTeams: Array<FantasyTeam> = [
+let fantasyTeams = [
   {
     name: 'Team 0',
-    teams: [
-      {
-        school: 'Kentucky',
-        seed: 1
-      },
-      {
-        school: 'Kentucky 2',
-        seed: 3
-      }
-    ],
+    schools: [0, 1, 2],
     id: 0
   },
   {
     name: 'Team 1',
-    teams: [
-      {
-        school: 'Illinois',
-        seed: 1
-      },
-      {
-        school: 'Illinois 2',
-        seed: 3
-      }
-    ],
+    schools: [1],
     id: 1
   },
   {
     name: 'Team 2',
-    teams: [],
+    schools: [2],
     id: 2
   }
 ];
@@ -43,12 +28,31 @@ let fantasyTeams: Array<FantasyTeam> = [
 @Injectable()
 export class FantasyTeamService {
 
-  getTeam(id: number): Observable<FantasyTeam> {
-    return Observable.of(fantasyTeams[id]);
+  constructor(private SchoolService: SchoolService) { }
+
+  getTeam(id: number): Promise<FantasyTeam> {
+    let p = new Promise<FantasyTeam>((resolve, reject) => {
+      let team = fantasyTeams[id];
+      let schools: Array<School> = [];
+      team.schools.forEach((schoolId) => {
+        this.SchoolService.getSchool(schoolId).subscribe((school: School) => {
+          schools.push(school);
+          if (schools.length === team.schools.length) {
+            let fTeam = {
+              name: team.name,
+              id: team.id,
+              schools: schools
+            };
+            resolve(fTeam);
+          }
+        });
+      });
+    });
+    return p;
   }
 
-  getTeams(): Observable<Array<FantasyTeam>> {
-    return Observable.of(fantasyTeams);
+  getTeams(): Promise<Array<FantasyTeam>> {
+    return Promise.all(fantasyTeams.map((team) => { return this.getTeam(team.id); }));
   }
 
 }

@@ -18,7 +18,7 @@ export class App {
 
   ngOnInit() {
     this._fantasyTeamService.getTeams()
-      .subscribe((teams) => this.fantasyTeams = teams);
+      .then((teams) => this.fantasyTeams = teams);
   }
 
 }

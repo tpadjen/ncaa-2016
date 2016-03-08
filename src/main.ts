@@ -3,6 +3,7 @@ import {bootstrap} from 'angular2/bootstrap';
 import {MATERIAL_PROVIDERS} from 'ng2-material/all';
 import {App} from './app/app';
 import {FantasyTeamService} from './app/fantasyTeams/fantasy-team.service';
+import {SchoolService} from './app/schools/school.service';
 
 declare let __PRODUCTION__: any;
 if (__PRODUCTION__) {
@@ -11,5 +12,6 @@ if (__PRODUCTION__) {
 
 bootstrap(App, [
   MATERIAL_PROVIDERS,
+  SchoolService,
   FantasyTeamService
 ]);

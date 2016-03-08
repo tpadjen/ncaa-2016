@@ -1,13 +1,14 @@
 import {Component} from 'angular2/core';
 import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 
-import {FantasyTeamService} from './fantasy-team.service';
+import {FantasyTeamService} from './fantasyTeams/fantasy-team.service';
+import {FantasyTeamCard} from './fantasyTeams/card/fantasy-team-card.component';
 
 @Component({
   selector: 'app',
   template: require('./app.html'),
   styles: [require('./app.scss')],
-  directives: [MATERIAL_DIRECTIVES]
+  directives: [MATERIAL_DIRECTIVES, FantasyTeamCard]
 })
 export class App {
 

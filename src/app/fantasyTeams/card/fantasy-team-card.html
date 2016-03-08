@@ -1,0 +1,17 @@
+<md-card>
+  <!-- <img src="http://placehold.it/300/200" class="md-card-image" alt="Grass"> -->
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">{{ fantasyTeam.name }}</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content>
+    <fantasy-team-table [fantasyTeam]="fantasyTeam"></fantasy-team-table>
+    <md-divider></md-divider>
+    <md-list>
+      <md-list-item>One</md-list-item>
+      <md-list-item>Two</md-list-item>
+      <md-list-item>Three</md-list-item>
+    </md-list>
+  </md-card-content>
+</md-card>

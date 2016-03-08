@@ -2,7 +2,9 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-let fantasyTeams = [
+import {FantasyTeam} from './fantasy-team';
+
+let fantasyTeams: Array<FantasyTeam> = [
   {
     name: 'Team 0',
     teams: [
@@ -19,7 +21,16 @@ let fantasyTeams = [
   },
   {
     name: 'Team 1',
-    teams: [],
+    teams: [
+      {
+        school: 'Illinois',
+        seed: 1
+      },
+      {
+        school: 'Illinois 2',
+        seed: 3
+      }
+    ],
     id: 1
   },
   {
@@ -32,11 +43,11 @@ let fantasyTeams = [
 @Injectable()
 export class FantasyTeamService {
 
-  getTeam(id: number) {
+  getTeam(id: number): Observable<FantasyTeam> {
     return Observable.of(fantasyTeams[id]);
   }
 
-  getTeams() {
+  getTeams(): Observable<Array<FantasyTeam>> {
     return Observable.of(fantasyTeams);
   }
 

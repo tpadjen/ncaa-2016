@@ -12,6 +12,12 @@ export class FantasyTeam {
   id: number;
   schools: Array<School>;
 
+  get points() {
+    return this.schools
+                .map((school) => { return school.points; })
+                .reduce((a, b) => { return a + b; });
+  }
+
   constructor();
   constructor(obj: FantasyTeamOptions, schoolService: SchoolService);
   constructor(obj?: any, schoolService?: any) {

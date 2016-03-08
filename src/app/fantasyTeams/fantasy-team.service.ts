@@ -4,24 +4,25 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
-import {FantasyTeam} from './fantasy-team';
+import {FantasyTeam, FantasyTeamOptions} from './fantasy-team';
 import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
 
-let fantasyTeams = [
+
+let fantasyTeams: Array<FantasyTeamOptions> = [
   {
     name: 'Team 0',
-    schools: [0, 1, 2],
+    schoolIds: [0, 1, 2],
     id: 0
   },
   {
     name: 'Team 1',
-    schools: [1],
+    schoolIds: [1],
     id: 1
   },
   {
     name: 'Team 2',
-    schools: [2],
+    schoolIds: [2],
     id: 2
   }
 ];
@@ -29,32 +30,21 @@ let fantasyTeams = [
 @Injectable()
 export class FantasyTeamService {
 
-  constructor(private SchoolService: SchoolService) { }
+  constructor(private _schoolService: SchoolService) { }
 
   getTeam(id: number): Observable<FantasyTeam> {
     return Observable.create((observer) => {
-      let team = fantasyTeams[id];
-      let schools: Array<School> = [];
-      team.schools.forEach((schoolId) => {
-        this.SchoolService.getSchool(schoolId).subscribe((school: School) => {
-          schools.push(school);
-          if (schools.length === team.schools.length) {
-            observer.next({
-              name: team.name,
-              id: team.id,
-              schools: schools
-            });
-          }
-        });
-      });
-
+      observer.next(new FantasyTeam(fantasyTeams[id], this._schoolService));
     });
   }
 
   getTeams(): Observable<FantasyTeam> {
     return Observable.create((observer) => {
       fantasyTeams.forEach((team) => {
-        this.getTeam(team.id).subscribe((fTeam: FantasyTeam) => { observer.next(fTeam); });
+        this.getTeam(team.id)
+          .subscribe((fantasyTeam: FantasyTeam) => {
+            observer.next(fantasyTeam);
+          });
       });
     });
   }

@@ -8,24 +8,15 @@ import {FantasyTeam, FantasyTeamOptions} from './fantasy-team';
 import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
 
-
-let fantasyTeams: Array<FantasyTeamOptions> = [
-  {
-    name: 'Team 0',
-    schoolIds: [0, 1, 2],
-    id: 0
-  },
-  {
-    name: 'Team 1',
-    schoolIds: [1],
-    id: 1
-  },
-  {
-    name: 'Team 2',
-    schoolIds: [2],
-    id: 2
-  }
-];
+let fantasyTeams = [];
+[1, 2, 3, 4, 5, 6, 7, 8].forEach((team) => {
+  let schoolIds = Array.apply(null, {length: 8}).map(function(element, index) { return index + (team-1)*8; });
+  fantasyTeams.push({
+    name: 'Team' + team,
+    schoolIds: schoolIds,
+    id: team - 1
+  });
+});
 
 @Injectable()
 export class FantasyTeamService {

@@ -4,24 +4,18 @@ import 'rxjs/add/observable/of';
 
 import {School} from './school';
 
-let schools: Array<School> = [
-  {
-    name: 'Kentucky',
-    id: 4,
-    seed: 1
-  },
-  {
-    name: 'Illinois',
-    id: 4,
-    seed: 3
-  },
-  {
-    name: 'Perdue',
-    id: 4,
-    seed: 12
-  }
 
-];
+let schools = [];
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].forEach((seed) => {
+  [1, 2, 3, 4].forEach((region) => {
+    schools.push({
+      name: 'School ' + seed + ' ' + region,
+      id: seed * region,
+      seed: seed
+    });
+  });
+});
+
 
 @Injectable()
 export class SchoolService {

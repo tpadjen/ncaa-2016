@@ -13,12 +13,12 @@ let schools: Array<School> = [
   {
     name: 'Illinois',
     id: 4,
-    seed: 1
+    seed: 3
   },
   {
     name: 'Perdue',
     id: 4,
-    seed: 1
+    seed: 12
   }
 
 ];

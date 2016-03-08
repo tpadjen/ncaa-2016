@@ -2,6 +2,7 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 
 import {FantasyTeam} from './fantasy-team';
 import {School} from '../schools/school';
@@ -30,29 +31,32 @@ export class FantasyTeamService {
 
   constructor(private SchoolService: SchoolService) { }
 
-  getTeam(id: number): Promise<FantasyTeam> {
-    let p = new Promise<FantasyTeam>((resolve, reject) => {
+  getTeam(id: number): Observable<FantasyTeam> {
+    return Observable.create((observer) => {
       let team = fantasyTeams[id];
       let schools: Array<School> = [];
       team.schools.forEach((schoolId) => {
         this.SchoolService.getSchool(schoolId).subscribe((school: School) => {
           schools.push(school);
           if (schools.length === team.schools.length) {
-            let fTeam = {
+            observer.next({
               name: team.name,
               id: team.id,
               schools: schools
-            };
-            resolve(fTeam);
+            });
           }
         });
       });
+
     });
-    return p;
   }
 
-  getTeams(): Promise<Array<FantasyTeam>> {
-    return Promise.all(fantasyTeams.map((team) => { return this.getTeam(team.id); }));
+  getTeams(): Observable<FantasyTeam> {
+    return Observable.create((observer) => {
+      fantasyTeams.forEach((team) => {
+        this.getTeam(team.id).subscribe((fTeam: FantasyTeam) => { observer.next(fTeam); });
+      });
+    });
   }
 
 }

@@ -8,11 +8,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="#team of fantasyTeam.teams">
-      <td>{{ team.school }}</td>
-      <td>{{ team.seed }}</td>
+    <tr *ngFor="#school of fantasyTeam.schools">
+      <td>{{ school.name }}</td>
+      <td>{{ school.seed }}</td>
       <td>1</td>
-      <td>{{ team.seed }}</td>
+      <td>{{ school.seed }}</td>
     </tr>
   </tbody>
 </table>

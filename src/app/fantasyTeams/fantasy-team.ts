@@ -4,7 +4,7 @@ import {SchoolService} from '../schools/school.service';
 export interface FantasyTeamOptions {
   name: string;
   id: number;
-  schoolIds: Array<number>;
+  schoolIds: Array<string>;
 }
 
 export class FantasyTeam {
@@ -29,7 +29,7 @@ export class FantasyTeam {
     }
   }
 
-  _loadSchools(schoolIds: Array<number>, schoolService: SchoolService) {
+  _loadSchools(schoolIds: Array<string>, schoolService: SchoolService) {
     this.schools = [];
     schoolIds.forEach((schoolId) => {
       schoolService.getSchool(schoolId).subscribe((school: School) => {

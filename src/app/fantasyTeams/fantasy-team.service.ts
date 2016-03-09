@@ -47,14 +47,6 @@ export class FantasyTeamService {
                 return new FantasyTeam(t, this._schoolService);
               });
             });
-    // return Observable.create((observer) => {
-    //   fantasyTeams.forEach((team) => {
-    //     this.getTeam(team.id)
-    //       .subscribe((fantasyTeam: FantasyTeam) => {
-    //         observer.next(fantasyTeam);
-    //       });
-    //   });
-    // });
   }
 
 }

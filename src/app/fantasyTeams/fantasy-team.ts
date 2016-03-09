@@ -29,12 +29,14 @@ export class FantasyTeam {
     }
   }
 
-  _loadSchools(schoolIds: Array<string>, schoolService: SchoolService) {
+  _loadSchools(schoolIds: {}, schoolService: SchoolService) {
     this.schools = [];
-    schoolIds.forEach((schoolId) => {
-      schoolService.getSchool(schoolId).subscribe((school: School) => {
-        this.schools.push(school);
-      });
-    });
+    for (let schoolId in schoolIds) {
+      if (schoolIds.hasOwnProperty(schoolId)) {
+        schoolService.getSchool(schoolId).subscribe((school: School) => {
+          this.schools.push(school);
+        });
+      }
+    }
   }
 }

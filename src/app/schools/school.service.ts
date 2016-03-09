@@ -2,7 +2,7 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-import {School} from './school';
+import {School, SchoolI} from './school';
 
 import {
   observableFirebaseObject,
@@ -16,8 +16,9 @@ export class SchoolService {
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
   schools = new Firebase(this.draftURL).child('schools').child('test');
 
-  getSchool(id: string): Observable<any> {
-    return observableFirebaseObject(this.schools.child(id));
+  getSchool(id: string): Observable<School> {
+    return observableFirebaseObject(this.schools.child(id))
+            .map((s: SchoolI) => { return new School(s); });
   }
 
   getSchools(): Observable<any []> {

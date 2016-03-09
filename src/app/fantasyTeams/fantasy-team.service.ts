@@ -13,18 +13,6 @@ import {
   observableFirebaseArray
 } from '../firebase/observableFirebase';
 
-let fantasyTeams = [];
-[1, 2, 3, 4, 5, 6, 7, 8].forEach((team) => {
-  let schoolIds = Array.apply(null, {length: 8}).map(function(element, index) {
-    return index + (team - 1)*8;
-  });
-  fantasyTeams.push({
-    name: 'Team' + team,
-    schoolIds: schoolIds,
-    id: team - 1
-  });
-});
-
 @Injectable()
 export class FantasyTeamService {
 
@@ -33,20 +21,34 @@ export class FantasyTeamService {
 
   constructor(private _schoolService: SchoolService) { }
 
-  getTeam(id: number): Observable<FantasyTeam> {
-    return Observable.create((observer) => {
-      observer.next(new FantasyTeam(fantasyTeams[id], this._schoolService));
-    });
+  getTeam(id: string): Observable<FantasyTeam> {
+    return observableFirebaseObject(this.teams.child(id))
+            .map((t: FantasyTeamOptions) => {
+              return new FantasyTeam(t, this._schoolService);
+            });
   }
 
   getTeams(): any {
     return observableFirebaseArray(this.teams, 'name')
             .map((teams) => {
               return teams.map((t: FantasyTeamOptions) => {
-                t.schoolIds = [];
+                if (t['test']) {
+                  t.schoolIds = t['test']['schoolIds'];
+                } else {
+                  t.schoolIds = [];
+                }
                 return new FantasyTeam(t, this._schoolService);
               });
             });
+  }
+
+  draft(school: School, fantasyTeam: FantasyTeam) {
+    this.teams
+      .child(fantasyTeam.name)
+      .child('test')
+      .child('schoolIds')
+      .child(school.id)
+      .set(true);
   }
 
 }

@@ -1,13 +1,13 @@
-interface SchoolI {
+export interface SchoolI {
   name: string;
-  id: number;
+  id: string;
   seed: number;
   wins: number;
 };
 
 export class School implements SchoolI {
   name: string;
-  id: number;
+  id: string;
   seed: number;
   wins: number;
 

@@ -1,48 +1,56 @@
 <h1>Welcome to App</h1>
 
-<md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
-  <div *ngFor="#fantasyTeam of fantasyTeams | async" flex="50" layout="column" flex-xs="100">
-    <fantasy-team-card [fantasyTeam]="fantasyTeam"></fantasy-team-card>
-  </div>
-</md-content>
-<md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
-  <div flex="100" layout="column">
-    <md-list>
-      <md-subheader>Schools</md-subheader>
-      <md-list-item class="md-3-line" *ngFor="#school of schools | async">
-        <div class="md-list-item-text" layout="column" *ngIf="!school.drafted">
-          <h3>Name: {{ school.name }}</h3>
-          <h4>Seed: {{ school.seed }}</h4>
-          <div class="buttons">
-            <md-content layout="row">
+<md-tabs md-dynamic-height md-border-bottom>
+  <template md-tab label="cards">
+    <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
+      <div *ngFor="#fantasyTeam of fantasyTeams | async" flex="50" layout="column" flex-xs="100">
+        <fantasy-team-card [fantasyTeam]="fantasyTeam"></fantasy-team-card>
+      </div>
+    </md-content>
+  </template>
+  <template md-tab label="schools">
+    <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
+      <div flex="100" layout="column">
+        <md-list>
+          <md-subheader>Schools</md-subheader>
+          <md-list-item class="md-3-line" *ngFor="#school of schools | async">
+            <div class="md-list-item-text" layout="column" *ngIf="!school.drafted">
+              <h3>Name: {{ school.name }}</h3>
+              <h4>Seed: {{ school.seed }}</h4>
+              <div class="buttons">
+                <md-content layout="row">
+                  <button
+                  flex="15"
+                  md-raised-button
+                  class="md-raised md-primary"
+                  *ngFor="#fantasyTeam of fantasyTeams | async"
+                  (click)="draft(school, fantasyTeam)">{{ fantasyTeam.name }}</button>
+                </md-content>
+              </div>
+            </div>
+          </md-list-item>
+        </md-list>
+      </div>
+    </md-content>
+  </template>
+  <template md-tab label="drafted">
+    <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
+      <div flex="100" layout="column">
+        <md-list>
+          <md-subheader>Draft Picks</md-subheader>
+          <md-list-item class="md-3-line" *ngFor="#pick of draftPicks | async">
+            <div class="md-list-item-text" layout="column">
+              <h3>Team: {{ pick.team }}</h3>
+              <h4>School: {{ pick.school.name }}</h4>
               <button
-              flex="15"
-              md-raised-button
-              class="md-raised md-primary"
-              *ngFor="#fantasyTeam of fantasyTeams | async"
-              (click)="draft(school, fantasyTeam)">{{ fantasyTeam.name }}</button>
-            </md-content>
-          </div>
-        </div>
-      </md-list-item>
-    </md-list>
-  </div>
-</md-content>
-<md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
-  <div flex="100" layout="column">
-    <md-list>
-      <md-subheader>Draft Picks</md-subheader>
-      <md-list-item class="md-3-line" *ngFor="#pick of draftPicks | async">
-        <div class="md-list-item-text" layout="column">
-          <h3>Team: {{ pick.team }}</h3>
-          <h4>School: {{ pick.school.name }}</h4>
-          <button
-            class="md-raised md-warn"
-            md-raised-button
-            flex="15"
-            (click)="undraft(pick)">Undo Draft Pick</button>
-        </div>
-      </md-list-item>
-    </md-list>
-  </div>
-</md-content>
+                class="md-raised md-warn"
+                md-raised-button
+                flex="15"
+                (click)="undraft(pick)">Undo Draft Pick</button>
+            </div>
+          </md-list-item>
+        </md-list>
+      </div>
+    </md-content>
+  </template>
+</md-tabs>

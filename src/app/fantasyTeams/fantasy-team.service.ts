@@ -8,9 +8,16 @@ import {FantasyTeam, FantasyTeamOptions} from './fantasy-team';
 import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
 
+import {
+  observableFirebaseObject,
+  observableFirebaseArray
+} from '../firebase/observableFirebase';
+
 let fantasyTeams = [];
 [1, 2, 3, 4, 5, 6, 7, 8].forEach((team) => {
-  let schoolIds = Array.apply(null, {length: 8}).map(function(element, index) { return index + (team-1)*8; });
+  let schoolIds = Array.apply(null, {length: 8}).map(function(element, index) {
+    return index + (team - 1)*8;
+  });
   fantasyTeams.push({
     name: 'Team' + team,
     schoolIds: schoolIds,
@@ -21,6 +28,9 @@ let fantasyTeams = [];
 @Injectable()
 export class FantasyTeamService {
 
+  draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
+  teams = new Firebase(this.draftURL).child('teams');
+
   constructor(private _schoolService: SchoolService) { }
 
   getTeam(id: number): Observable<FantasyTeam> {
@@ -29,15 +39,22 @@ export class FantasyTeamService {
     });
   }
 
-  getTeams(): Observable<FantasyTeam> {
-    return Observable.create((observer) => {
-      fantasyTeams.forEach((team) => {
-        this.getTeam(team.id)
-          .subscribe((fantasyTeam: FantasyTeam) => {
-            observer.next(fantasyTeam);
-          });
-      });
-    });
+  getTeams(): any {
+    return observableFirebaseArray(this.teams, 'name')
+            .map((teams) => {
+              return teams.map((t: FantasyTeamOptions) => {
+                t.schoolIds = [];
+                return new FantasyTeam(t, this._schoolService);
+              });
+            });
+    // return Observable.create((observer) => {
+    //   fantasyTeams.forEach((team) => {
+    //     this.getTeam(team.id)
+    //       .subscribe((fantasyTeam: FantasyTeam) => {
+    //         observer.next(fantasyTeam);
+    //       });
+    //   });
+    // });
   }
 
 }

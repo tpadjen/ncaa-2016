@@ -15,6 +15,7 @@
     "lint": "tslint './app/**/*.ts'"
   },
   "dependencies": {
+    "firebase": "^2.4.1",
     "ng2-material": "^0.2.10"
   },
   "devDependencies": {

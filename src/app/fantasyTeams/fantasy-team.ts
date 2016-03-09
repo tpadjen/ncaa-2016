@@ -15,7 +15,7 @@ export class FantasyTeam {
   get points() {
     return this.schools
                 .map((school) => { return school.points; })
-                .reduce((a, b) => { return a + b; });
+                .reduce((a, b) => { return a + b; }, 0);
   }
 
   constructor();

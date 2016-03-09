@@ -1,6 +1,8 @@
 import {Component} from 'angular2/core';
 import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 
+import {Observable} from 'rxjs/Observable';
+
 import {FantasyTeamService} from './fantasyTeams/fantasy-team.service';
 import {FantasyTeamCard} from './fantasyTeams/card/fantasy-team-card.component';
 
@@ -12,15 +14,15 @@ import {FantasyTeamCard} from './fantasyTeams/card/fantasy-team-card.component';
 })
 export class App {
 
-  fantasyTeams = [];
+  fantasyTeams: Observable<any []>;
 
   constructor(private _fantasyTeamService: FantasyTeamService) { }
 
   ngOnInit() {
-    this._fantasyTeamService.getTeams()
-      .subscribe((team) => {
-        this.fantasyTeams.push(team);
-      });
+    this.fantasyTeams = this._fantasyTeamService.getTeams();
+      // .subscribe((team) => {
+      //   this.fantasyTeams.push(team);
+      // });
 
   }
 

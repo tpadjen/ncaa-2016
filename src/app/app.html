@@ -1,7 +1,7 @@
 <h1>Welcome to App</h1>
 
 <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
-  <div *ngFor="#fantasyTeam of fantasyTeams" flex="50" layout="column" flex-xs="100">
+  <div *ngFor="#fantasyTeam of fantasyTeams | async" flex="50" layout="column" flex-xs="100">
     <fantasy-team-card [fantasyTeam]="fantasyTeam"></fantasy-team-card>
   </div>
 </md-content>

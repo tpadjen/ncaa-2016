@@ -3,6 +3,8 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 import {School, SchoolI} from './school';
+import {FantasyTeam} from '../fantasyTeams/fantasy-team';
+import {DraftPick} from '../draft/draft-pick';
 
 import {
   observableFirebaseObject,
@@ -22,7 +24,32 @@ export class SchoolService {
   }
 
   getSchools(): Observable<any []> {
-    return observableFirebaseArray(this.schools, 'id');
+    return observableFirebaseArray(this.schools, 'id')
+            .map((schools) => {
+              return schools.map((s: SchoolI) => {
+                return new School(s);
+              });
+            });
+  }
+
+  draft(school: School, fantasyTeam: FantasyTeam) {
+    this.schools
+      .child(school.id)
+      .child('test')
+      .set({
+        team: fantasyTeam.name,
+        school: {
+          id: school.id,
+          name: school.name
+        }
+      });
+  }
+
+  undraft(pick: DraftPick) {
+    this.schools
+      .child(pick.school.id)
+      .child('test')
+      .remove();
   }
 
   constructor() {

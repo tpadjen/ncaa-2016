@@ -32,15 +32,9 @@ export function observableFirebaseArray<T>(ref: FirebaseQuery, keyName?: string)
     function child_changed(snapshot: FirebaseDataSnapshot) {
       let key = snapshot.key();
       let child = snapshot.val();
-      // TODO replace object rather than mutate it?
-      let x = arr.find((y) => y[keyFieldName] === key);
-      if (x) {
-        for (let k in child) {
-          if (child.hasOwnProperty(k)) {
-            x[k] = child[k];
-          }
-        }
-      }
+      child[keyFieldName] = key;
+      let i = arr.findIndex((y) => y[keyFieldName] === key);
+      if (i) { arr[i] = child; }
       observer.next(arr.slice()); // Safe copy
     }
 

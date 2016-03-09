@@ -10,8 +10,11 @@ export class School implements SchoolI {
   id: string;
   seed: number;
   wins: number;
+  draftTeam: string;
 
   get points(): number { return this.seed * this.wins; }
+
+  get drafted(): boolean { return this.draftTeam !== null; }
 
   constructor();
   constructor(obj: SchoolI);
@@ -20,5 +23,6 @@ export class School implements SchoolI {
     this.id   = obj && obj.id   || null;
     this.seed = obj && obj.seed || null;
     this.wins = obj && obj.wins || null;
+    this.draftTeam = obj && obj['test'] || null;
   }
 }

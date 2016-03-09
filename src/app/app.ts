@@ -10,6 +10,7 @@ import {FantasyTeamCard} from './fantasyTeams/card/fantasy-team-card.component';
 import {School} from './schools/school';
 import {SchoolService} from './schools/school.service';
 
+import {DraftPick} from './draft/draft-pick';
 import {DraftService} from './draft/draft.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class App {
 
   fantasyTeams: Observable<FantasyTeam[]>;
   schools: Observable<School[]>;
+  draftPicks: Observable<DraftPick[]>;
 
   constructor(
     private _schoolService: SchoolService,
@@ -31,14 +33,15 @@ export class App {
   ngOnInit() {
     this.fantasyTeams = this._fantasyTeamService.getTeams();
     this.schools = this._schoolService.getSchools();
-      // .subscribe((team) => {
-      //   this.fantasyTeams.push(team);
-      // });
-
+    this.draftPicks = this._draftService.getDraftPicks();
   }
 
   draft(school: School, fantasyTeam: FantasyTeam) {
     this._draftService.draft(school, fantasyTeam);
+  }
+
+  undraft(pick: DraftPick) {
+    this._draftService.undraft(pick);
   }
 
 }

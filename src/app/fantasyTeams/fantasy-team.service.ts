@@ -7,6 +7,7 @@ import 'rxjs/add/operator/toPromise';
 import {FantasyTeam, FantasyTeamOptions} from './fantasy-team';
 import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
+import {DraftPick} from '../draft/draft-pick';
 
 import {
   observableFirebaseObject,
@@ -49,6 +50,15 @@ export class FantasyTeamService {
       .child('schoolIds')
       .child(school.id)
       .set(true);
+  }
+
+  undraft(pick: DraftPick) {
+    this.teams
+      .child(pick.team)
+      .child('test')
+      .child('schoolIds')
+      .child(pick.school.id)
+      .remove();
   }
 
 }

@@ -14,6 +14,8 @@ import {
   observableFirebaseArray
 } from '../firebase/observableFirebase';
 
+const TEAMS_LENGTH = 8;
+
 @Injectable()
 export class DraftService {
 
@@ -29,7 +31,7 @@ export class DraftService {
   get currentTeam(): Observable<FantasyTeam> {
     return Observable.create((observer) => {
       this.currentPick.subscribe((pick) => {
-        this._fantasyTeamService.getTeamById(pick % 8).subscribe((team) => {
+        this._fantasyTeamService.getTeamById(this._getNextPick(pick)).subscribe((team) => {
           observer.next(team);
         });
       });
@@ -83,6 +85,15 @@ export class DraftService {
     this.currentTeam.subscribe((current) => {
       return current.name === team.name;
     });
+  }
+
+  // snake draft
+  _getNextPick(pick: number): number {
+    if (Math.floor(pick / TEAMS_LENGTH) % 2 === 0) {
+      return pick % TEAMS_LENGTH;
+    }
+
+    return TEAMS_LENGTH - pick % TEAMS_LENGTH - 1;
   }
 
 

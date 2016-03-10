@@ -12,25 +12,6 @@ Current Team: {{ currentTeam?.name }}
     <schools-tab></schools-tab>
   </template>
   <template md-tab label="drafted">
-    <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
-      <div flex="100" layout="column">
-        <md-list>
-          <md-subheader>Draft Picks</md-subheader>
-          <md-list-item class="md-3-line"
-            *ngFor="#pick of draftPicks | async; #index = index; #last = last">
-            <div class="md-list-item-text" layout="column" flex="50">
-              <h2>{{ index + 1 }}: {{ pick.school.name }}</h2>
-              <h3> Team: {{ pick.team }}</h3>
-              <button
-                *ngIf="last"
-                class="md-raised md-warn"
-                md-raised-button
-                flex="15"
-                (click)="undraft(pick)">Undo Draft Pick</button>
-            </div>
-          </md-list-item>
-        </md-list>
-      </div>
-    </md-content>
+    <draft-tab></draft-tab>
   </template>
 </md-tabs>

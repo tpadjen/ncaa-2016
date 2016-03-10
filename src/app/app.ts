@@ -9,6 +9,7 @@ import {FantasyTeamCard} from './fantasyTeams/card/fantasy-team-card.component';
 
 import {DraftPick} from './draft/draft-pick';
 import {DraftService} from './draft/draft.service';
+import {DraftTab} from './draft/tab/draft-tab.component';
 
 import {School} from './schools/school';
 import {SchoolsTab} from './schools/tab/schools-tab.component';
@@ -17,12 +18,16 @@ import {SchoolsTab} from './schools/tab/schools-tab.component';
   selector: 'app',
   template: require('./app.html'),
   styles: [require('./app.scss')],
-  directives: [MATERIAL_DIRECTIVES, FantasyTeamCard, SchoolsTab]
+  directives: [
+    MATERIAL_DIRECTIVES,
+    FantasyTeamCard,
+    SchoolsTab,
+    DraftTab
+  ]
 })
 export class App {
 
   fantasyTeams: Observable<FantasyTeam[]>;
-  draftPicks: Observable<DraftPick[]>;
   currentTeam: FantasyTeam;
 
   constructor(
@@ -31,14 +36,9 @@ export class App {
 
   ngOnInit() {
     this.fantasyTeams = this._fantasyTeamService.getTeams();
-    this.draftPicks = this._draftService.getDraftPicks();
     this._draftService.currentTeam.subscribe((team) => {
       this.currentTeam = team;
     });
-  }
-
-  undraft(pick: DraftPick) {
-    this._draftService.undraft(pick);
   }
 
 }

@@ -33,7 +33,7 @@ export class DraftService {
   get currentTeam(): Observable<FantasyTeam> {
     return Observable.create((observer) => {
       this.currentPick.subscribe((pick) => {
-        this._fantasyTeamService.getTeamById(this._getNextPick(pick)).subscribe((team) => {
+        this._fantasyTeamService.getTeamByOrder(this._getNextPick(pick)).subscribe((team) => {
           observer.next(team);
           this.updating = false;
         });
@@ -52,6 +52,11 @@ export class DraftService {
             //     return new DraftPick(p);
             //   });
             // });
+  }
+
+  getDraftOrder(): Observable<any []> {
+    return observableFirebaseObject(this.draftF.child('order'))
+            .do((order) => delete order['$$fbKey']);
   }
 
   draft(school: School) {

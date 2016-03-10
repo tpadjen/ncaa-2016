@@ -19,7 +19,7 @@ export class FantasyTeamService {
 
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
   teams = new Firebase(this.draftURL).child('teams');
-  order = new Firebase(this.draftURL).child('order').child('test');
+  order = new Firebase(this.draftURL).child('draft').child('test').child('order');
 
   constructor(private _schoolService: SchoolService) { }
 
@@ -30,9 +30,9 @@ export class FantasyTeamService {
   //           });
   // }
 
-  getTeamById(id: number): Observable<FantasyTeam> {
+  getTeamByOrder(order: number): Observable<FantasyTeam> {
     return Observable.create((observer) => {
-      this.order.child(id.toString()).once('value', (snap) => {
+      this.order.child(order.toString()).once('value', (snap) => {
         let team = snap.val();
         this.teams.child(team).once('value', (snapshot) => {
           let child = snapshot.val();

@@ -2,10 +2,14 @@ import {Observable} from 'rxjs/Observable';
 
 import 'firebase/lib/firebase-web';
 
-export function observableFirebaseObject<T>(ref: FirebaseQuery): Observable<T> {
+export function observableFirebaseObject<T>(ref: FirebaseQuery, keyName?: string): Observable<T> {
   return Observable.create(function(observer: any) {
+    const keyFieldName = keyName ? keyName : "$$fbKey";
+
     function value(snapshot: FirebaseDataSnapshot) {
-      observer.next(snapshot.val());
+      let child = snapshot.val();
+      child[keyFieldName] = snapshot.key();
+      observer.next(child);
     }
     ref.on('value', value);
     return function() {

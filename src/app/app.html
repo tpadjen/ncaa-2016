@@ -2,11 +2,7 @@
 Current Team: {{ currentTeam?.name }}
 <md-tabs md-dynamic-height md-border-bottom>
   <template md-tab label="cards">
-    <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
-      <div *ngFor="#fantasyTeam of fantasyTeams | async" flex="50" layout="column" flex-xs="100">
-        <fantasy-team-card [fantasyTeam]="fantasyTeam"></fantasy-team-card>
-      </div>
-    </md-content>
+    <fantasy-teams-tab></fantasy-teams-tab>
   </template>
   <template md-tab label="schools">
     <schools-tab></schools-tab>

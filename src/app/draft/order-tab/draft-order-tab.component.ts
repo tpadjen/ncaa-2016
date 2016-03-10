@@ -8,9 +8,12 @@ import {Observable} from 'rxjs/Observable';
 import {DraftPick} from '../draft-pick';
 import {DraftService} from '../draft.service';
 
+import {SortableList} from './sortable-list/sortable-list.component';
+
 @Component({
   selector: 'draft-order-tab',
-  template: require('./draft-order-tab.component.html')
+  template: require('./draft-order-tab.component.html'),
+  directives: [SortableList]
 })
 export class DraftOrderTab {
 

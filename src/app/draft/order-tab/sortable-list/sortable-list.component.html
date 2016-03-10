@@ -1,0 +1,13 @@
+<md-list>
+  <md-subheader>Draft Order</md-subheader>
+  <md-list-item class="md-3-line sortable-item"
+    *ngFor="#team of list; #index = index;" [attr.data-id]="index">
+    <div class="md-list-item-text" layout="column" flex="50">
+      <h2>{{ index + 1 }}: {{ team }}</h2>
+    </div>
+  </md-list-item>
+</md-list>
+
+<!--
+<span class="buttons"><button *ngIf="index !== 0">Move Up</button>
+<button *ngIf="!last">Move Down</button></span></h2> -->

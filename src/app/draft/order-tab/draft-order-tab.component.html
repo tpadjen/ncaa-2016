@@ -1,14 +1,5 @@
 <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
   <div flex="100" layout="column">
-    <md-list>
-      <md-subheader>Draft Order</md-subheader>
-      <md-list-item class="md-3-line"
-        *ngFor="#team of order; #index = index; #first = first; #last = last">
-        <div class="md-list-item-text" layout="column" flex="50">
-          <h2>{{ index + 1 }}: {{ team }} <span class="buttons"><button *ngIf="index !== 0">Move Up</button>
-          <button *ngIf="!last">Move Down</button></span></h2>
-        </div>
-      </md-list-item>
-    </md-list>
+    <sortable-list [list]="order"></sortable-list>
   </div>
 </md-content>

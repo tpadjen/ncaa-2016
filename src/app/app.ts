@@ -23,6 +23,7 @@ import {DraftTab} from './draft/tab/draft-tab.component';
 export class App {
 
   currentTeam: FantasyTeam;
+  updatingTeam: boolean = false;
 
   constructor(
     private _draftService: DraftService) { }
@@ -30,7 +31,12 @@ export class App {
   ngOnInit() {
     this._draftService.currentTeam.subscribe((team) => {
       this.currentTeam = team;
+      this.updatingTeam = false;
     });
+  }
+
+  updating() {
+    this.updatingTeam = true;
   }
 
 }

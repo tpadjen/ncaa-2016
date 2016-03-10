@@ -1,4 +1,8 @@
-import {Component} from 'angular2/core';
+import {
+  Component,
+  Output,
+  EventEmitter
+} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 
 import {FantasyTeam} from '../../fantasyTeams/fantasy-team';
@@ -13,6 +17,8 @@ import {DraftService} from '../../draft/draft.service';
   template: require('./schools-tab.component.html')
 })
 export class SchoolsTab {
+
+  @Output() updatingTeam: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   schools: Observable<School[]>;
 
@@ -30,6 +36,7 @@ export class SchoolsTab {
   }
 
   draft(school: School) {
+    this.updatingTeam.next(true);
     this._draftService.draft(school);
   }
 }

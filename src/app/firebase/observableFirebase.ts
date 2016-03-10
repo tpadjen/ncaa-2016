@@ -29,7 +29,7 @@ export function observableFirebaseArray<T>(ref: FirebaseQuery, keyName?: string)
       let child = snapshot.val();
       child[keyFieldName] = snapshot.key();
       let prevEntry = arr.find((y) => y[keyFieldName] === prevChildKey);
-      arr.splice(arr.indexOf(prevEntry) + 1, 0, child);
+      arr.splice(prevChildKey ? arr.indexOf(prevEntry) + 1 : 0, 0, child);
       observer.next(arr.slice()); // Safe copy
     }
 
@@ -38,7 +38,7 @@ export function observableFirebaseArray<T>(ref: FirebaseQuery, keyName?: string)
       let child = snapshot.val();
       child[keyFieldName] = key;
       let i = arr.findIndex((y) => y[keyFieldName] === key);
-      if (i) { arr[i] = child; }
+      if (i !== -1) { arr[i] = child; }
       observer.next(arr.slice()); // Safe copy
     }
 

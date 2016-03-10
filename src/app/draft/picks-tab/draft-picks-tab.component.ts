@@ -9,10 +9,10 @@ import {DraftPick} from '../draft-pick';
 import {DraftService} from '../draft.service';
 
 @Component({
-  selector: 'draft-tab',
-  template: require('./draft-tab.component.html')
+  selector: 'draft-picks-tab',
+  template: require('./draft-picks-tab.component.html')
 })
-export class DraftTab {
+export class DraftPicksTab {
 
   @Output() updatingTeam: EventEmitter<boolean> = new EventEmitter<boolean>();
 

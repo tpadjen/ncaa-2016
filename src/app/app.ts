@@ -7,7 +7,7 @@ import {DraftService} from './draft/draft.service';
 
 import {FantasyTeamsTab} from './fantasyTeams/tab/fantasy-teams-tab.component';
 import {SchoolsTab} from './schools/tab/schools-tab.component';
-import {DraftTab} from './draft/tab/draft-tab.component';
+import {DraftPicksTab} from './draft/picks-tab/draft-picks-tab.component';
 
 @Component({
   selector: 'app',
@@ -17,7 +17,7 @@ import {DraftTab} from './draft/tab/draft-tab.component';
     MATERIAL_DIRECTIVES,
     FantasyTeamsTab,
     SchoolsTab,
-    DraftTab
+    DraftPicksTab
   ]
 })
 export class App {

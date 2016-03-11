@@ -1,5 +1,5 @@
 <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
   <div flex="100" layout="column">
-    <sortable-list [list]="order"></sortable-list>
+    <sortable-list [list]="order" (changed)="updateDraftOrder($event)"></sortable-list>
   </div>
 </md-content>

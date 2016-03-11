@@ -53,6 +53,7 @@ export class SortableList {
     this.list = sortable.toArray()
                   .map((s: string) => parseInt(s, 10))
                   .map((n: number) => this.list[n]);
+    this.changed.next(this.list);
   }
 
 }

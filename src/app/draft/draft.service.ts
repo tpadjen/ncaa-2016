@@ -32,12 +32,15 @@ export class DraftService {
 
   get currentTeam(): Observable<FantasyTeam> {
     return Observable.create((observer) => {
-      this.currentPick.subscribe((pick) => {
-        this._fantasyTeamService.getTeamByOrder(this._getNextPick(pick)).subscribe((team) => {
-          observer.next(team);
-          this.updating = false;
-        });
+      this._observeTeamChange(observer);
+
+      this.draftF.child('order').on('value', (snapshot) => {
+        this._observeTeamChange(observer);
       });
+
+      return () => {
+        this.draftF.child('order').off('value');
+      };
     });
   }
 
@@ -57,6 +60,10 @@ export class DraftService {
   getDraftOrder(): Observable<any []> {
     return observableFirebaseObject(this.draftF.child('order'))
             .do((order) => delete order['$$fbKey']);
+  }
+
+  updateDraftOrder(order) {
+    this.draftF.child('order').set(order);
   }
 
   draft(school: School) {
@@ -104,6 +111,16 @@ export class DraftService {
     }
 
     return TEAMS_LENGTH - pick % TEAMS_LENGTH - 1;
+  }
+
+  // update fantasy team when pick changes
+  _observeTeamChange(observer) {
+    this.currentPick.subscribe((pick) => {
+      this._fantasyTeamService.getTeamByOrder(this._getNextPick(pick)).subscribe((team) => {
+        observer.next(team);
+        this.updating = false;
+      });
+    });
   }
 
 

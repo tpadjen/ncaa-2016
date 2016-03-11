@@ -27,4 +27,8 @@ export class DraftOrderTab {
       .subscribe((order: string[]) => this.order = order);
   }
 
+  updateDraftOrder(list) {
+    this._draftService.updateDraftOrder(list);
+  }
+
 }

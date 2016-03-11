@@ -39,10 +39,6 @@ export class DraftService {
       this.draftF.child('order').on('value', (snapshot) => {
         this._observeTeamChange(observer);
       });
-
-      return () => {
-        this.draftF.child('order').off('value');
-      };
     });
   }
 

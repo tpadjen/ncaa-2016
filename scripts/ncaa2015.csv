@@ -1,0 +1,71 @@
+Midwest
+1,Kentucky,0.9787
+16,Hampton/Manhattan,0.5411
+8,Cincinatti,0.8242
+9,Purdue,0.7825
+5,West Virginia,0.8539
+12,Buffalo,0.7759
+4,Maryland,0.8289
+13,Valparaiso,0.7499
+6,Butler,0.8624
+11,Texas,0.8725
+3,Notre Dame,0.9127
+14,Northeastern,0.5980
+7,Wichita St,0.9044
+10,Indiana,0.7762
+2,Kansas,0.9111
+15,New Mexico St,0.6674
+
+West
+1,Wisconsin,0.9615
+16,Coastal Carolina,0.5371
+8,Oregon,0.7972
+9,Oklahoma St,0.8141
+5,Arkansas,0.8416
+12,Wofford,0.6617
+4,North Carolina,0.9019
+13,Harvard,0.7059
+6,Xavier,0.8518
+11,BYU/Ole Miss,0.8395
+3,Baylor,0.9038
+14,Georgia St,0.7344
+7,VCU,0.8400
+10,Ohio St,0.8680
+2,Arizona,0.9674
+15,Texas Southern,0.4111
+
+East
+1,Villanova,0.9571
+16,Lafayette,0.4285
+8,NC St,0.8111
+9,LSU,0.8006
+5,UNI,0.9080
+12,Wyoming,0.6373
+4,Louisville,0.8756
+13,UC Irvine,0.6559
+6,Providence,0.8458
+11,Boise St/Dayton,0.8091
+3,Oklahoma,0.9150
+14,Albany,0.5686
+7,Michigan St,0.8786
+10,Georgia,0.8178
+2,Virginia,0.9587
+15,Belmont,0.5363
+
+South
+1,Duke,0.9395
+16,N. Florida/Robert Morris,0.5780
+8,SDSU,0.8468
+9,St. John's,0.8019
+5,Utah,0.9275
+12,S.F. Austin,0.8183
+4,Georgetown,0.8670
+13,Eastern Wash.,0.5618
+6,SMU,0.8734
+11,UCLA,0.8056
+3,Iowa St,0.9047
+14,UAB,0.5979
+7,Iowa,0.8594
+10,Davidson,0.8319
+2,Gonzaga,0.9440
+15,N. Dakota St,0.5258

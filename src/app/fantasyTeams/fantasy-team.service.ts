@@ -14,12 +14,14 @@ import {
   observableFirebaseArray
 } from '../firebase/observableFirebase';
 
+import {DRAFT_NAME} from '../../config';
+
 @Injectable()
 export class FantasyTeamService {
 
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
   teams = new Firebase(this.draftURL).child('teams');
-  order = new Firebase(this.draftURL).child('draft').child('test').child('order');
+  order = new Firebase(this.draftURL).child('draft').child(DRAFT_NAME).child('order');
 
   constructor(private _schoolService: SchoolService) { }
 
@@ -48,8 +50,8 @@ export class FantasyTeamService {
     return observableFirebaseArray(this.teams, 'name')
             .map((teams) => {
               return teams.map((t: FantasyTeamOptions) => {
-                if (t['test']) {
-                  t.schoolIds = t['test']['schoolIds'];
+                if (t[DRAFT_NAME]) {
+                  t.schoolIds = t[DRAFT_NAME]['schoolIds'];
                 } else {
                   t.schoolIds = [];
                 }
@@ -61,7 +63,7 @@ export class FantasyTeamService {
   draft(school: School, fantasyTeam: FantasyTeam) {
     this.teams
       .child(fantasyTeam.name)
-      .child('test')
+      .child(DRAFT_NAME)
       .child('schoolIds')
       .child(school.id)
       .set(true);
@@ -70,7 +72,7 @@ export class FantasyTeamService {
   undraft(pick: DraftPick) {
     this.teams
       .child(pick.team)
-      .child('test')
+      .child(DRAFT_NAME)
       .child('schoolIds')
       .child(pick.school.id)
       .remove();

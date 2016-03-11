@@ -14,13 +14,15 @@ import {
   observableFirebaseArray
 } from '../firebase/observableFirebase';
 
+import {DRAFT_NAME} from '../../config';
+
 const TEAMS_LENGTH = 8;
 
 @Injectable()
 export class DraftService {
 
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
-  draftF = new Firebase(this.draftURL).child('draft').child('test');
+  draftF = new Firebase(this.draftURL).child('draft').child(DRAFT_NAME);
 
   updating = false;
 

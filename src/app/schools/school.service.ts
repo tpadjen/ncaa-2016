@@ -11,12 +11,13 @@ import {
   observableFirebaseArray
 } from '../firebase/observableFirebase';
 
+import {DRAFT_NAME} from '../../config';
 
 @Injectable()
 export class SchoolService {
 
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
-  schools = new Firebase(this.draftURL).child('schools').child('test');
+  schools = new Firebase(this.draftURL).child('schools').child(DRAFT_NAME);
 
   getSchool(id: string): Observable<School> {
     return observableFirebaseObject(this.schools.child(id))
@@ -35,7 +36,7 @@ export class SchoolService {
   draft(school: School, fantasyTeam: FantasyTeam) {
     this.schools
       .child(school.id)
-      .child('test')
+      .child(DRAFT_NAME)
       .set({
         team: fantasyTeam.name,
         school: {
@@ -48,7 +49,7 @@ export class SchoolService {
   undraft(pick: DraftPick) {
     this.schools
       .child(pick.school.id)
-      .child('test')
+      .child(DRAFT_NAME)
       .remove();
   }
 

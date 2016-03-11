@@ -1,8 +1,11 @@
+import {DRAFT_NAME} from '../../config';
+
 export interface SchoolI {
   name: string;
   id: string;
   seed: number;
   wins: number;
+  region: string;
 };
 
 export class School implements SchoolI {
@@ -10,6 +13,7 @@ export class School implements SchoolI {
   id: string;
   seed: number;
   wins: number;
+  region: string;
   draftTeam: string;
 
   get points(): number { return this.seed * this.wins; }
@@ -23,6 +27,7 @@ export class School implements SchoolI {
     this.id   = obj && obj.id   || null;
     this.seed = obj && obj.seed || null;
     this.wins = obj && obj.wins || null;
-    this.draftTeam = obj && obj['test'] || null;
+    this.region = obj && obj.region || null;
+    this.draftTeam = obj && obj[DRAFT_NAME] || null;
   }
 }

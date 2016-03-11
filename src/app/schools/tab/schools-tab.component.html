@@ -1,23 +1,15 @@
-<md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
-  <div flex="100" layout="column">
-    <md-list>
-      <md-subheader>Schools</md-subheader>
-      <md-list-item class="md-3-line"
-        *ngFor="#school of schools | async; #index = index">
-        <div class="md-list-item-text" layout="column">
-          <h3 [class.drafted]="school.drafted || selected === index">Name: {{ school.name }}</h3>
-          <h4>Seed: {{ school.seed }}</h4>
-          <div class="buttons" *ngIf="!(school.drafted || selected === index)">
-            <md-content layout="row">
-              <button
-              flex="15"
-              md-raised-button
-              class="md-raised md-primary"
-              (click)="draft(school, index)">Draft Team</button>
-            </md-content>
-          </div>
-        </div>
-      </md-list-item>
-    </md-list>
-  </div>
-</md-content>
+<h2>Regions</h2>
+<md-tabs md-dynamic-height md-border-bottom>
+  <template md-tab label="east">
+    <region [schools]="schools?.east" (drafted)="draft($event)"></region>
+  </template>
+  <template md-tab label="west">
+    <region [schools]="schools?.west" (drafted)="draft($event)"></region>
+  </template>
+  <template md-tab label="south">
+    <region [schools]="schools?.south" (drafted)="draft($event)"></region>
+  </template>
+  <template md-tab label="midwest">
+    <region [schools]="schools?.midwest" (drafted)="draft($event)"></region>
+  </template>
+</md-tabs>

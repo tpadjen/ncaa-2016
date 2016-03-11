@@ -17,14 +17,6 @@ export class Region {
   @Input() schools: Array<School>;
   @Output() drafted = new EventEmitter();
 
-  ngOnInit() {
-    console.log("Region");
-  }
-
-  ngOnChanges() {
-    console.log(this.schools);
-  }
-
   draft(school: School, index: number) {
     this.drafted.emit({school: school, index: index});
   }

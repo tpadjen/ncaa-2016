@@ -1,16 +1,10 @@
 <h1>Welcome to App</h1>
-<h2>Current Team: <span [class.updating]="updatingTeam">{{ currentTeam?.name }}</span></h2>
-<md-tabs md-dynamic-height md-border-bottom>
-  <template md-tab label="cards">
-    <fantasy-teams-tab></fantasy-teams-tab>
-  </template>
-  <template md-tab label="schools">
-    <schools-tab (updatingTeam)="updating()"></schools-tab>
-  </template>
-  <template md-tab label="drafted">
-    <draft-picks-tab (updatingTeam)="updating()"></draft-picks-tab>
-  </template>
-  <template md-tab label="draft order">
-    <draft-order-tab></draft-order-tab>
-  </template>
-</md-tabs>
+<h2>Current Team: <span>{{ currentTeam?.name }}</span></h2>
+<a [routerLink]="['Scores']">Scores</a>
+<a [routerLink]="['Schools']">Schools</a>
+<a [routerLink]="['DraftPicks']">Picks</a>
+<a [routerLink]="['DraftOrder']">Order</a>
+
+<div class="page">
+  <router-outlet></router-outlet>
+</div>

@@ -1,5 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/first';
 
 import {DraftPick} from './draft-pick';
@@ -24,7 +25,7 @@ export class DraftService {
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
   draftF = new Firebase(this.draftURL).child('draft').child(DRAFT_NAME);
 
-  updating = false;
+  updating: Subject<boolean> = new Subject<boolean>();
 
   currentPick: Observable<number> = Observable.create((observer) => {
     this.draftF.child('currentPick').on('value', (snapshot) => {
@@ -65,7 +66,7 @@ export class DraftService {
   }
 
   draft(school: School) {
-    this.updating = true;
+    this.updating.next(true);
     this.currentTeam.first().subscribe((fantasyTeam) => {
       this._fantasyTeamService.draft(school, fantasyTeam);
       this._schoolService.draft(school, fantasyTeam);
@@ -85,7 +86,7 @@ export class DraftService {
   }
 
   undraft(pick: DraftPick) {
-    this.updating = true;
+    this.updating.next(true);
     this.draftF.child('picks').child(pick.id).remove();
 
     this._fantasyTeamService.undraft(pick);
@@ -116,7 +117,7 @@ export class DraftService {
     this.currentPick.subscribe((pick) => {
       this._fantasyTeamService.getTeamByOrder(this._getNextPick(pick)).subscribe((team) => {
         observer.next(team);
-        this.updating = false;
+        this.updating.next(false);
       });
     });
   }

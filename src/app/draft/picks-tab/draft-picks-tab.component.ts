@@ -14,8 +14,6 @@ import {DraftService} from '../draft.service';
 })
 export class DraftPicksTab {
 
-  @Output() updatingTeam: EventEmitter<boolean> = new EventEmitter<boolean>();
-
   draftPicks: Observable<DraftPick[]>;
 
   constructor(
@@ -26,7 +24,6 @@ export class DraftPicksTab {
   }
 
   undraft(pick: DraftPick) {
-    this.updatingTeam.next(true);
     this._draftService.undraft(pick);
   }
 }

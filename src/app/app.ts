@@ -1,4 +1,9 @@
 import {Component} from 'angular2/core';
+import {
+  RouteConfig,
+  RouterLink,
+  RouterOutlet
+} from 'angular2/router';
 import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {Observable} from 'rxjs/Observable';
 
@@ -15,6 +20,8 @@ import {DraftOrderTab} from './draft/order-tab/draft-order-tab.component';
   template: require('./app.html'),
   styles: [require('./app.scss')],
   directives: [
+    RouterLink,
+    RouterOutlet,
     MATERIAL_DIRECTIVES,
     FantasyTeamsTab,
     SchoolsTab,
@@ -22,23 +29,25 @@ import {DraftOrderTab} from './draft/order-tab/draft-order-tab.component';
     DraftOrderTab
   ]
 })
+@RouteConfig([
+  { path: '/', name: 'Scores', component: FantasyTeamsTab, useAsDefault: true },
+  { path: '/schools', name: 'Schools', component: SchoolsTab },
+  { path: '/picks', name: 'DraftPicks', component: DraftPicksTab },
+  { path: '/order', name: 'DraftOrder', component: DraftOrderTab }
+])
 export class App {
 
   currentTeam: FantasyTeam;
-  updatingTeam: boolean = false;
+  updatingTeam: Observable<boolean>;
 
   constructor(
     private _draftService: DraftService) { }
 
   ngOnInit() {
+    this.updatingTeam = this._draftService.updating;
     this._draftService.currentTeam.subscribe((team) => {
       this.currentTeam = team;
-      this.updatingTeam = false;
     });
-  }
-
-  updating() {
-    this.updatingTeam = true;
   }
 
 }

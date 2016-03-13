@@ -1,7 +1,5 @@
 import {
   Component,
-  Output,
-  EventEmitter
 } from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
@@ -33,8 +31,6 @@ interface SchoolsByRegion {
 })
 export class SchoolsTab {
 
-  @Output() updatingTeam: EventEmitter<boolean> = new EventEmitter<boolean>();
-
   schools: SchoolsByRegion;
   selected: number;
 
@@ -58,7 +54,6 @@ export class SchoolsTab {
 
   draft(event) {
     this.selected = event.index;
-    this.updatingTeam.next(true);
     this._draftService.draft(event.school);
   }
 }

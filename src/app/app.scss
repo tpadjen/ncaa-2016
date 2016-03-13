@@ -8,3 +8,7 @@ h1 {
 span.updating {
   opacity: 0;
 }
+
+a.router-link-active {
+  background: rgba(158, 158, 158, 0.2);
+}

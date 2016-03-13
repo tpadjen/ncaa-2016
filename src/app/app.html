@@ -1,9 +1,11 @@
 <h1>Welcome to App</h1>
 <h2>Current Team: <span>{{ currentTeam?.name }}</span></h2>
-<a [routerLink]="['Scores']">Scores</a>
-<a [routerLink]="['Schools']">Schools</a>
-<a [routerLink]="['DraftPicks']">Picks</a>
-<a [routerLink]="['DraftOrder']">Order</a>
+<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+  <a md-button [routerLink]="['Scores']">Scores</a>
+  <a md-button [routerLink]="['Schools']">Schools</a>
+  <a md-button [routerLink]="['DraftPicks']">Picks</a>
+  <a md-button [routerLink]="['DraftOrder']">Order</a>
+</section>
 
 <div class="page">
   <router-outlet></router-outlet>

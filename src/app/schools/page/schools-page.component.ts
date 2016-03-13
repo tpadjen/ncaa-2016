@@ -23,13 +23,13 @@ interface SchoolsByRegion {
 }
 
 @Component({
-  selector: 'schools-tab',
-  template: require('./schools-tab.component.html'),
+  selector: 'schools-page',
+  template: require('./schools-page.component.html'),
   // styles: [require('./schools-tab.component.scss')],
   directives: [MATERIAL_DIRECTIVES, Region],
   pipes: [UndraftedPipe]
 })
-export class SchoolsTab {
+export class SchoolsPage {
 
   schools: SchoolsByRegion;
   selected: number;

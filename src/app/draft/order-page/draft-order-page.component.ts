@@ -11,11 +11,11 @@ import {DraftService} from '../draft.service';
 import {SortableList} from './sortable-list/sortable-list.component';
 
 @Component({
-  selector: 'draft-order-tab',
-  template: require('./draft-order-tab.component.html'),
+  selector: 'draft-order-page',
+  template: require('./draft-order-page.component.html'),
   directives: [SortableList]
 })
-export class DraftOrderTab {
+export class DraftOrderPage {
 
   order: string[];
 

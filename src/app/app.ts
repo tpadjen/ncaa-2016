@@ -10,10 +10,10 @@ import {Observable} from 'rxjs/Observable';
 import {FantasyTeam} from './fantasyTeams/fantasy-team';
 import {DraftService} from './draft/draft.service';
 
-import {FantasyTeamsTab} from './fantasyTeams/tab/fantasy-teams-tab.component';
-import {SchoolsTab} from './schools/tab/schools-tab.component';
-import {DraftPicksTab} from './draft/picks-tab/draft-picks-tab.component';
-import {DraftOrderTab} from './draft/order-tab/draft-order-tab.component';
+import {FantasyTeamsPage} from './fantasyTeams/page/fantasy-teams-page.component';
+import {SchoolsPage} from './schools/page/schools-page.component';
+import {DraftPicksPage} from './draft/picks-page/draft-picks-page.component';
+import {DraftOrderPage} from './draft/order-page/draft-order-page.component';
 
 @Component({
   selector: 'app',
@@ -23,17 +23,17 @@ import {DraftOrderTab} from './draft/order-tab/draft-order-tab.component';
     RouterLink,
     RouterOutlet,
     MATERIAL_DIRECTIVES,
-    FantasyTeamsTab,
-    SchoolsTab,
-    DraftPicksTab,
-    DraftOrderTab
+    FantasyTeamsPage,
+    SchoolsPage,
+    DraftPicksPage,
+    DraftOrderPage
   ]
 })
 @RouteConfig([
-  { path: '/', name: 'Scores', component: FantasyTeamsTab, useAsDefault: true },
-  { path: '/schools', name: 'Schools', component: SchoolsTab },
-  { path: '/picks', name: 'DraftPicks', component: DraftPicksTab },
-  { path: '/order', name: 'DraftOrder', component: DraftOrderTab }
+  { path: '/', name: 'Scores', component: FantasyTeamsPage, useAsDefault: true },
+  { path: '/schools', name: 'Schools', component: SchoolsPage },
+  { path: '/picks', name: 'DraftPicks', component: DraftPicksPage },
+  { path: '/order', name: 'DraftOrder', component: DraftOrderPage }
 ])
 export class App {
 

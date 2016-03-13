@@ -6,13 +6,13 @@ import {FantasyTeamService} from '../fantasy-team.service';
 import {FantasyTeamCard} from '../card/fantasy-team-card.component';
 
 @Component({
-  selector: 'fantasy-teams-tab',
-  template: require('./fantasy-teams-tab.component.html'),
+  selector: 'fantasy-teams-page',
+  template: require('./fantasy-teams-page.component.html'),
   directives: [
     FantasyTeamCard
   ]
 })
-export class FantasyTeamsTab {
+export class FantasyTeamsPage {
 
   fantasyTeams: Observable<FantasyTeam[]>;
 

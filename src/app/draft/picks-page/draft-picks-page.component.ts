@@ -9,10 +9,10 @@ import {DraftPick} from '../draft-pick';
 import {DraftService} from '../draft.service';
 
 @Component({
-  selector: 'draft-picks-tab',
-  template: require('./draft-picks-tab.component.html')
+  selector: 'draft-picks-page',
+  template: require('./draft-picks-page.component.html')
 })
-export class DraftPicksTab {
+export class DraftPicksPage {
 
   draftPicks: Observable<DraftPick[]>;
 

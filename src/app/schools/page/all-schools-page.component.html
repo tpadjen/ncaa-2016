@@ -18,12 +18,12 @@
           <button
             *ngIf="!showOnlyAvailable"
             md-raised-button
-            class="md-raised md-warn"
+            class="md-raised md-warn draft"
             (click)="showOnlyAvailable = true">Hide Drafted</button>
           <button
             *ngIf="showOnlyAvailable"
             md-raised-button
-            class="md-raised"
+            class="md-raised draft"
             (click)="showOnlyAvailable = false">Show All</button></th>
       </tr>
     </thead>
@@ -36,10 +36,10 @@
         <td>{{school.region}}</td>
         <td>
           <button
-          *ngIf="!school.drafted"
-          md-raised-button
-          class="md-raised md-primary"
-          (click)="draft(school)">Draft</button>
+            *ngIf="!school.drafted"
+            md-raised-button
+            class="md-raised md-primary draft"
+            (click)="draft(school)">Draft</button>
         </td>
       </tr>
     </tbody>

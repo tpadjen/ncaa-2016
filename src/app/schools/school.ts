@@ -28,8 +28,8 @@ export class School implements SchoolI {
     this.name = obj && obj.name || null;
     this.id   = obj && obj.id   || null;
     this.seed = obj && obj.seed || null;
-    this.wins = obj && obj.wins || null;
-    this.ep   = obj && obj.ep   || null;
+    this.wins = obj && obj.wins || 0;
+    this.ep   = obj && obj.ep   || 0;
     this.region = obj && obj.region || null;
     this.draftTeam = obj && obj[DRAFT_NAME] || null;
   }

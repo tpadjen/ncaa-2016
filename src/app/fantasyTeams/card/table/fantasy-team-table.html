@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table" *ngIf="fantasyTeam.schools.length > 0">
   <thead class="thead default">
     <tr>
       <th>Team</th>
@@ -16,3 +16,4 @@
     </tr>
   </tbody>
 </table>
+<div *ngIf="fantasyTeam.schools.length === 0">No schools drafted.</div>

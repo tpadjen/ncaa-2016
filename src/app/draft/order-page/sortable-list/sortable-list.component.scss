@@ -1,3 +1,19 @@
 .sortable-item:hover {
   cursor: pointer;
 }
+
+md-list {
+  justify-content: space-around;
+}
+
+md-subheader {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+}
+
+:host {
+  display: flex;
+  justify-content: space-around;
+}

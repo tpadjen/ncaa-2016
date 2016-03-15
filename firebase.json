@@ -1,0 +1,9 @@
+{
+  "firebase": "mvhs-ncaa-2016",
+  "public": "dist",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}

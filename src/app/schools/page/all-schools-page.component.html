@@ -6,6 +6,7 @@
         <th>School</th>
         <th>EP</th>
         <th>Region</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -14,6 +15,13 @@
         <td>{{school.name}}</td>
         <td>{{school.ep}}</td>
         <td>{{school.region}}</td>
+        <td>
+          <button
+          *ngIf="!school.drafted"
+          md-raised-button
+          class="md-raised md-primary"
+          (click)="draft(school)">Draft</button>
+        </td>
       </tr>
     </tbody>
   </table>

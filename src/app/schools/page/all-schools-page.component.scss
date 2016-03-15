@@ -1,7 +1,11 @@
 
 
-table {
+.table {
   max-width: 500px;
+
+  td {
+    vertical-align: middle;
+  }
 }
 
 tr.table-danger {

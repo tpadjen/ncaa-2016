@@ -6,6 +6,7 @@ import {
 import {Observable} from 'rxjs/Observable';
 import {School} from '../school';
 import {SchoolService} from '../school.service';
+import {DraftService} from '../../draft/draft.service';
 
 @Component({
   selector: 'all-schools-page',
@@ -16,10 +17,16 @@ export class AllSchoolsPage implements OnInit {
 
   schools: Observable<School[]>;
 
-  constructor(private _schoolService: SchoolService) { }
+  constructor(
+    private _schoolService: SchoolService,
+    private _draftService: DraftService) { }
 
   ngOnInit() {
     this.schools = this._schoolService.getSchools();
+  }
+
+  draft(school: School) {
+    this._draftService.draft(school);
   }
 
 }

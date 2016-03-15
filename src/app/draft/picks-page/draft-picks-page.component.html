@@ -3,8 +3,13 @@
     <md-list>
       <md-subheader>Draft Picks</md-subheader>
       <md-list-item class="md-3-line"
-        *ngFor="#pick of draftPicks | async; #index = index; #last = last">
-        <div class="md-list-item-text" layout="column" flex="50">
+        *ngIf="draftPicks.length > 0"
+        *ngFor="#pick of draftPicks; #index = index; #last = last">
+        <div
+          *ngIf="pick"
+          class="md-list-item-text"
+          layout="column"
+          flex="50">
           <h2>{{ index + 1 }}: {{ pick.school.name }}</h2>
           <h3> Team: {{ pick.team }}</h3>
           <button
@@ -17,4 +22,5 @@
       </md-list-item>
     </md-list>
   </div>
+  <div *ngIf="draftPicks.length === 0">No picks yet.</div>
 </md-content>

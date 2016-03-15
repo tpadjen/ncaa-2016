@@ -14,13 +14,15 @@ import {DraftService} from '../draft.service';
 })
 export class DraftPicksPage {
 
-  draftPicks: Observable<DraftPick[]>;
+  draftPicks: DraftPick[];
 
   constructor(
     private _draftService: DraftService) { }
 
   ngOnInit() {
-    this.draftPicks = this._draftService.getDraftPicks();
+    this._draftService.getDraftPicks().subscribe((picks) => {
+      this.draftPicks = picks;
+    });
   }
 
   undraft(pick: DraftPick) {

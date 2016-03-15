@@ -1,14 +1,17 @@
 @import 'src/assets/styles/base';
 
-h1 {
-  background-color: $base-color;
-  color: $text-color;
-}
-
 span.updating {
   opacity: 0;
 }
 
 a.router-link-active {
   background: rgba(158, 158, 158, 0.2);
+}
+
+.fixed-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
 }

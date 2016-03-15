@@ -5,6 +5,7 @@ export interface SchoolI {
   id: string;
   seed: number;
   wins: number;
+  ep: number;
   region: string;
 };
 
@@ -13,6 +14,7 @@ export class School implements SchoolI {
   id: string;
   seed: number;
   wins: number;
+  ep: number;
   region: string;
   draftTeam: string;
 
@@ -27,6 +29,7 @@ export class School implements SchoolI {
     this.id   = obj && obj.id   || null;
     this.seed = obj && obj.seed || null;
     this.wins = obj && obj.wins || null;
+    this.ep   = obj && obj.ep   || null;
     this.region = obj && obj.region || null;
     this.draftTeam = obj && obj[DRAFT_NAME] || null;
   }

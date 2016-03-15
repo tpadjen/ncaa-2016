@@ -1,1 +1,1 @@
-export const DRAFT_NAME = '2015';
+export const DRAFT_NAME = '2016';

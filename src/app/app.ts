@@ -4,7 +4,7 @@ import {
   RouterLink,
   RouterOutlet
 } from 'angular2/router';
-import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
+import {MATERIAL_DIRECTIVES, SidenavService, Media} from 'ng2-material/all';
 import {Observable} from 'rxjs/Observable';
 
 import {FantasyTeam} from './fantasyTeams/fantasy-team';
@@ -41,13 +41,25 @@ export class App {
   updatingTeam: Observable<boolean>;
 
   constructor(
-    private _draftService: DraftService) { }
+    private _draftService: DraftService,
+    private _sidenav: SidenavService) { }
 
   ngOnInit() {
     this.updatingTeam = this._draftService.updating;
     this._draftService.currentTeam.subscribe((team) => {
       this.currentTeam = team;
     });
+  }
+
+  hasMedia(breakSize: string): boolean {
+    return Media.hasMedia(breakSize);
+  }
+
+  open(name: string) {
+    this._sidenav.show(name);
+  }
+  close(name: string) {
+    this._sidenav.hide(name);
   }
 
 }

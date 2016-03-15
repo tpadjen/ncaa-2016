@@ -3,7 +3,7 @@
 const Firebase = require('firebase');
 const fs = require('fs')
 
-const YEAR = '2015'
+const YEAR = '2016'
 
 let draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
 let schools = new Firebase(draftURL).child('schools').child(YEAR);
@@ -21,7 +21,7 @@ var loadTeams = () => {
     if (line.trim() === '') return;
 
     if (line.indexOf(',') === -1) {
-      region = line;
+      region = line.trim();
       return;
     }
 
@@ -30,6 +30,7 @@ var loadTeams = () => {
       teams.push({
         name: team[1],
         seed: parseInt(team[0], 10),
+        ep: parseFloat(team[2], 10),
         region: region,
         id: id,
         wins: 0

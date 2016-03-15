@@ -6,6 +6,11 @@ import {FantasyTeamTable} from './table/fantasy-team-table.component';
 @Component({
   selector: 'fantasy-team-card',
   template: require('./fantasy-team-card.html'),
+  styles: [`
+    span.score {
+      float: right;
+    }
+  `],
   directives: [FantasyTeamTable]
 })
 export class FantasyTeamCard {

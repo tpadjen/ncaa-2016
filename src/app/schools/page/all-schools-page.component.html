@@ -1,0 +1,20 @@
+<md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
+  <table>
+    <thead>
+      <tr>
+        <th>Seed</th>
+        <th>School</th>
+        <th>EP</th>
+        <th>Region</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="#school of schools | async">
+        <td>{{school.seed}}</td>
+        <td>{{school.name}}</td>
+        <td>{{school.ep}}</td>
+        <td>{{school.region}}</td>
+      </tr>
+    </tbody>
+  </table>
+</md-content>

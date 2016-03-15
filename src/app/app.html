@@ -1,42 +1,26 @@
-<md-sidenav-container layout="row" flex>
-  <md-sidenav name="left" [style]="hasMedia('gt-sm') ? 'side' : 'over'">
-    <md-toolbar class="md-theme-indigo">
-      <h1 class="md-toolbar-tools">Sidenav Left</h1>
-    </md-toolbar>
-    <md-content layout-padding>
-      <button md-raised-button (click)="close('left')" class="md-primary" hide-gt-md>
-        Close Sidenav Left
-      </button>
-      <p hide-md show-gt-md>
-        This sidenav is locked open on your device. To go back to the default behavior,
-        narrow your display.
-      </p>
-    </md-content>
-  </md-sidenav>
-
-  <md-toolbar class="fixed-toolbar">
-    <div class="md-toolbar-tools">
-      <button
-        aria-label="Home"
-        class="md-hamburger md-icon-button"
-        hide-gt-md="" md-button=""><span class="md-button-wrapper">
-          <i class="md-dark material-icons" md-icon="">menu</i>
-          </span><div class="md-ripple-container"></div>
-      </button>
-      <h1><span>Welcome to App</span></h1>
-      <span flex></span>
-      <h2>Current Team: <span>{{ currentTeam?.name }}</span></h2>
-    </div>
-  </md-toolbar>
-
-  <div class="page" flex layout="column">
-    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-      <a md-button [routerLink]="['Scores']">Scores</a>
-      <a md-button [routerLink]="['Schools']">Schools</a>
-      <a md-button [routerLink]="['DraftPicks']">Picks</a>
-      <a md-button [routerLink]="['DraftOrder']">Order</a>
-    </section>
-
-    <router-outlet></router-outlet>
+<md-toolbar class="fixed-toolbar">
+  <div class="md-toolbar-tools">
+    <button
+      aria-label="Home"
+      class="md-hamburger md-icon-button"
+      hide-gt-md="" md-button=""><span class="md-button-wrapper">
+        <i class="md-dark material-icons" md-icon="">menu</i>
+        </span><div class="md-ripple-container"></div>
+    </button>
+    <h1><span>Welcome to App</span></h1>
+    <span flex></span>
+    <h2>Current Team: <span>{{ currentTeam?.name }}</span></h2>
   </div>
-</md-sidenav-container>
+</md-toolbar>
+
+
+<div class="page" flex layout="column">
+  <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+    <a md-button [routerLink]="['Scores']">Scores</a>
+    <a md-button [routerLink]="['AllSchools']">Schools</a>
+    <a md-button [routerLink]="['Schools']">Regions</a>
+    <a md-button [routerLink]="['DraftPicks']">Picks</a>
+    <a md-button [routerLink]="['DraftOrder']">Order</a>
+  </section>
+  <router-outlet></router-outlet>
+</div>

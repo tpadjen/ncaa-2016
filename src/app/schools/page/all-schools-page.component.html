@@ -2,15 +2,23 @@
   <table class="table table-striped">
     <thead class="thead-inverse">
       <tr>
-        <th>Seed</th>
-        <th>School</th>
-        <th>EP</th>
-        <th>Region</th>
+        <th class="sortable" (click)="sort('seed')">Seed <span class="sort-order"
+          [class.show]="sortingBy('seed')"
+          ><span *ngIf="isAscending()">&#9660;</span><span *ngIf="!isAscending()">&#9650;</span></span></th>
+        <th class="sortable" (click)="sort('name')">School <span class="sort-order"
+          [class.show]="sortingBy('name')"
+          ><span *ngIf="isAscending()">&#9660;</span><span *ngIf="!isAscending()">&#9650;</span></span></th>
+        <th class="sortable" (click)="sort('ep')">EP <span class="sort-order"
+          [class.show]="sortingBy('ep')"
+          ><span *ngIf="isAscending()">&#9660;</span><span *ngIf="!isAscending()">&#9650;</span></span></th>
+        <th class="sortable" (click)="sort('region')">Region <span class="sort-order"
+          [class.show]="sortingBy('region')"
+          ><span *ngIf="isAscending()">&#9660;</span><span *ngIf="!isAscending()">&#9650;</span></span></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="#school of schools | async" [class.table-danger]="school.drafted">
+      <tr *ngFor="#school of schools | async | orderBy : sortOrder" [class.table-danger]="school.drafted">
         <td>{{school.seed}}</td>
         <td>{{school.name}}</td>
         <td>{{school.ep}}</td>

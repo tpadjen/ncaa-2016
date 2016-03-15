@@ -1,10 +1,4 @@
 <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
-  <div class="checkbox">
-    <label>
-      <input type="checkbox" [(ngModel)]="showOnlyAvailable">
-      Hide drafted teams
-    </label>
-  </div>
   <table class="table table-striped">
     <thead class="thead-inverse">
       <tr>
@@ -20,7 +14,17 @@
         <th class="sortable" (click)="sort('region')">Region <span class="sort-order"
           [class.show]="sortingBy('region')"
           ><span *ngIf="isAscending()">&#9660;</span><span *ngIf="!isAscending()">&#9650;</span></span></th>
-        <th></th>
+        <th>
+          <button
+            *ngIf="!showOnlyAvailable"
+            md-raised-button
+            class="md-raised md-warn"
+            (click)="showOnlyAvailable = true">Hide Drafted</button>
+          <button
+            *ngIf="showOnlyAvailable"
+            md-raised-button
+            class="md-raised"
+            (click)="showOnlyAvailable = false">Show All</button></th>
       </tr>
     </thead>
     <tbody>

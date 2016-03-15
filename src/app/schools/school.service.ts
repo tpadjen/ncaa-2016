@@ -38,7 +38,7 @@ export class SchoolService {
       .child(school.id)
       .child(DRAFT_NAME)
       .set({
-        team: fantasyTeam.name,
+        team: fantasyTeam.id,
         school: {
           id: school.id,
           name: school.name

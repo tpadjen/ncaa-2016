@@ -25,6 +25,7 @@ export class DraftService {
 
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
   draftF = new Firebase(this.draftURL).child('draft').child(DRAFT_NAME);
+  teamsF = new Firebase(this.draftURL).child('teams').child(DRAFT_NAME);
 
   updating: Subject<boolean> = new Subject<boolean>();
 
@@ -58,8 +59,24 @@ export class DraftService {
   }
 
   getDraftOrder(): Observable<any []> {
-    return observableFirebaseObject(this.draftF.child('order'))
-            .do((order) => delete order['$$fbKey']);
+    return Observable.create((observer) => {
+      this.draftF.child('order').on('value', (snap) => {
+        let order = snap.val();
+        let ps = [];
+        order.forEach((teamId) => {
+          ps.push(new Promise((resolve, reject) => {
+            this.teamsF.child(teamId).once('value', (snapshot) => {
+              let team = snapshot.val();
+              team['id'] = teamId;
+              resolve(team);
+            });
+          }));
+        });
+        Promise.all(ps).then((teams) => {
+          observer.next(teams);
+        });
+      });
+    });
   }
 
   updateDraftOrder(order) {
@@ -77,7 +94,10 @@ export class DraftService {
           id: school.id,
           name: school.name
         },
-        team: fantasyTeam.name
+        team: {
+          id: fantasyTeam.id,
+          name: fantasyTeam.name
+        }
       });
 
       this.draftF.child('currentPick').transaction((current) => {

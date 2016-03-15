@@ -25,7 +25,7 @@ export class DraftPicksPage {
     });
   }
 
-  undraft(pick: DraftPick) {
-    this._draftService.undraft(pick);
+  undraftLast() {
+    this._draftService.undraft(this.draftPicks[this.draftPicks.length - 1]);
   }
 }

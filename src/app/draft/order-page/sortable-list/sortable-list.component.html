@@ -2,9 +2,18 @@
   <md-subheader>Draft Order</md-subheader>
   <hr>
   <md-list-item class="md-1-line sortable-item"
-  *ngFor="#team of list; #index = index;" [attr.data-id]="index">
-  <div class="md-list-item-text" layout="column">
-    <h2>{{ index + 1 }}: {{ team }} <button md-raised-button class="edit">Edit</button></h2>
-  </div>
-</md-list-item>
+    *ngFor="#team of list; #index = index;" [attr.data-id]="index">
+    <div class="md-list-item-text" layout="column">
+      <h2 *ngIf="editing !== index">{{ index + 1 }}: {{ team.name }} <button
+        (click)="editing = index"
+        md-raised-button class="edit">Edit</button></h2>
+      <h2 *ngIf="editing === index"><input
+        type="text"
+        [value]="team.name"
+        (keyup)="edited($event, team.id)"
+        (blur)="blur($event, team.id)"
+        (keyup.enter)="entered($event, team.id)"
+        ></h2>
+    </div>
+  </md-list-item>
 </md-list>

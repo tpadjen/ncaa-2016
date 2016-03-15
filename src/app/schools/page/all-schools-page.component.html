@@ -27,11 +27,11 @@
             (click)="showOnlyAvailable = false">Show All</button></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody click="console.log('ifjsdijfidjf')">
       <tr *ngFor="#school of schools | async | orderBy : sortOrder | undrafted : showOnlyAvailable"
           [class.table-danger]="school.drafted">
         <td>{{school.seed}}</td>
-        <td>{{school.name}}</td>
+        <td (click)="draft(school)">{{school.name}}</td>
         <td>{{school.ep}}</td>
         <td>{{school.region}}</td>
         <td>

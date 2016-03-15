@@ -5,6 +5,41 @@ const fs = require('fs')
 
 const YEAR = '2016'
 
+let fantasyTeams = [
+  {
+    name: 'Brookfield | Mires',
+    id: 0
+  },
+  {
+    name: 'Cary | Tingstrom',
+    id: 1
+  },
+  {
+    name: 'Flannigan | G',
+    id: 2
+  },
+  {
+    name: 'Haskell | Willihan',
+    id: 3
+  },
+  {
+    name: 'Kinder | Padjen',
+    id: 4
+  },
+  {
+    name: 'Kruse | Hoefs',
+    id: 5
+  },
+  {
+    name: 'Wood | Wood',
+    id: 6
+  },
+  {
+    name: 'Wurst | Goldson',
+    id: 7
+  },
+];
+
 let draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
 let schools = new Firebase(draftURL).child('schools').child(YEAR);
 let draft = new Firebase(draftURL).child('draft').child(YEAR);
@@ -63,11 +98,30 @@ var seedSchools = () => {
   })
 }
 
+var createTeams = () => {
+  return new Promise((resolve, rejects) => {
+    teamsRef.child(YEAR).remove(() => {
+      fantasyTeams.forEach((team) => {
+        teamsRef.child(YEAR).push(team, (err) => {
+          if (err) {
+            console.log(err);
+            process.exit(1);
+          } else {
+            if (team.id === 7) {
+              resolve();
+            }
+          }
+        });
+      });
+    })
+  });
+}
+
 var createDraft = () => {
   return new Promise((resolve, reject) => {
     draft.remove(() => {
       draft.child('currentPick').set(0).then(() => {
-        teamsRef.once('value', (snapshot) => {
+        teamsRef.child(YEAR).once('value', (snapshot) => {
           draft.child('order').set(Object.keys(snapshot.val()), (err) => {
             if (err) {
               reject(err);
@@ -81,10 +135,13 @@ var createDraft = () => {
   });
 }
 
-seedSchools().then(() => {
-  console.log("Seeded Schools");
-  createDraft().then(() => {
-    console.log("Created Draft");
-    process.exit(0);
+createTeams().then(() => {
+  console.log("Created Fantasy Teams");
+  seedSchools().then(() => {
+    console.log("Seeded Schools");
+    createDraft().then(() => {
+      console.log("Created Draft");
+      process.exit(0);
+    });
   });
-});
+})

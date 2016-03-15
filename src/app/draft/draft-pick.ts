@@ -3,8 +3,13 @@ interface SimpleSchool {
   name: string;
 }
 
+interface SimpleTeam {
+  id: string;
+  name: string;
+}
+
 export interface DraftPick {
   id: string;
-  team: string;
+  team: SimpleTeam;
   school: SimpleSchool;
 }

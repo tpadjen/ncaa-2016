@@ -15,6 +15,8 @@ declare var Sortable: any;
 })
 export class SortableList {
 
+  editing: number = null;
+
   _list: Array<any>;
   @Input() set list(list: Array<any>) {
     if (!list) { return; }
@@ -37,7 +39,8 @@ export class SortableList {
     return this._list;
   }
 
-  @Output() changed: EventEmitter<Array<any>> = new EventEmitter();
+  @Output() orderChanged: EventEmitter<Array<any>> = new EventEmitter();
+  @Output() nameChanged: EventEmitter<Array<any>> = new EventEmitter();
 
   constructor(private _el: ElementRef) { }
 
@@ -53,7 +56,20 @@ export class SortableList {
     this.list = sortable.toArray()
                   .map((s: string) => parseInt(s, 10))
                   .map((n: number) => this.list[n]);
-    this.changed.next(this.list);
+    this.orderChanged.next(this.list);
+  }
+
+  edited(event, id) {
+    this.nameChanged.next({id: id, name: event.srcElement.value});
+  }
+
+  entered(event, i) {
+    event.preventDefault();
+    this.editing = null;
+  }
+
+  blur(event, i) {
+    this.editing = null;
   }
 
 }

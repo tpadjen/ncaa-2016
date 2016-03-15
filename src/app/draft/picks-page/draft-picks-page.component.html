@@ -3,24 +3,23 @@
     <md-list>
       <md-subheader>Draft Picks</md-subheader>
       <md-list-item class="md-3-line"
-        *ngIf="draftPicks.length > 0"
-        *ngFor="#pick of draftPicks; #index = index; #last = last">
+        *ngFor="#pick of draftPicks; #index = index"
+        *ngIf="draftPicks.length > 0 && pick">
         <div
-          *ngIf="pick"
           class="md-list-item-text"
           layout="column"
           flex="50">
           <h2>{{ index + 1 }}: {{ pick.school.name }}</h2>
-          <h3> Team: {{ pick.team }}</h3>
-          <button
-            *ngIf="last"
-            class="md-raised md-warn"
-            md-raised-button
-            flex="15"
-            (click)="undraft(pick)">Undo Draft Pick</button>
+          <h3> Team: {{ pick.team.name }}</h3>
         </div>
       </md-list-item>
     </md-list>
   </div>
   <div *ngIf="draftPicks.length === 0">No picks yet.</div>
+  <button
+    *ngIf="draftPicks.length > 0"
+    class="md-raised md-warn"
+    md-raised-button
+    flex="40"
+    (click)="undraftLast()">Undo Last Draft Pick</button>
 </md-content>

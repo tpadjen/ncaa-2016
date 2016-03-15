@@ -20,7 +20,7 @@ import {DRAFT_NAME} from '../../config';
 export class FantasyTeamService {
 
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
-  teams = new Firebase(this.draftURL).child('teams');
+  teams = new Firebase(this.draftURL).child('teams').child(DRAFT_NAME);
   order = new Firebase(this.draftURL).child('draft').child(DRAFT_NAME).child('order');
 
   constructor(private _schoolService: SchoolService) { }
@@ -38,7 +38,7 @@ export class FantasyTeamService {
         let team = snap.val();
         this.teams.child(team).once('value', (snapshot) => {
           let child = snapshot.val();
-          child['name'] = snapshot.key();
+          child['id'] = snapshot.key();
           observer.next(new FantasyTeam(child, this._schoolService));
         });
       });
@@ -47,14 +47,9 @@ export class FantasyTeamService {
   }
 
   getTeams(): any {
-    return observableFirebaseArray(this.teams, 'name')
+    return observableFirebaseArray(this.teams, 'id')
             .map((teams) => {
               return teams.map((t: FantasyTeamOptions) => {
-                if (t[DRAFT_NAME]) {
-                  t.schoolIds = t[DRAFT_NAME]['schoolIds'];
-                } else {
-                  t.schoolIds = [];
-                }
                 return new FantasyTeam(t, this._schoolService);
               });
             });
@@ -62,8 +57,7 @@ export class FantasyTeamService {
 
   draft(school: School, fantasyTeam: FantasyTeam) {
     this.teams
-      .child(fantasyTeam.name)
-      .child(DRAFT_NAME)
+      .child(fantasyTeam.id)
       .child('schoolIds')
       .child(school.id)
       .set(true);
@@ -71,11 +65,17 @@ export class FantasyTeamService {
 
   undraft(pick: DraftPick) {
     this.teams
-      .child(pick.team)
-      .child(DRAFT_NAME)
+      .child(pick.team.id)
       .child('schoolIds')
       .child(pick.school.id)
       .remove();
+  }
+
+  updateTeam(name, id) {
+    this.teams
+      .child(id)
+      .child('name')
+      .set(name);
   }
 
 }

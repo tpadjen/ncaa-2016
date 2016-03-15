@@ -3,13 +3,13 @@ import {SchoolService} from '../schools/school.service';
 
 export interface FantasyTeamOptions {
   name: string;
-  id: number;
+  id: string;
   schoolIds: Array<string>;
 }
 
 export class FantasyTeam {
   name: string;
-  id: number;
+  id: string;
   schools: Array<School>;
 
   get points() {

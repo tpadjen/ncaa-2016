@@ -3,7 +3,8 @@
 }
 
 md-list {
-  justify-content: space-around;
+  // justify-content: space-around;
+  // min-width: 600px;
 }
 
 md-subheader {
@@ -16,4 +17,19 @@ md-subheader {
 :host {
   display: flex;
   justify-content: space-around;
+}
+
+h2 {
+  width: 100%;
+}
+
+.md-list-item-text {
+  width: 100%;
+}
+
+.edit {
+  float: right;
+  position: relative;
+  top: -4px;
+  margin-left: 20px;
 }

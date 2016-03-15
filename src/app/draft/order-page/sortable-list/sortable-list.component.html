@@ -4,7 +4,7 @@
   <md-list-item class="md-1-line sortable-item"
   *ngFor="#team of list; #index = index;" [attr.data-id]="index">
   <div class="md-list-item-text" layout="column">
-    <h2>{{ index + 1 }}: {{ team }}</h2>
+    <h2>{{ index + 1 }}: {{ team }} <button md-raised-button class="edit">Edit</button></h2>
   </div>
 </md-list-item>
 </md-list>

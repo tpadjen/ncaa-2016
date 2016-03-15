@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
 
 import {DraftPick} from './draft-pick';

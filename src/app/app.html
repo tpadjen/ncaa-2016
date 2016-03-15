@@ -15,11 +15,13 @@
 
 
 <div class="page" flex layout="column">
-  <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-    <a md-button [routerLink]="['Scores']">Scores</a>
-    <a md-button [routerLink]="['AllSchools']">Schools</a>
-    <a md-button [routerLink]="['DraftPicks']">Picks</a>
-    <a md-button [routerLink]="['DraftOrder']">Order</a>
+  <section
+    *ngIf="!PRODUCTION"
+    layout="row"
+    layout-sm="column"
+    layout-align="center center"
+    layout-wrap>
+    <a md-button *ngFor="#link of links" [routerLink]="[link.route]" >{{link.name}}</a>
   </section>
   <router-outlet></router-outlet>
 </div>

@@ -10,7 +10,11 @@ import {School} from '../school';
 })
 export class UndraftedPipe implements PipeTransform {
 
-  transform(schools: School[]) {
-    return schools.filter((school: School) => { return !school.drafted; });
+  transform(schools: School[], args: any) {
+    if (!args || args[0]) {
+      return schools.filter((school: School) => { return !school.drafted; });
+    }
+
+    return schools;
   }
 }

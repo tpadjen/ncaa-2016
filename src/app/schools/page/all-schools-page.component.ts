@@ -7,18 +7,20 @@ import {Observable} from 'rxjs/Observable';
 import {School} from '../school';
 import {SchoolService} from '../school.service';
 import {DraftService} from '../../draft/draft.service';
-import {OrderBy} from './order-by.pipe';
+import {OrderByPipe} from './order-by.pipe';
+import {UndraftedPipe} from './undrafted.pipe';
 
 @Component({
   selector: 'all-schools-page',
   template: require('./all-schools-page.component.html'),
   styles: [require('./all-schools-page.component.scss')],
-  pipes: [OrderBy]
+  pipes: [OrderByPipe, UndraftedPipe]
 })
 export class AllSchoolsPage implements OnInit {
 
   schools: Observable<School[]>;
   sortOrder: string = '-ep';
+  showOnlyAvailable: boolean = false;
 
   constructor(
     private _schoolService: SchoolService,

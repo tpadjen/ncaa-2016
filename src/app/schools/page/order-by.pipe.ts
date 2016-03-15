@@ -10,7 +10,7 @@ let compare = (a: School, b: School, prop: string = 'ep') => {
 };
 
 @Pipe({name: 'orderBy'})
-export class OrderBy implements PipeTransform {
+export class OrderByPipe implements PipeTransform {
 
   transform(input: any, config: any = ['+']) {
     if (!Array.isArray(input)) { return input; } // value isn't even an array can't sort

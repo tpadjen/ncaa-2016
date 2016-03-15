@@ -1,4 +1,10 @@
 <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" [(ngModel)]="showOnlyAvailable">
+      Hide drafted teams
+    </label>
+  </div>
   <table class="table table-striped">
     <thead class="thead-inverse">
       <tr>
@@ -18,7 +24,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="#school of schools | async | orderBy : sortOrder" [class.table-danger]="school.drafted">
+      <tr *ngFor="#school of schools | async | orderBy : sortOrder | undrafted : showOnlyAvailable"
+          [class.table-danger]="school.drafted">
         <td>{{school.seed}}</td>
         <td>{{school.name}}</td>
         <td>{{school.ep}}</td>

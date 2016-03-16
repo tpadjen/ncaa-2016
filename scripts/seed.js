@@ -178,107 +178,125 @@ let createGames = () => {
 
         for (let teamId in teams) {
           if (teams.hasOwnProperty(teamId)) {
-            regions[teams[teamId].region].push(teams[teamId]);
+            let team = teams[teamId];
+            team.id = teamId;
+            regions[teams[teamId].region].push(team);
           }
         }
 
+        let setGameIds = [];
+        let regionPromises = [];
         let gameId = 0;
         ['South', 'West', 'East', 'Midwest'].forEach((region) => {
           regions[region].sort(orderBySeed);
           regions[region].chunk(2).forEach((matchup) => {
-            games[region].push({
-              team0: matchup[0].name,
-              team1: matchup[1].name,
+            let game = {
+              schools: [matchup[0].id, matchup[1].id],
               id: gameId++,
+              region: region,
               prev0: null,
               prev1: null,
               winner: null
-            });
+            };
+
+            games[region].push(game);
+            setGameIds.push(new Promise((resolve) => {
+              schoolsRef.child(matchup[0].id).child('gameIds').remove(() => {
+                schoolsRef.child(matchup[0].id).child('gameIds').child(game.id).set(true, () => {
+                  schoolsRef.child(matchup[1].id).child('gameIds').remove(() => {
+                    schoolsRef.child(matchup[1].id).child('gameIds').child(game.id).set(true, () => {
+                      resolve();
+                    });
+                  });
+                });
+              });
+            }));
           });
 
-          let thirsty = [];
-          games[region].chunk(2).forEach((prevGames) => {
-            thirsty.push({
-              team0: null,
-              team1: null,
-              id: gameId++,
-              prev0: prevGames[0].id,
-              prev1: prevGames[1].id,
-              winner: null
+          regionPromises.push(new Promise((resolve) => {
+            Promise.all(setGameIds).then(() => {
+              setGameIds = [];
+
+              let thirsty = [];
+              games[region].chunk(2).forEach((prevGames) => {
+                thirsty.push({
+                  id: gameId++,
+                  region: region,
+                  prev0: prevGames[0].id,
+                  prev1: prevGames[1].id,
+                });
+              });
+
+              let sweet = [];
+              thirsty.chunk(2).forEach((prevGames) => {
+                sweet.push({
+                  id: gameId++,
+                  region: region,
+                  prev0: prevGames[0].id,
+                  prev1: prevGames[1].id,
+                });
+              });
+
+              let elite = [];
+              sweet.chunk(2).forEach((prevGames) => {
+                elite.push({
+                  id: gameId++,
+                  region: region,
+                  prev0: prevGames[0].id,
+                  prev1: prevGames[1].id,
+                });
+              });
+
+              games[region] = games[region].concat(thirsty).concat(sweet).concat(elite);
+              resolve();
             });
+
+          }));
+
+        });
+
+        Promise.all(regionPromises).then(() => {
+          games.FinalFour.push({
+            id: gameId++,
+            region: 'Final Four',
+            prev0: games.South.last().id,
+            prev1: games.West.last().id,
           });
 
-          let sweet = [];
-          thirsty.chunk(2).forEach((prevGames) => {
-            sweet.push({
-              team0: null,
-              team1: null,
-              id: gameId++,
-              prev0: prevGames[0].id,
-              prev1: prevGames[1].id,
-              winner: null
-            });
+          games.FinalFour.push({
+            id: gameId++,
+            region: 'Final Four',
+            prev0: games.East.last().id,
+            prev1: games.Midwest.last().id,
           });
 
-          let elite = [];
-          sweet.chunk(2).forEach((prevGames) => {
-            elite.push({
-              team0: null,
-              team1: null,
-              id: gameId++,
-              prev0: prevGames[0].id,
-              prev1: prevGames[1].id,
-              winner: null
-            });
+          games.FinalFour.push({
+            id: gameId++,
+            region: 'Championship',
+            prev0: games.FinalFour[0].id,
+            prev1: games.FinalFour[1].id,
           });
 
-          games[region] = games[region].concat(thirsty).concat(sweet).concat(elite);
+          let gameList = games.South
+                            .concat(games.West)
+                            .concat(games.East)
+                            .concat(games.Midwest)
+                            .concat(games.FinalFour);
+
+          // set nexts based on prev
+          gameList.forEach((game) => {
+            if (game.prev0 !== null) {
+              gameList[game.prev0]['next'] = game.id;
+              gameList[game.prev1]['next'] = game.id;
+            }
+          });
+
+          gamesRef.set(gameList, () => {
+            resolve();
+          });
         });
 
-        games.FinalFour.push({
-          team0: null,
-          team1: null,
-          id: gameId++,
-          prev0: games.South.last().id,
-          prev1: games.West.last().id,
-          winner: null
-        });
 
-        games.FinalFour.push({
-          team0: null,
-          team1: null,
-          id: gameId++,
-          prev0: games.East.last().id,
-          prev1: games.Midwest.last().id,
-          winner: null
-        });
-
-        games.FinalFour.push({
-          team0: null,
-          team1: null,
-          id: gameId++,
-          prev0: games.FinalFour[0].id,
-          prev1: games.FinalFour[1].id,
-          winner: null
-        });
-
-        let gameList = games.South
-                          .concat(games.West)
-                          .concat(games.East)
-                          .concat(games.Midwest)
-                          .concat(games.FinalFour);
-
-        // set nexts based on prev
-        gameList.forEach((game) => {
-          if (game.prev0 !== null) {
-            gameList[game.prev0]['next'] = game.id;
-            gameList[game.prev1]['next'] = game.id;
-          }
-        });
-
-        gamesRef.set(gameList, () => {
-          resolve();
-        });
       });
     });
   })

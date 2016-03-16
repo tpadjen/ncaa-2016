@@ -268,6 +268,14 @@ let createGames = () => {
                           .concat(games.Midwest)
                           .concat(games.FinalFour);
 
+        // set nexts based on prev
+        gameList.forEach((game) => {
+          if (game.prev0 !== null) {
+            gameList[game.prev0]['next'] = game.id;
+            gameList[game.prev1]['next'] = game.id;
+          }
+        });
+
         gamesRef.set(gameList, () => {
           resolve();
         });
@@ -292,5 +300,5 @@ let createGames = () => {
 
 createGames().then(() => {
   console.log("Created Games");
-  process.exit(0);
+  process.exit(0)
 });

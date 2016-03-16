@@ -21,6 +21,7 @@ export class FantasyTeamService {
 
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
   teams = new Firebase(this.draftURL).child('teams').child(DRAFT_NAME);
+  games = new Firebase(this.draftURL).child('games').child(DRAFT_NAME);
   order = new Firebase(this.draftURL).child('draft').child(DRAFT_NAME).child('order');
 
   constructor(private _schoolService: SchoolService) { }
@@ -53,6 +54,27 @@ export class FantasyTeamService {
                 return new FantasyTeam(t, this._schoolService);
               });
             });
+  }
+
+  getGamesForTeam(team: FantasyTeam) {
+    return Observable.create((observer) => {
+      this.games.on('value', (snapshot) => {
+        let games = snapshot.val();
+        let teamGames = [];
+        games.forEach((game) => {
+          if (game.schools) {
+            if (game.schools[0] && game.schools[0].id && team.hasSchool(game.schools[0].id)) {
+              teamGames.push(game);
+            }
+            if (game.schools[1] && game.schools[1].id && team.hasSchool(game.schools[1].id)) {
+              teamGames.push(game);
+            }
+          }
+        });
+
+        observer.next(teamGames);
+      });
+    });
   }
 
   draft(school: School, fantasyTeam: FantasyTeam) {

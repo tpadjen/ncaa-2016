@@ -1,3 +1,5 @@
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/fromArray';
 import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
 
@@ -27,6 +29,16 @@ export class FantasyTeam {
     if (schoolService) {
       this._loadSchools(obj && obj.schoolIds || [], schoolService);
     }
+  }
+
+  hasSchool(schoolId: string): boolean {
+    for (let school of this.schools) {
+      if (school.id === schoolId) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   _loadSchools(schoolIds: {}, schoolService: SchoolService) {

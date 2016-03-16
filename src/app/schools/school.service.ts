@@ -2,9 +2,10 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-import {School, SchoolI} from './school';
+import {School, SchoolOptions} from './school';
 import {FantasyTeam} from '../fantasyTeams/fantasy-team';
 import {DraftPick} from '../draft/draft-pick';
+import {GameService} from '../games/game.service';
 
 import {
   observableFirebaseObject,
@@ -19,16 +20,19 @@ export class SchoolService {
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
   schools = new Firebase(this.draftURL).child('schools').child(DRAFT_NAME);
 
+  constructor(
+    private _gameService: GameService) { }
+
   getSchool(id: string): Observable<School> {
-    return observableFirebaseObject(this.schools.child(id))
-            .map((s: SchoolI) => { return new School(s); });
+    return observableFirebaseObject(this.schools.child(id), 'id')
+            .map((s: SchoolOptions) => { return new School(s, this._gameService); });
   }
 
   getSchools(): Observable<any []> {
     return observableFirebaseArray(this.schools, 'id')
             .map((schools) => {
-              return schools.map((s: SchoolI) => {
-                return new School(s);
+              return schools.map((s: SchoolOptions) => {
+                return new School(s, this._gameService);
               });
             });
   }
@@ -51,10 +55,6 @@ export class SchoolService {
       .child(pick.school.id)
       .child(DRAFT_NAME)
       .remove();
-  }
-
-  constructor() {
-    // this._setSchools();
   }
 
   _setSchools() {

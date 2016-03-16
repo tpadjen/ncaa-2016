@@ -2,6 +2,7 @@ import {Component, Input} from 'angular2/core';
 
 import {FantasyTeam} from '../fantasy-team';
 import {FantasyTeamTable} from './table/fantasy-team-table.component';
+import {GamesTable} from './table/games-table.component';
 
 @Component({
   selector: 'fantasy-team-card',
@@ -11,7 +12,7 @@ import {FantasyTeamTable} from './table/fantasy-team-table.component';
       float: right;
     }
   `],
-  directives: [FantasyTeamTable]
+  directives: [FantasyTeamTable, GamesTable]
 })
 export class FantasyTeamCard {
 

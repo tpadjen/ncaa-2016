@@ -191,9 +191,18 @@ let createGames = () => {
           regions[region].sort(orderBySeed);
           regions[region].chunk(2).forEach((matchup) => {
             let game = {
-              schools: [matchup[0].id, matchup[1].id],
+              schools: [{
+                  id: matchup[0].id,
+                  name: matchup[0].name
+                },
+                {
+                  id: matchup[1].id,
+                  name: matchup[1].name
+                }
+              ],
               id: gameId++,
               region: region,
+              round: 1
             };
 
             games[region].push(game);
@@ -220,6 +229,7 @@ let createGames = () => {
                 region: region,
                 prev0: prevGames[0].id,
                 prev1: prevGames[1].id,
+                round: 2
               });
             });
 
@@ -230,6 +240,7 @@ let createGames = () => {
                 region: region,
                 prev0: prevGames[0].id,
                 prev1: prevGames[1].id,
+                round: 3
               });
             });
 
@@ -240,6 +251,7 @@ let createGames = () => {
                 region: region,
                 prev0: prevGames[0].id,
                 prev1: prevGames[1].id,
+                round: 4
               });
             });
 
@@ -255,6 +267,7 @@ let createGames = () => {
             region: 'Final Four',
             prev0: games.South.last().id,
             prev1: games.West.last().id,
+            round: 5
           });
 
           games.FinalFour.push({
@@ -262,6 +275,7 @@ let createGames = () => {
             region: 'Final Four',
             prev0: games.East.last().id,
             prev1: games.Midwest.last().id,
+            round: 5
           });
 
           games.FinalFour.push({
@@ -269,6 +283,7 @@ let createGames = () => {
             region: 'Championship',
             prev0: games.FinalFour[0].id,
             prev1: games.FinalFour[1].id,
+            round: 6
           });
 
           let gameList = games.South

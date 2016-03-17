@@ -17,6 +17,7 @@ import {GamesTable} from './table/games-table.component';
     .games {
       text-align: center;
       padding-top: 12px;
+      margin-bottom: 0;
     }
   `],
   directives: [FantasyTeamTable, GamesTable]

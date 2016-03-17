@@ -2,6 +2,7 @@
   <div class="games-table">
     <div class="round" *ngFor="#round of rounds; #i = index">
       <div class="round-detail" *ngIf="round && round.length > 0">
+        <hr *ngIf="i !== 0">
         <h5>Round {{ 6 - i }}</h5>
         <div class="game-row" *ngFor="#game of round"
           [class.winner]="winner(game)"
@@ -13,14 +14,14 @@
               [class.winner]="game.winner && game.winner === game.schools[0].id"
               [class.loser]="game.winner && game.winner !== game.schools[0].id"
               ><span class="seed">{{ game.schools[0].seed }}</span><span class="name">{{ game.schools[0].name }}</span></span>
-            <span class="school school0" *ngIf="!game.schools && !game.schools[0]">TBD</span>
+            <span class="school school0" *ngIf="!game.schools || !game.schools[0]">TBD</span>
             <span class="vs">vs</span>
             <span class="school school1"
               *ngIf="game.schools && game.schools[1]"
               [class.winner]="game.winner && game.winner === game.schools[1].id"
               [class.loser]="game.winner && game.winner !== game.schools[1].id"
               ><span class="seed">{{ game.schools[1].seed }}</span><span class="name">{{ game.schools[1].name }}</span></span>
-            <span class="school school1" *ngIf="!game.schools && !game.schools[1]">TBD</span>
+            <span class="school school1" *ngIf="!game.schools || !game.schools[1]">TBD</span>
           </div>
           <span class="opponent" *ngIf="game.opponent">against {{ game.opponent && game.opponent.name || '' }}</span>
         </div>

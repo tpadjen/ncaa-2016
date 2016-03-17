@@ -1,1 +1,29 @@
-<h1>Games Page</h1>
+<md-content>
+  <div class="games-table">
+    <div class="round" *ngFor="#round of rounds; #i = index">
+      <div class="round-detail" *ngIf="round && round.length > 0">
+        <h5>Round {{ i + 1 }}</h5>
+        <div class="game-row" *ngFor="#game of round" [class.over]="game.winner">
+          <div class="schools">
+            <span class="school school0"
+              *ngIf="game.schools && game.schools[0]"
+              [class.winner]="game.winner && game.winner === game.schools[0].id"
+              [class.loser]="game.winner && game.winner !== game.schools[0].id"
+              ><span class="seed">{{ game.schools[0].seed }}</span><span class="name">{{ game.schools[0].name }}</span></span>
+            <span class="school school0" *ngIf="!game.schools && !game.schools[0]"></span>
+            <span class="vs">vs</span>
+            <span class="school school1" *ngIf="game.schools && game.schools[1]"><span class="seed">{{ game.schools[1].seed }}</span><span class="name">{{ game.schools[1].name }}</span></span>
+            <span class="school school1" *ngIf="!game.schools && !game.schools[1]"></span>
+          </div>
+          <div class="teams">
+            <span class="team0" *ngIf="game.teams && game.teams[0]"><span class="name">{{ game.teams[0].name }}</span></span>
+            <span class="team0" *ngIf="!game.teams && !game.teams[0]"></span>
+            <span class="vs">vs</span>
+            <span class="team1" *ngIf="game.teams && game.teams[1]"><span class="name">{{ game.teams[1].name }}</span></span>
+            <span class="team1" *ngIf="!game.teams && !game.teams[1]"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</md-content>

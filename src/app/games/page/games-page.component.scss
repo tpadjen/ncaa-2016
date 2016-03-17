@@ -1,0 +1,40 @@
+.game-row {
+  padding: 20px;
+  border: 1px solid #aaa;
+  text-align: center;
+
+  &.over {
+    background: #aaa;
+  }
+}
+
+.seed {
+  font-size: 18px;
+  margin-right: 6px;
+}
+
+.vs {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.school {
+  font-size: 22px;
+  font-weight: 500;
+
+  &:hover {
+    cursor: pointer;
+    background: rgb(67, 204, 64);
+    color: white;
+  }
+
+  &.winner {
+    background: rgb(67, 204, 64);
+    color: white;
+  }
+
+  &.loser {
+    background: rgb(223, 19, 50);
+    color: white;
+  }
+}

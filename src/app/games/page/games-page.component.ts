@@ -16,12 +16,19 @@ import {GameService} from '../game.service';
 export class GamesPage {
 
   games: Game[];
+  rounds: any[] = [];
 
   constructor(private _gameService: GameService) { }
 
   ngOnInit() {
     this._gameService.getGames().subscribe((games) => {
       this.games = games;
+      this.rounds = [];
+      [1, 2, 3, 4, 5, 6].forEach((round) => {
+        this.rounds[round-1] = this.games.filter(game => {
+          return game.round === round && game.schools && game.schools[0] && game.schools[1];
+        });
+      });
     });
   }
 

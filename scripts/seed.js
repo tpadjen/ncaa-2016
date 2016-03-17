@@ -69,7 +69,8 @@ let gamesRef   = new Firebase(draftURL).child('games').child(YEAR);
 //         ep: parseFloat(team[2], 10),
 //         region: region,
 //         id: id,
-//         wins: 0
+//         wins: 0,
+//         eliminated: false
 //       });
 //       id++;
 //     }

@@ -20,6 +20,7 @@ export interface SchoolOptions {
   region: string;
   gameIds: Array<string>;
   pick: PickInfo;
+  eliminated: boolean;
 };
 
 export class School  {
@@ -32,6 +33,7 @@ export class School  {
   games: Array<Game>;
   pick: PickInfo;
   draftTeam: string;
+  eliminated: boolean;
 
   get points(): number { return this.seed * this.wins; }
 
@@ -45,6 +47,7 @@ export class School  {
     this.seed = obj && obj.seed || null;
     this.wins = obj && obj.wins || 0;
     this.ep   = obj && obj.ep   || 0;
+    this.eliminated = obj && obj.eliminated || false;
     this.region = obj && obj.region || null;
     this.pick = obj && obj.pick || null;
     this.draftTeam = obj && obj['pick'] && obj['pick'].team.id || null;

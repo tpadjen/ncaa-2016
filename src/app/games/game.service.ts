@@ -92,7 +92,14 @@ export class GameService {
                     .transaction((wins) => {
                       return (wins || 0) + 1;
                     }, () => {
-                      resolve();
+
+                      // eliminate other team
+                      this.schools
+                            .child(game.schools[index === 0 ? 1 : 0].id)
+                            .child('eliminated').set(true, () => {
+                              resolve();
+                            });
+
                     });
             });
 

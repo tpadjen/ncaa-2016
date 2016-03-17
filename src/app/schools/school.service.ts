@@ -28,12 +28,27 @@ export class SchoolService {
   }
 
   getSchools(): Observable<any []> {
+    let p = new Promise((resolve) => {
+      this.schools.once('value', (snap) => {
+        let schools = snap.val();
+        for (let schoolId in schools) {
+          if (!('eliminated' in schools[schoolId])) {
+            schools[schoolId]['eliminated'] = false;
+          }
+        }
+        this.schools.set(schools, () => {
+          resolve();
+        });
+      });
+    });
+
     return observableFirebaseArray(this.schools, 'id')
-            .map((schools) => {
-              return schools.map((s: SchoolOptions) => {
-                return new School(s, this._gameService);
-              });
-            });
+      .map((schools) => {
+        return schools.map((s: SchoolOptions) => {
+          return new School(s, this._gameService);
+        });
+      });
+
   }
 
   draft(school: School, pickInfo: any) {

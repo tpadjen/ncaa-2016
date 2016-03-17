@@ -24,6 +24,10 @@
   position: absolute;
   white-space: nowrap;
   height: 30px;
+
+  &.eliminated {
+    text-decoration: line-through;
+  }
 }
 
 .first {

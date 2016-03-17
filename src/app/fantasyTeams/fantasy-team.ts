@@ -46,7 +46,7 @@ export class FantasyTeam {
     for (let schoolId in schoolIds) {
       if (schoolIds.hasOwnProperty(schoolId)) {
         schoolService.getSchool(schoolId).subscribe((school: School) => {
-          this.schools.push(school);
+          this._addSchool(school);
           this.schools.sort((a, b) => {
             if (!a || !a.pick) { return -1; }
             if (!b || !b.pick) { return -1; }
@@ -55,5 +55,16 @@ export class FantasyTeam {
         });
       }
     }
+  }
+
+  _addSchool(school) {
+    for (let i = 0; i< this.schools.length; i++) {
+      let s = this.schools[i];
+      if (s.id === school.id) {
+        this.schools[i] = school;
+        return;
+      }
+    }
+    this.schools.push(school);
   }
 }

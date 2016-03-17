@@ -35,12 +35,14 @@ export class GameService {
   }
 
   getGames(): any {
-    return observableFirebaseArray(this.games, 'id')
-            .map((games) => {
-              return games.map((g: GameOptions) => {
-                return new Game(g, this);
-              });
-            });
+    return Observable.create((observer) => {
+      this.games.on('value', (snap) => {
+        let games = snap.val();
+        observer.next(games.map((g: GameOptions) => {
+          return new Game(g, this);
+        }));
+      });
+    });
   }
 
   getGamesForFantasyTeam(team: FantasyTeam): Observable<any[]> {

@@ -15,6 +15,7 @@ import {FantasyTeamsPage} from './fantasyTeams/page/fantasy-teams-page.component
 import {AllSchoolsPage} from './schools/page/all-schools-page.component';
 import {DraftPicksPage} from './draft/picks-page/draft-picks-page.component';
 import {DraftOrderPage} from './draft/order-page/draft-order-page.component';
+import {GamesPage} from './games/page/games-page.component';
 
 declare let __PRODUCTION__: any;
 
@@ -26,7 +27,8 @@ if (!__PRODUCTION__) {
   routes = routes.concat([
     { path: '/all', name: 'AllSchools', component: AllSchoolsPage },
     { path: '/picks', name: 'DraftPicks', component: DraftPicksPage },
-    { path: '/order', name: 'DraftOrder', component: DraftOrderPage }
+    { path: '/order', name: 'DraftOrder', component: DraftOrderPage },
+    { path: '/games', name: 'Games', component: GamesPage }
   ]);
 }
 
@@ -40,7 +42,8 @@ if (!__PRODUCTION__) {
     MATERIAL_DIRECTIVES,
     FantasyTeamsPage,
     DraftPicksPage,
-    DraftOrderPage
+    DraftOrderPage,
+    GamesPage
   ]
 })
 @RouteConfig(routes)
@@ -74,6 +77,10 @@ export class App {
           {
             name: 'Order',
             route: 'DraftOrder'
+          },
+          {
+            name: 'Games',
+            route: 'Games'
           }
         ]);
       }

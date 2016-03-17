@@ -2,7 +2,10 @@ import {
   Injectable
 } from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
-import {observableFirebaseObject} from '../firebase/observableFirebase';
+import {
+  observableFirebaseObject,
+  observableFirebaseArray
+} from '../firebase/observableFirebase';
 import {Game, GameOptions} from './game';
 import {FantasyTeam} from '../fantasyTeams/fantasy-team';
 import {School} from '../schools/school';
@@ -29,6 +32,15 @@ export class GameService {
   getGame(id: string): Observable<Game> {
     return observableFirebaseObject(this.games.child(id), 'id')
             .map((gameOptions: GameOptions) => { return new Game(gameOptions, this); });
+  }
+
+  getGames(): any {
+    return observableFirebaseArray(this.games, 'id')
+            .map((games) => {
+              return games.map((g: GameOptions) => {
+                return new Game(g, this);
+              });
+            });
   }
 
   getGamesForFantasyTeam(team: FantasyTeam): Observable<any[]> {

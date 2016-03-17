@@ -12,11 +12,19 @@ import {FantasyTeamService} from '../../fantasy-team.service';
 })
 export class GamesTable {
 
-  games: Observable<Game[]>;
+  games: Game[];
+  rounds: any[] = [];
   _fantasyTeam;
   @Input() set fantasyTeam(team: FantasyTeam) {
     this._fantasyTeam = team;
-    this.games = this._fantasyTeamService.getGamesForTeam(team);
+    this.games = this._fantasyTeamService.getGamesForTeam(team).subscribe((games) => {
+      this.games = games;
+      this.rounds = [];
+      [1, 2, 3, 4, 5, 6].forEach((round) => {
+        this.rounds[round-1] = this.games.filter(game => game.round === round);
+      });
+      this.rounds.reverse();
+    });
   }
   get fantasyTeam(): FantasyTeam {
     return this._fantasyTeam;

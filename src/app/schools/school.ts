@@ -5,6 +5,12 @@ import {DRAFT_NAME} from '../../config';
 import {Game} from '../games/game';
 import {GameService} from '../games/game.service';
 
+interface PickInfo {
+  id: string;
+  n: number;
+  team: any;
+}
+
 export interface SchoolOptions {
   name: string;
   id: string;
@@ -13,6 +19,7 @@ export interface SchoolOptions {
   ep: number;
   region: string;
   gameIds: Array<string>;
+  pick: PickInfo;
 };
 
 export class School  {
@@ -23,6 +30,7 @@ export class School  {
   ep: number;
   region: string;
   games: Array<Game>;
+  pick: PickInfo;
   draftTeam: string;
 
   get points(): number { return this.seed * this.wins; }
@@ -38,7 +46,8 @@ export class School  {
     this.wins = obj && obj.wins || 0;
     this.ep   = obj && obj.ep   || 0;
     this.region = obj && obj.region || null;
-    this.draftTeam = obj && obj[DRAFT_NAME] || null;
+    this.pick = obj && obj.pick || null;
+    this.draftTeam = obj && obj['pick'] && obj['pick'].team.id || null;
     this.games = obj && obj.games || [];
     if (gameService) {
       this._loadGames(obj && obj.gameIds || [], gameService);

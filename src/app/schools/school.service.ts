@@ -37,23 +37,17 @@ export class SchoolService {
             });
   }
 
-  draft(school: School, fantasyTeam: FantasyTeam) {
+  draft(school: School, pickInfo: any) {
     this.schools
       .child(school.id)
-      .child(DRAFT_NAME)
-      .set({
-        team: fantasyTeam.id,
-        school: {
-          id: school.id,
-          name: school.name
-        }
-      });
+      .child('pick')
+      .set(pickInfo);
   }
 
   undraft(pick: DraftPick) {
     this.schools
       .child(pick.school.id)
-      .child(DRAFT_NAME)
+      .child('pick')
       .remove();
   }
 

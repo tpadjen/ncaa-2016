@@ -31,7 +31,7 @@ export class DraftService {
 
   currentPick: Observable<number> = Observable.create((observer) => {
     this.draftF.child('currentPick').on('value', (snapshot) => {
-        observer.next(snapshot.val());
+      observer.next(snapshot.val());
     });
   });
 
@@ -51,11 +51,6 @@ export class DraftService {
 
   getDraftPicks(): Observable<any []> {
     return observableFirebaseArray(this.draftF.child('picks'), 'id');
-            // .map((picks) => {
-            //   return picks.map((p: DraftPick) => {
-            //     return new DraftPick(p);
-            //   });
-            // });
   }
 
   getDraftOrder(): Observable<any []> {
@@ -85,24 +80,39 @@ export class DraftService {
 
   draft(school: School) {
     this.updating.next(true);
-    this.currentTeam.first().subscribe((fantasyTeam) => {
-      this._fantasyTeamService.draft(school, fantasyTeam);
-      this._schoolService.draft(school, fantasyTeam);
+    this.draftF.child('currentPick').once('value', (s) => {
+      let n = s.val();
 
-      this.draftF.child('picks').push({
-        school: {
-          id: school.id,
-          name: school.name
-        },
-        team: {
-          id: fantasyTeam.id,
-          name: fantasyTeam.name
-        }
+      this.currentTeam.first().subscribe((fantasyTeam) => {
+        this._fantasyTeamService.draft(school, fantasyTeam);
+
+        let pickRef = this.draftF.child('picks').push({
+          n: n,
+          school: {
+            id: school.id,
+            name: school.name
+          },
+          team: {
+            id: fantasyTeam.id,
+            name: fantasyTeam.name
+          }
+        });
+
+        let pickInfo = {
+          n: n,
+          id: pickRef.key(),
+          team: {
+            id: fantasyTeam.id,
+            name: fantasyTeam.name
+          }
+        };
+        this._schoolService.draft(school, pickInfo);
+
+        this.draftF.child('currentPick').transaction((current) => {
+          return (current || 0) + 1;
+        });
       });
 
-      this.draftF.child('currentPick').transaction((current) => {
-        return (current || 0) + 1;
-      });
     });
   }
 

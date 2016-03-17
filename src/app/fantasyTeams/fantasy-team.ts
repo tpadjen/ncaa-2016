@@ -47,6 +47,11 @@ export class FantasyTeam {
       if (schoolIds.hasOwnProperty(schoolId)) {
         schoolService.getSchool(schoolId).subscribe((school: School) => {
           this.schools.push(school);
+          this.schools.sort((a, b) => {
+            if (!a || !a.pick) { return -1; }
+            if (!b || !b.pick) { return -1; }
+            return a.pick.n < b.pick.n ? -1 : 1;
+          });
         });
       }
     }

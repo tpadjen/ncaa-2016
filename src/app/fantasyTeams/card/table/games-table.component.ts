@@ -32,5 +32,13 @@ export class GamesTable {
 
   constructor(private _fantasyTeamService: FantasyTeamService) { }
 
+  winner(game: Game) {
+    return game.winner && this.fantasyTeam.hasSchool(game.winner);
+  }
+
+  loser(game: Game) {
+    return game.winner && !this.fantasyTeam.hasSchool(game.winner); 
+  }
+
 
 }

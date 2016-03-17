@@ -60,5 +60,49 @@ export class GameService {
     });
   }
 
+  win(game: Game, index): Promise<any> {
+    return new Promise((resolve) => {
+      // set winner id
+      this.games.child(game.id.toString()).child('winner').set(game.schools[index].id, () => {
+        // get next game
+        this.games.child(game.next.toString()).once('value', (snap) => {
+          // setup next game
+          let next = snap.val();
+          let schools = next.schools || [];
+          let nextSpot = 0;
+          if (next.prev1 === game.id) {
+            nextSpot = 1;
+          }
+          schools[nextSpot] = game.schools[index];
+
+          // save next game
+          this.games.child(game.next.toString()).child('schools').set(schools, () => {
+            // add new game to school's gameIds
+            let add = this.schools
+                            .child(game.schools[index].id)
+                            .child('gameIds')
+                            .child(next.id)
+                            .set(true);
+
+            // increase school wins
+            add.then(() => {
+              this.schools
+                    .child(game.schools[index].id)
+                    .child('wins')
+                    .transaction((wins) => {
+                      return (wins || 0) + 1;
+                    }, () => {
+                      resolve();
+                    });
+            });
+
+          });
+
+        });
+
+      });
+    });
+  }
+
 
 }

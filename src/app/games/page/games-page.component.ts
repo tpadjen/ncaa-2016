@@ -23,6 +23,7 @@ export class GamesPage {
   ngOnInit() {
     this._gameService.getGames().subscribe((games) => {
       this.games = games;
+      // console.log(games);
       this.rounds = [];
       [1, 2, 3, 4, 5, 6].forEach((round) => {
         this.rounds[round-1] = this.games.filter(game => {
@@ -30,6 +31,10 @@ export class GamesPage {
         });
       });
     });
+  }
+
+  win(game: Game, index: number) {
+    this._gameService.win(game, index);
   }
 
 }

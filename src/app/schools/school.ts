@@ -35,7 +35,13 @@ export class School  {
   draftTeam: string;
   eliminated: boolean;
 
-  get points(): number { return this.seed * this.wins; }
+  get points(): number {
+    let score = 0;
+    for (let i = 1; i <= this.wins; i++) {
+      score += this.seed * i;
+    }
+    return score; 
+  }
 
   get drafted(): boolean { return this.draftTeam !== null; }
 

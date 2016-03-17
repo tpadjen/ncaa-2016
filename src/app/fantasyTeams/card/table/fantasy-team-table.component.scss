@@ -1,0 +1,40 @@
+.school-table {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.school-row {
+  position: relative;
+}
+
+.seed {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 30px;
+  text-align: right;
+  margin-right: 12px;
+  font-size: 16px;
+  position: relative;
+  top: -2px;
+}
+
+.name {
+  display: inline-block;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  height: 30px;
+}
+
+.first {
+
+}
+
+.points {
+  box-sizing: border-box;
+  text-align: right;
+  position: absolute;
+  right: 0;
+  background: white;
+  padding-left: 12px;
+}

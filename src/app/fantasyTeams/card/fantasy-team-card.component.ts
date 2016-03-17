@@ -11,6 +11,9 @@ import {GamesTable} from './table/games-table.component';
     span.score {
       float: right;
     }
+    .md-headline {
+      font-weight: 600;
+    }
   `],
   directives: [FantasyTeamTable, GamesTable]
 })

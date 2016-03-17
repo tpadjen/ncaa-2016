@@ -189,21 +189,26 @@ let createGames = () => {
         let gameId = 0;
         ['South', 'West', 'East', 'Midwest'].forEach((region) => {
           regions[region].sort(orderBySeed);
+          let index = 0;
           regions[region].chunk(2).forEach((matchup) => {
             let game = {
               schools: [{
                   id: matchup[0].id,
-                  name: matchup[0].name
+                  name: matchup[0].name,
+                  seed: SEED_ORDER[index]
                 },
                 {
                   id: matchup[1].id,
-                  name: matchup[1].name
+                  name: matchup[1].name,
+                  seed: SEED_ORDER[index+1]
                 }
               ],
               id: gameId++,
               region: region,
               round: 1
             };
+
+            index += 2;
 
             games[region].push(game);
             setGameIds.push(new Promise((resolve) => {

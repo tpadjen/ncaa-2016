@@ -8,7 +8,7 @@ import {FantasyTeamService} from '../../fantasy-team.service';
 @Component({
   selector: 'games-table',
   template: require('./games-table.component.html'),
-  styles: [``]
+  styles: [require('./games-table.component.scss')]
 })
 export class GamesTable {
 

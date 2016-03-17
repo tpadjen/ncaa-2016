@@ -14,6 +14,10 @@ import {GamesTable} from './table/games-table.component';
     .md-headline {
       font-weight: 600;
     }
+    .games {
+      text-align: center;
+      padding-top: 12px;
+    }
   `],
   directives: [FantasyTeamTable, GamesTable]
 })

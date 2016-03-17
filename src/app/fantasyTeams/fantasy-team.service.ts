@@ -7,6 +7,8 @@ import 'rxjs/add/operator/toPromise';
 import {FantasyTeam, FantasyTeamOptions} from './fantasy-team';
 import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
+import {Game} from '../games/game';
+import {GameService} from '../games/game.service';
 import {DraftPick} from '../draft/draft-pick';
 
 import {
@@ -24,7 +26,9 @@ export class FantasyTeamService {
   games = new Firebase(this.draftURL).child('games').child(DRAFT_NAME);
   order = new Firebase(this.draftURL).child('draft').child(DRAFT_NAME).child('order');
 
-  constructor(private _schoolService: SchoolService) { }
+  constructor(
+    private _schoolService: SchoolService,
+    private _gameService: GameService) { }
 
   // getTeam(name: string): Observable<FantasyTeam> {
   //   return observableFirebaseObject(this.teams.child(name), 'name')
@@ -64,12 +68,22 @@ export class FantasyTeamService {
         games.forEach((game) => {
           if (game.schools) {
             if (game.schools[0] && game.schools[0].id && team.hasSchool(game.schools[0].id)) {
-              teamGames.push(game);
+              teamGames.push(new Game(game, this._gameService));
             }
             if (game.schools[1] && game.schools[1].id && team.hasSchool(game.schools[1].id)) {
-              teamGames.push(game);
+              teamGames.push(new Game(game, this._gameService));
             }
           }
+        });
+
+        Promise.all(teamGames.map((game) => game.loading)).then(() => {
+          teamGames.forEach((tg) => {
+            if (tg.teams[0] && tg.teams[0].id === team.id) {
+              tg.opponent = tg.teams[1];
+            } else if (tg.teams[1] && tg.teams[1].id === team.id) {
+              tg.opponent = tg.teams[0];
+            }
+          });
         });
 
         observer.next(teamGames);

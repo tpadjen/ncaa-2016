@@ -20,8 +20,7 @@ export class SchoolService {
   draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
   schools = new Firebase(this.draftURL).child('schools').child(DRAFT_NAME);
 
-  constructor(
-    private _gameService: GameService) { }
+  constructor(private _gameService: GameService) { }
 
   getSchool(id: string): Observable<School> {
     return observableFirebaseObject(this.schools.child(id), 'id')

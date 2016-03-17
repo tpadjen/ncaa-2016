@@ -34,7 +34,9 @@ export class Game {
     this.teams = [];
     schools.forEach((school, i) => {
       gameService.getSchoolForGame(school).first().subscribe((s) => {
-        this.teams[i] = s.pick.team;
+        if (s.pick) {
+          this.teams[i] = s.pick.team;
+        }
       });
     });
   }

@@ -3,6 +3,19 @@ import 'rxjs/add/observable/fromArray';
 import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
 
+class Deferred<T> {
+  reject: Function;
+  resolve: Function;
+  promise: Promise<T>;
+
+  constructor() {
+    this.promise = new Promise((resolve, reject)=> {
+      this.reject = reject;
+      this.resolve = resolve;
+    });
+  }
+}
+
 export interface FantasyTeamOptions {
   name: string;
   id: string;
@@ -13,7 +26,9 @@ export class FantasyTeam {
   name: string;
   id: string;
   schools: Array<School>;
+
   loaded: boolean = false;
+  doneLoading: Deferred<any> = new Deferred();
 
   get points() {
     return this.schools
@@ -36,6 +51,15 @@ export class FantasyTeam {
     } else {
       this.loaded = true;
     }
+  }
+
+  isDoneLoading(): Promise<any> {
+    return this.doneLoading.promise;
+  }
+
+  finishLoading() {
+    this.loaded = true;
+    this.doneLoading.resolve();
   }
 
   static slugify(name: string) {
@@ -75,7 +99,7 @@ export class FantasyTeam {
             return a.pick.n < b.pick.n ? -1 : 1;
           });
           if (this.schools.length === Object.keys(this._schoolIds).length) {
-            this.loaded = true;
+            this.finishLoading();
           }
         });
       }

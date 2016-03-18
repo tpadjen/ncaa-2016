@@ -24,6 +24,7 @@ export function observableFirebaseArray<T>(ref: FirebaseQuery, keyName?: string)
     // Looking for how to type this well.
     let arr: any[] = [];
     const keyFieldName = keyName ? keyName : "$$fbKey";
+    let lastIdInSnapshot = null;
 
     function child_added(snapshot: FirebaseDataSnapshot, prevChildKey: string) {
       let child = snapshot.val();
@@ -71,13 +72,27 @@ export function observableFirebaseArray<T>(ref: FirebaseQuery, keyName?: string)
       observer.next(arr.slice()); // Safe copy
     }
 
-    // Start out empty, until data arrives
-    observer.next(arr.slice()); // Safe copy
+    // Start out with entire array
+    ref.once('value', (snapshot) => {
+      let array = snapshot.val();
+      let a = [];
+      let keys = Object.keys(array);
+      for (let key of keys) {
+        array[key][keyFieldName] = key;
+        a.push(array[key]);
+      }
+      observer.next(a);
+      lastIdInSnapshot = keys[keys.length-1];
 
-    ref.on('child_added', child_added);
-    ref.on('child_changed', child_changed);
-    ref.on('child_removed', child_removed);
-    ref.on('child_moved', child_moved);
+      ref.limitToLast(1).on('child_added', (snap, prev) => {
+        if (snap.key() !== lastIdInSnapshot) {
+          child_added(snap, prev);
+        }
+      });
+      ref.on('child_changed', child_changed);
+      ref.on('child_removed', child_removed);
+      ref.on('child_moved', child_moved);
+    });
 
     return function() {
       ref.off('child_added', child_added);

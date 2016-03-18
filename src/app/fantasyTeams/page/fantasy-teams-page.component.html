@@ -10,8 +10,10 @@
     <md-card-content>
       <md-divider></md-divider>
       <md-content>
-        <div class="scores-table">
-          <div class="score-row" *ngFor="#team of fantasyTeams | async; #index = index">
+        {{ loaded }}
+        <div class="unloaded" *ngIf="loading"><spinner size="64"></spinner></div>
+        <div class="scores-table" *ngIf="!loading">
+          <div class="score-row" *ngFor="#team of fantasyTeams; #index = index">
             <h4>
               <span class="seed">{{ index + 1 }}</span>
               <span class="name"><a

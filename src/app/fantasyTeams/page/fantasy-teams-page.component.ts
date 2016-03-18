@@ -6,24 +6,38 @@ import {FantasyTeam} from '../fantasy-team';
 import {FantasyTeamService} from '../fantasy-team.service';
 import {FantasyTeamCard} from '../card/fantasy-team-card.component';
 
+import {Spinner} from '../../spinner/spinner.component';
+
 @Component({
   selector: 'fantasy-teams-page',
   template: require('./fantasy-teams-page.component.html'),
   styles: [require('./fantasy-teams-page.component.scss')],
   directives: [
     FantasyTeamCard,
-    RouterLink
+    RouterLink,
+    Spinner
   ]
 })
 export class FantasyTeamsPage {
 
-  fantasyTeams: Observable<FantasyTeam[]>;
+  fantasyTeams: FantasyTeam[] = [];
+  loading: boolean = true;
 
   constructor(
     private _fantasyTeamService: FantasyTeamService) { }
 
   ngOnInit() {
-    this.fantasyTeams = this._fantasyTeamService.getTeams();
+    this._fantasyTeamService.getTeams().subscribe((teams) => {
+      if (teams.length === 8) {
+        Promise.all(teams.map(team => team.isDoneLoading())).then(() => {
+          this.fantasyTeams = teams.sort((a, b) => {
+            if (a.points === b. points) { return 0; }
+            return a.points < b.points ? 1 : -1;
+          });
+          this.loading = false;
+        });
+      }
+    });
   }
 
 }

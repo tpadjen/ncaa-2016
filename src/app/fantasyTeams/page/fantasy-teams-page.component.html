@@ -10,7 +10,6 @@
     <md-card-content>
       <md-divider></md-divider>
       <md-content>
-        {{ loaded }}
         <div class="unloaded" *ngIf="loading"><spinner size="64"></spinner></div>
         <div class="scores-table" *ngIf="!loading">
           <div class="score-row" *ngFor="#team of fantasyTeams; #index = index">
@@ -21,11 +20,12 @@
                                   md-button
                                   [routerLink]="['Team', {slug: team.slug}]"
                                   >{{team.name}}</a></span>
-              <span class="points">{{ team.points }}</span>
+              <span class="points" *ngIf="team.loaded">{{ team.points }}</span>
+              <span class="points" *ngIf="!team.loaded"><spinner size="16"></spinner></span>
             </h4>
           </div>
+          <p class="instructions">Select a team for more details.</p>
         </div>
-        <p class="instructions">Select a team for more details.</p>
       </md-content>
     </md-card-content>
   </md-card>

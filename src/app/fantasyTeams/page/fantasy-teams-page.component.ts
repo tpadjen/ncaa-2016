@@ -28,15 +28,15 @@ export class FantasyTeamsPage {
 
   ngOnInit() {
     this._fantasyTeamService.getTeams().subscribe((teams) => {
-      if (teams.length === 8) {
-        Promise.all(teams.map(team => team.isDoneLoading())).then(() => {
-          this.fantasyTeams = teams.sort((a, b) => {
-            if (a.points === b. points) { return 0; }
-            return a.points < b.points ? 1 : -1;
-          });
-          this.loading = false;
+      this.fantasyTeams = teams;
+      this.loading = false;
+
+      Promise.all(teams.map(team => team.isDoneLoading())).then(() => {
+        this.fantasyTeams = this.fantasyTeams.sort((a, b) => {
+          if (a.points === b.points) { return 0; }
+          return a.points < b.points ? 1 : -1;
         });
-      }
+      });
     });
   }
 

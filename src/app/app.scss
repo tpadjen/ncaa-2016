@@ -8,6 +8,15 @@ a.router-link-active {
   background: rgba(158, 158, 158, 0.2);
 }
 
+.back-button {
+  width: 36px;
+  font-size: 36px;
+  font-weight: 600;
+  margin-right: 10px;
+  position: relative;
+  top: 4px;
+}
+
 .md-toolbar-tools {
 
   spinner {

@@ -3,7 +3,8 @@ import {
   RouteConfig,
   RouterLink,
   RouterOutlet,
-  RouteDefinition
+  RouteDefinition,
+  Location
 } from 'angular2/router';
 import {MATERIAL_DIRECTIVES, Media} from 'ng2-material/all';
 import {Observable} from 'rxjs/Observable';
@@ -70,7 +71,8 @@ export class App {
 
   constructor(
     private _draftService: DraftService,
-    private _fantasyTeamService: FantasyTeamService) {
+    private _fantasyTeamService: FantasyTeamService,
+    private _location: Location) {
       if (!__PRODUCTION__) {
         this.links = this.links.concat([
           {
@@ -98,6 +100,10 @@ export class App {
     this._draftService.currentTeam.subscribe((team) => {
       this.currentTeam = team;
     });
+  }
+
+  showBackButton() {
+    return this._location.path().indexOf('/teams/') !== -1;
   }
 
   hasMedia(breakSize: string): boolean {

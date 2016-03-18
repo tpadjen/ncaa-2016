@@ -4,7 +4,7 @@
       <md-subheader>Draft Picks</md-subheader>
       <md-list-item class="md-3-line"
         *ngFor="#pick of draftPicks; #index = index"
-        *ngIf="draftPicks.length > 0 && pick">
+        *ngIf="draftPicks?.length > 0 && pick">
         <div
           class="md-list-item-text"
           layout="column"
@@ -15,9 +15,9 @@
       </md-list-item>
     </md-list>
   </div>
-  <div *ngIf="draftPicks.length === 0">No picks yet.</div>
+  <div *ngIf="draftPicks?.length === 0">No picks yet.</div>
   <button
-    *ngIf="draftPicks.length > 0"
+    *ngIf="draftPicks?.length > 0"
     class="md-raised md-warn"
     md-raised-button
     flex="40"

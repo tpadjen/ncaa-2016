@@ -26,15 +26,15 @@ declare let __PRODUCTION__: any;
 
 let routes: RouteDefinition[] = [
   { path: '/', name: 'Scores', component: FantasyTeamsPage, useAsDefault: true },
-  { path: '/teams/:slug', name: 'Team', component: FantasyTeamPage }
+  { path: '/teams/:slug', name: 'Team', component: FantasyTeamPage },
+  { path: '/games', name: 'Games', component: GamesPage }
 ];
 
 if (!__PRODUCTION__) {
   routes = routes.concat([
     { path: '/all', name: 'AllSchools', component: AllSchoolsPage },
     { path: '/picks', name: 'DraftPicks', component: DraftPicksPage },
-    { path: '/order', name: 'DraftOrder', component: DraftOrderPage },
-    { path: '/games', name: 'Games', component: GamesPage }
+    { path: '/order', name: 'DraftOrder', component: DraftOrderPage }
   ]);
 }
 

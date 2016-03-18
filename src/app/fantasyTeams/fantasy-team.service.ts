@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/empty';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
@@ -30,12 +31,12 @@ export class FantasyTeamService {
     private _schoolService: SchoolService,
     private _gameService: GameService) { }
 
-  // getTeam(name: string): Observable<FantasyTeam> {
-  //   return observableFirebaseObject(this.teams.child(name), 'name')
-  //           .map((t: FantasyTeamOptions) => {
-  //             return new FantasyTeam(t, this._schoolService);
-  //           });
-  // }
+  getTeam(id: string): any {
+    return observableFirebaseObject(this.teams.child(id), 'id')
+            .map((team: FantasyTeamOptions) => {
+                return new FantasyTeam(team, this._schoolService);
+            });
+  }
 
   getTeamByOrder(order: number): Observable<FantasyTeam> {
     return Observable.create((observer) => {
@@ -60,7 +61,24 @@ export class FantasyTeamService {
             });
   }
 
+  getFantasyTeamList(): Observable<Array<any>> {
+    return Observable.create((observer) => {
+      this.teams.once('value', (snap) => {
+        let teamObj = snap.val();
+        let teams = [];
+        for (let key in teamObj) {
+          if (teamObj.hasOwnProperty(key)) {
+            teamObj[key].id = key;
+            teams.push(teamObj[key]);
+          }
+        }
+        observer.next(teams);
+      });
+    });
+  }
+
   getGamesForTeam(team: FantasyTeam) {
+    if (!team) { return Observable.empty(); }
     return Observable.create((observer) => {
       this.games.on('value', (snapshot) => {
         let games = snapshot.val();

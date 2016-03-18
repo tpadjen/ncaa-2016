@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs/Observable';
-import {Component, Input, OnChanges} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 import {Game} from '../../../games/game';
 import {School} from '../../../schools/school';
 import {FantasyTeam} from '../../fantasy-team';
@@ -37,7 +37,7 @@ export class GamesTable {
   }
 
   loser(game: Game) {
-    return game.winner && !this.fantasyTeam.hasSchool(game.winner); 
+    return game.winner && !this.fantasyTeam.hasSchool(game.winner);
   }
 
 

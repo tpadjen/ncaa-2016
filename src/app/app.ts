@@ -5,13 +5,15 @@ import {
   RouterOutlet,
   RouteDefinition
 } from 'angular2/router';
-import {MATERIAL_DIRECTIVES, SidenavService, Media} from 'ng2-material/all';
+import {MATERIAL_DIRECTIVES, Media} from 'ng2-material/all';
 import {Observable} from 'rxjs/Observable';
 
 import {FantasyTeam} from './fantasyTeams/fantasy-team';
+import {FantasyTeamService} from './fantasyTeams/fantasy-team.service';
 import {DraftService} from './draft/draft.service';
 
 import {FantasyTeamsPage} from './fantasyTeams/page/fantasy-teams-page.component';
+import {FantasyTeamPage} from './fantasyTeams/page/fantasy-team-page.component';
 import {AllSchoolsPage} from './schools/page/all-schools-page.component';
 import {DraftPicksPage} from './draft/picks-page/draft-picks-page.component';
 import {DraftOrderPage} from './draft/order-page/draft-order-page.component';
@@ -20,7 +22,8 @@ import {GamesPage} from './games/page/games-page.component';
 declare let __PRODUCTION__: any;
 
 let routes: RouteDefinition[] = [
-  { path: '/', name: 'Scores', component: FantasyTeamsPage, useAsDefault: true }
+  { path: '/', name: 'Scores', component: FantasyTeamsPage, useAsDefault: true },
+  { path: '/teams/:id', name: 'Team', component: FantasyTeamPage }
 ];
 
 if (!__PRODUCTION__) {
@@ -41,6 +44,7 @@ if (!__PRODUCTION__) {
     RouterOutlet,
     MATERIAL_DIRECTIVES,
     FantasyTeamsPage,
+    FantasyTeamPage,
     DraftPicksPage,
     DraftOrderPage,
     GamesPage
@@ -51,6 +55,8 @@ export class App {
 
   currentTeam: FantasyTeam;
   updatingTeam: Observable<boolean>;
+
+  teams: any[];
 
   PRODUCTION = __PRODUCTION__;
 
@@ -63,7 +69,7 @@ export class App {
 
   constructor(
     private _draftService: DraftService,
-    private _sidenav: SidenavService) {
+    private _fantasyTeamService: FantasyTeamService) {
       if (!__PRODUCTION__) {
         this.links = this.links.concat([
           {
@@ -91,17 +97,13 @@ export class App {
     this._draftService.currentTeam.subscribe((team) => {
       this.currentTeam = team;
     });
+    this._fantasyTeamService.getFantasyTeamList().subscribe((teams) => {
+      this.teams = teams;
+    });
   }
 
   hasMedia(breakSize: string): boolean {
     return Media.hasMedia(breakSize);
-  }
-
-  open(name: string) {
-    this._sidenav.show(name);
-  }
-  close(name: string) {
-    this._sidenav.hide(name);
   }
 
 }

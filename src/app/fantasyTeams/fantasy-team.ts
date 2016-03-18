@@ -31,10 +31,20 @@ export class FantasyTeam {
     }
   }
 
+  _schoolIds;
+
   hasSchool(schoolId: string): boolean {
-    for (let school of this.schools) {
-      if (school.id === schoolId) {
-        return true;
+    if (this._schoolIds) {
+      for (let id of Object.keys(this._schoolIds)) {
+        if (id === schoolId) {
+          return true;
+        }
+      }
+    } else {
+      for (let school of this.schools) {
+        if (school.id === schoolId) {
+          return true;
+        }
       }
     }
 
@@ -43,6 +53,7 @@ export class FantasyTeam {
 
   _loadSchools(schoolIds: {}, schoolService: SchoolService) {
     this.schools = [];
+    this._schoolIds = schoolIds;
     for (let schoolId in schoolIds) {
       if (schoolIds.hasOwnProperty(schoolId)) {
         schoolService.getSchool(schoolId).subscribe((school: School) => {

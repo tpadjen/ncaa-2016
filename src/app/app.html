@@ -22,6 +22,7 @@
     layout-align="center center"
     layout-wrap>
     <a md-button *ngFor="#link of links" [routerLink]="[link.route]" >{{link.name}}</a>
+    <a md-button *ngFor="#team of teams" [routerLink]="['Team', {id: team.id}]" >{{team.name}}</a>
   </section>
   <router-outlet></router-outlet>
 </div>

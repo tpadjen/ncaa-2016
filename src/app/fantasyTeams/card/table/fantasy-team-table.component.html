@@ -1,11 +1,14 @@
 <md-content>
   <div class="school-table">
-    <div class="school-row" *ngFor="#school of fantasyTeam?.schools">
-      <h4>
-        <span class="seed">{{ school.seed }}</span>
-        <span class="name" [class.eliminated]="school.eliminated">{{ school.name }}</span>
-        <span class="points">{{ school.points }}</span>
-      </h4>
+    <div class="loading" *ngIf="!fantasyTeam?.loaded"><spinner size="64"></spinner></div>
+    <div class="inner-table" *ngIf="fantasyTeam?.loaded">
+      <div class="school-row" *ngFor="#school of fantasyTeam?.schools">
+        <h4>
+          <span class="seed">{{ school.seed }}</span>
+          <span class="name" [class.eliminated]="school.eliminated">{{ school.name }}</span>
+          <span class="points">{{ school.points }}</span>
+        </h4>
+      </div>
     </div>
   </div>
 </md-content>

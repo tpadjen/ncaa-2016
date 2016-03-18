@@ -14,6 +14,9 @@ import {GamesTable} from './table/games-table.component';
     .md-headline {
       font-weight: 600;
     }
+    md-card-title-text {
+      min-height: 32px;
+    }
     .games {
       text-align: center;
       padding-top: 12px;

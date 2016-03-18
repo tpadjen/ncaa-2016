@@ -1,6 +1,7 @@
 .school-table {
   padding-top: 10px;
   padding-bottom: 10px;
+  min-height: 272px;
 }
 
 .school-row {
@@ -16,6 +17,10 @@
   font-size: 16px;
   position: relative;
   top: -2px;
+}
+
+.loading {
+  margin-top: 20px;
 }
 
 .name {

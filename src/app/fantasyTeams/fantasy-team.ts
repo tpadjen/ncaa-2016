@@ -13,6 +13,7 @@ export class FantasyTeam {
   name: string;
   id: string;
   schools: Array<School>;
+  loaded: boolean = false;
 
   get points() {
     return this.schools
@@ -28,6 +29,8 @@ export class FantasyTeam {
     this.schools = obj && obj.schools || [];
     if (schoolService) {
       this._loadSchools(obj && obj.schoolIds || [], schoolService);
+    } else {
+      this.loaded = true;
     }
   }
 
@@ -63,6 +66,9 @@ export class FantasyTeam {
             if (!b || !b.pick) { return -1; }
             return a.pick.n < b.pick.n ? -1 : 1;
           });
+          if (this.schools.length === Object.keys(this._schoolIds).length) {
+            this.loaded = true;
+          }
         });
       }
     }

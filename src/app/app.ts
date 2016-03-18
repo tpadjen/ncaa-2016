@@ -59,8 +59,6 @@ export class App {
   currentTeam: FantasyTeam;
   updatingTeam: Observable<boolean>;
 
-  teams: any[];
-
   PRODUCTION = __PRODUCTION__;
 
   links = [
@@ -99,9 +97,6 @@ export class App {
     this.updatingTeam = this._draftService.updating;
     this._draftService.currentTeam.subscribe((team) => {
       this.currentTeam = team;
-    });
-    this._fantasyTeamService.getFantasyTeamList().subscribe((teams) => {
-      this.teams = teams;
     });
   }
 

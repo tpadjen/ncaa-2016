@@ -14,11 +14,16 @@
           <div class="score-row" *ngFor="#team of fantasyTeams | async; #index = index">
             <h4>
               <span class="seed">{{ index + 1 }}</span>
-              <span class="name">{{ team.name }}</span>
+              <span class="name"><a
+                                  class="team-link"
+                                  md-button
+                                  [routerLink]="['Team', {slug: team.slug}]"
+                                  >{{team.name}}</a></span>
               <span class="points">{{ team.points }}</span>
             </h4>
           </div>
         </div>
+        <p class="instructions">Select a team for more details.</p>
       </md-content>
     </md-card-content>
   </md-card>

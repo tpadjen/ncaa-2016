@@ -19,6 +19,8 @@ import {DraftPicksPage} from './draft/picks-page/draft-picks-page.component';
 import {DraftOrderPage} from './draft/order-page/draft-order-page.component';
 import {GamesPage} from './games/page/games-page.component';
 
+import {Spinner} from './spinner/spinner.component';
+
 declare let __PRODUCTION__: any;
 
 let routes: RouteDefinition[] = [
@@ -47,7 +49,8 @@ if (!__PRODUCTION__) {
     FantasyTeamPage,
     DraftPicksPage,
     DraftOrderPage,
-    GamesPage
+    GamesPage,
+    Spinner
   ]
 })
 @RouteConfig(routes)

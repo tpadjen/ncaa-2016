@@ -8,6 +8,15 @@ a.router-link-active {
   background: rgba(158, 158, 158, 0.2);
 }
 
+.md-toolbar-tools {
+
+  spinner {
+    margin-right: 10px;
+    margin-top: 4px;
+  }
+
+}
+
 .fixed-toolbar {
   position: fixed;
   top: 0;

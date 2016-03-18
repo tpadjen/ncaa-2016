@@ -8,6 +8,7 @@ import {FantasyTeamCard} from '../card/fantasy-team-card.component';
 @Component({
   selector: 'fantasy-teams-page',
   template: require('./fantasy-teams-page.component.html'),
+  styles: [require('./fantasy-teams-page.component.scss')],
   directives: [
     FantasyTeamCard
   ]

@@ -1,5 +1,25 @@
 <md-content class="md-padding" layout="row" layout-wrap layout-align="center start">
-  <div *ngFor="#fantasyTeam of fantasyTeams | async" flex="50" layout="column" flex-xs="100">
-    <fantasy-team-card [fantasyTeam]="fantasyTeam"></fantasy-team-card>
-  </div>
+  <md-card id="scores-card">
+    <md-card-title>
+      <md-card-title-text>
+        <div class="loaded">
+          <span class="md-headline">Scores</span>
+        </div>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <md-divider></md-divider>
+      <md-content>
+        <div class="scores-table">
+          <div class="score-row" *ngFor="#team of fantasyTeams | async; #index = index">
+            <h4>
+              <span class="seed">{{ index + 1 }}</span>
+              <span class="name">{{ team.name }}</span>
+              <span class="points">{{ team.points }}</span>
+            </h4>
+          </div>
+        </div>
+      </md-content>
+    </md-card-content>
+  </md-card>
 </md-content>

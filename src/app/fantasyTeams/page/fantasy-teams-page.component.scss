@@ -1,11 +1,27 @@
-.school-table {
+#scores-card {
+  width: 400px;
+
+  md-divider {
+    margin-bottom: 20px;
+  }
+}
+
+.md-headline {
+  font-weight: 600;
+}
+
+.scores-table {
   padding-top: 10px;
   padding-bottom: 10px;
   min-height: 272px;
 }
 
-.school-row {
+.score-row {
   position: relative;
+}
+
+.loading {
+  margin-top: 20px;
 }
 
 .seed {
@@ -19,20 +35,12 @@
   top: -2px;
 }
 
-.loading {
-  margin-top: 20px;
-}
-
 .name {
   display: inline-block;
   overflow: hidden;
   position: absolute;
   white-space: nowrap;
   height: 30px;
-
-  &.eliminated {
-    text-decoration: line-through;
-  }
 }
 
 .points {

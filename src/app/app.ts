@@ -25,7 +25,7 @@ declare let __PRODUCTION__: any;
 
 let routes: RouteDefinition[] = [
   { path: '/', name: 'Scores', component: FantasyTeamsPage, useAsDefault: true },
-  { path: '/teams/:id', name: 'Team', component: FantasyTeamPage }
+  { path: '/teams/:slug', name: 'Team', component: FantasyTeamPage }
 ];
 
 if (!__PRODUCTION__) {

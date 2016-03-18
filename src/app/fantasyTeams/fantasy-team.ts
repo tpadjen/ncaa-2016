@@ -21,6 +21,10 @@ export class FantasyTeam {
                 .reduce((a, b) => { return a + b; }, 0);
   }
 
+  get slug(): string {
+    return FantasyTeam.slugify(this.name);
+  }
+
   constructor();
   constructor(obj: FantasyTeamOptions, schoolService: SchoolService);
   constructor(obj?: any, schoolService?: any) {
@@ -32,6 +36,10 @@ export class FantasyTeam {
     } else {
       this.loaded = true;
     }
+  }
+
+  static slugify(name: string) {
+    return name.replace(' | ', '-').toLowerCase();
   }
 
   _schoolIds;

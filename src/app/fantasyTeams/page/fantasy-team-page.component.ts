@@ -22,10 +22,10 @@ export class FantasyTeamPage {
     private _routeParams: RouteParams) { }
 
   ngOnInit() {
-    this._fantasyTeamService.getTeam(this._routeParams.get('id')).subscribe((team) => {
-      // console.log("Subscribed team");
-      // console.log(team);
-      this.fantasyTeam = team;
+    this._fantasyTeamService.getIdFromSlug(this._routeParams.get('slug')).then((id) => {
+      this._fantasyTeamService.getTeam(id).subscribe((team) => {
+        this.fantasyTeam = team;
+      });
     });
   }
 

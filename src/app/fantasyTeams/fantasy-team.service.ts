@@ -38,6 +38,21 @@ export class FantasyTeamService {
             });
   }
 
+  getIdFromSlug(slug: string): Promise<string> {
+    return new Promise((resolve) => {
+      this.teams.once('value', (snapshot) => {
+        let teams = snapshot.val();
+        for (let team in teams) {
+          if (teams.hasOwnProperty(team)) {
+            if (FantasyTeam.slugify(teams[team].name) === slug) {
+              resolve(team);
+            }
+          }
+        }
+      });
+    });
+  }
+
   getTeamByOrder(order: number): Observable<FantasyTeam> {
     return Observable.create((observer) => {
       this.order.child(order.toString()).once('value', (snap) => {
@@ -69,6 +84,7 @@ export class FantasyTeamService {
         for (let key in teamObj) {
           if (teamObj.hasOwnProperty(key)) {
             teamObj[key].id = key;
+            teamObj[key]['slug'] = FantasyTeam.slugify(teamObj[key]['name']);
             teams.push(teamObj[key]);
           }
         }

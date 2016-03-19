@@ -28,7 +28,14 @@ export class GamesTable {
         this.rounds[round-1] = this.games.filter(game => game.round === round);
       });
       this.rounds.reverse();
-      this.loaded = true;
+      this._fantasyTeam.isDoneLoading().then(() => {
+        this.rounds.forEach((round) => {
+          round.sort((a, b) => {
+            return this._fantasyTeam.orderForGame(a) < this._fantasyTeam.orderForGame(b) ? -1 : 1;
+          });
+        });
+        this.loaded = true;
+      });
     });
   }
   get fantasyTeam(): FantasyTeam {

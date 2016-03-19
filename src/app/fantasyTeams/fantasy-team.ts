@@ -1,6 +1,7 @@
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromArray';
 import {School} from '../schools/school';
+import {Game} from '../games/game';
 import {SchoolService} from '../schools/school.service';
 
 class Deferred<T> {
@@ -87,6 +88,18 @@ export class FantasyTeam {
     }
 
     return false;
+  }
+
+  // must be done loading
+  orderForGame(game: Game) {
+    for (let i = 0; i < this.schools.length; i++) {
+        if (game.schools[0] && game.schools[0].id === this.schools[i].id ||
+            game.schools[1] && game.schools[1].id === this.schools[i].id) {
+          return i;
+        }
+    }
+
+    return -1;
   }
 
   _loadSchools(schoolIds: {}, schoolService: SchoolService) {

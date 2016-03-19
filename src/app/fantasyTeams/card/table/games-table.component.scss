@@ -10,6 +10,11 @@
     border-top-width: 1px;
   }
 
+  hr {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
   &.winner {
     background: rgb(67, 204, 64);
   }
@@ -62,11 +67,6 @@
 .vs {
   margin-left: 10px;
   margin-right: 10px;
-}
-
-hr {
-  margin-top: 3px;
-  margin-bottom: 3px;
 }
 
 .opponent {

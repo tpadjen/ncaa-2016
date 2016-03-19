@@ -19,12 +19,14 @@ class Deferred<T> {
 export interface FantasyTeamOptions {
   name: string;
   id: string;
+  wins: number;
   schoolIds: Array<string>;
 }
 
 export class FantasyTeam {
   name: string;
   id: string;
+  wins: number;
   schools: Array<School>;
 
   loaded: boolean = false;
@@ -44,7 +46,8 @@ export class FantasyTeam {
   constructor(obj: FantasyTeamOptions, schoolService: SchoolService);
   constructor(obj?: any, schoolService?: any) {
     this.name = obj && obj.name || null;
-    this.id = obj && obj.id || null;
+    this.id   = obj && obj.id   || null;
+    this.wins = obj && obj.wins || 0;
     this.schools = obj && obj.schools || [];
     if (schoolService) {
       this._loadSchools(obj && obj.schoolIds || [], schoolService);

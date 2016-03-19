@@ -8,35 +8,43 @@ const YEAR = '2016'
 // let fantasyTeams = [
 //   {
 //     name: 'Brookfield | Mires',
-//     id: 0
+//     id: 0,
+//     wins: 0
 //   },
 //   {
 //     name: 'Cary | Tingstrom',
-//     id: 1
+//     id: 1,
+//     wins: 0
 //   },
 //   {
 //     name: 'Flannigan | G',
-//     id: 2
+//     id: 2,
+//     wins: 0
 //   },
 //   {
 //     name: 'Haskell | Willihan',
-//     id: 3
+//     id: 3,
+//     wins: 0
 //   },
 //   {
 //     name: 'Kinder | Padjen',
-//     id: 4
+//     id: 4,
+//     wins: 0
 //   },
 //   {
 //     name: 'Kruse | Hoefs',
-//     id: 5
+//     id: 5,
+//     wins: 0
 //   },
 //   {
 //     name: 'Wood | Wood',
-//     id: 6
+//     id: 6,
+//     wins: 0
 //   },
 //   {
 //     name: 'Wurst | Goldson',
-//     id: 7
+//     id: 7,
+//     wins: 0
 //   },
 // ];
 

@@ -97,7 +97,24 @@ export class GameService {
                       this.schools
                             .child(game.schools[index === 0 ? 1 : 0].id)
                             .child('eliminated').set(true, () => {
-                              resolve();
+
+                              // get reference to winning fantasyTeam
+                              this.schools
+                                    .child(game.schools[index].id)
+                                    .child('pick')
+                                    .child('team')
+                                    .child('id')
+                                    .once('value', (s) => {
+                                      // increase # of wins so team updates
+                                      this.teams
+                                            .child(s.val())
+                                            .child('wins')
+                                            .transaction((wins) => {
+                                              return (wins || 0) + 1;
+                                            }, () => {
+                                              resolve();
+                                            });
+                                    });
                             });
 
                     });

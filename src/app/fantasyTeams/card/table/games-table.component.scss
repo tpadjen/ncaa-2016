@@ -5,18 +5,31 @@
   border: 1px solid #aaa;
   text-align: center;
 
+  border-top-width: 0px;
+  &.first {
+    border-top-width: 1px;
+  }
+
   &.winner {
     background: rgb(67, 204, 64);
-    color: white;
-
-    .home {
-      border-color: white;
-    }
   }
 
   &.loser {
     background: rgb(223, 19, 50);
+
+    .points {
+      text-decoration: line-through;
+    }
+  }
+
+  &.loser, &.winner {
     color: white;
+    border-color: #555;
+
+    hr {
+      color: white;
+      border-color: white;
+    }
 
     .home {
       border-color: white;
@@ -27,6 +40,10 @@
 .school {
   display: inline-block;
   padding: 2px 4px;
+}
+
+.schools {
+  padding-bottom: 6px;
 }
 
 .home {
@@ -47,6 +64,16 @@
   margin-right: 10px;
 }
 
+hr {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
 .opponent {
-  padding-top: 10px;
+  display: block;
+  padding-top: 6px;
+}
+
+.points {
+  display: block;
 }

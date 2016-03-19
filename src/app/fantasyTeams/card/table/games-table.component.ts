@@ -56,5 +56,14 @@ export class GamesTable {
     return this.fantasyTeam.hasSchool(schoolId);
   }
 
+  getPointsForGame(game: Game, round: number): number {
+    return this.getOwnedSchool(game).seed * (6 - round);
+  }
+
+  getOwnedSchool(game: Game): School {
+    return game.schools[0] &&
+            this.fantasyTeam.hasSchool(game.schools[0].id) ? game.schools[0] : game.schools[1];
+  }
+
 
 }

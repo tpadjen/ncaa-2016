@@ -37,4 +37,8 @@ export class GamesPage {
     this._gameService.win(game, index);
   }
 
+  undoWin(game: Game) {
+    this._gameService.undoWin(game);
+  }
+
 }

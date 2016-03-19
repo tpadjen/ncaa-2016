@@ -28,6 +28,11 @@
             <span class="team1" *ngIf="game.teams && game.teams[1]"><span class="name">{{ game.teams[1].name }}</span></span>
             <span class="team1" *ngIf="!game.teams && !game.teams[1]"></span>
           </div>
+          <button
+            md-raised-button
+            class="md-raised md-warn"
+            *ngIf="game.winner"
+            (click)="undoWin(game)">Undo Win</button>
         </div>
       </div>
     </div>

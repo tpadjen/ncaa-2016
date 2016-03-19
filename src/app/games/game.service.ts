@@ -128,5 +128,76 @@ export class GameService {
     });
   }
 
+  undoWin(game: Game): Promise<any> {
+    return new Promise((resolve) => {
+      // undo set winner id
+      this.games.child(game.id.toString()).child('winner').set(null, () => {
+        // get next game
+        this.games.child(game.next.toString()).once('value', (snap) => {
+          // setup next game
+          let next = snap.val();
+          let schools = next.schools || [];
+          let nextSpot = 0;
+          if (next.prev1 === game.id) {
+            nextSpot = 1;
+          }
+          schools[nextSpot] = null;
+
+          // save next game
+          this.games.child(game.next.toString()).child('schools').set(schools, () => {
+            // remove game from school's gameIds
+            let add = this.schools
+                            .child(game.winner)
+                            .child('gameIds')
+                            .child(next.id)
+                            .remove();
+
+            // decrease school wins
+            add.then(() => {
+              this.schools
+                    .child(game.winner)
+                    .child('wins')
+                    .transaction((wins) => {
+                      return (wins || 0) - 1;
+                    }, () => {
+
+                      // de-eliminate other team
+                      let eliminated = 0;
+                      if (game.schools[0].id === game.winner) {
+                        eliminated = 1;
+                      }
+                      this.schools
+                            .child(game.schools[eliminated].id)
+                            .child('eliminated').set(false, () => {
+
+                              // get reference to winning fantasyTeam
+                              this.schools
+                                    .child(game.winner)
+                                    .child('pick')
+                                    .child('team')
+                                    .child('id')
+                                    .once('value', (s) => {
+                                      // decrease # of wins so team updates
+                                      this.teams
+                                            .child(s.val())
+                                            .child('wins')
+                                            .transaction((wins) => {
+                                            return (wins || 0) - 1;
+                                            }, () => {
+                                              resolve();
+                                            });
+                                    });
+                            });
+                    });
+            });
+
+          });
+
+        });
+
+      });
+    });
+  }
+
 
 }

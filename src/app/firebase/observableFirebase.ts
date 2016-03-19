@@ -75,13 +75,13 @@ export function observableFirebaseArray<T>(ref: FirebaseQuery, keyName?: string)
     // Start out with entire array
     ref.once('value', (snapshot) => {
       let array = snapshot.val();
-      let a = [];
+      arr = [];
       let keys = Object.keys(array);
       for (let key of keys) {
         array[key][keyFieldName] = key;
-        a.push(array[key]);
+        arr.push(array[key]);
       }
-      observer.next(a);
+      observer.next(arr.slice());
       lastIdInSnapshot = keys[keys.length-1];
 
       ref.limitToLast(1).on('child_added', (snap, prev) => {

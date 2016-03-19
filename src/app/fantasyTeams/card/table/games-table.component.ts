@@ -45,5 +45,9 @@ export class GamesTable {
     return game.winner && !this.fantasyTeam.hasSchool(game.winner);
   }
 
+  ownerOf(schoolId: string) {
+    return this.fantasyTeam.hasSchool(schoolId);
+  }
+
 
 }

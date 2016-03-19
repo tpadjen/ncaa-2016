@@ -8,12 +8,29 @@
   &.winner {
     background: rgb(67, 204, 64);
     color: white;
+
+    .home {
+      border-color: white;
+    }
   }
 
   &.loser {
     background: rgb(223, 19, 50);
     color: white;
+
+    .home {
+      border-color: white;
+    }
   }
+}
+
+.school {
+  display: inline-block;
+  padding: 2px 4px;
+}
+
+.home {
+  border: 1px solid black;
 }
 
 .unloaded {

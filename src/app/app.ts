@@ -13,7 +13,8 @@ import {FantasyTeam} from './fantasyTeams/fantasy-team';
 import {FantasyTeamService} from './fantasyTeams/fantasy-team.service';
 import {DraftService} from './draft/draft.service';
 
-import {FantasyTeamsPage} from './fantasyTeams/page/fantasy-teams-page.component';
+import {ScoresPage} from './fantasyTeams/page/scores-page.component';
+import {AllTeamsPage} from './fantasyTeams/page/all-teams-page.component';
 import {FantasyTeamPage} from './fantasyTeams/page/fantasy-team-page.component';
 import {AllSchoolsPage} from './schools/page/all-schools-page.component';
 import {DraftPicksPage} from './draft/picks-page/draft-picks-page.component';
@@ -25,7 +26,8 @@ import {Spinner} from './spinner/spinner.component';
 declare let __PRODUCTION__: any;
 
 let routes: RouteDefinition[] = [
-  { path: '/', name: 'Scores', component: FantasyTeamsPage, useAsDefault: true },
+  { path: '/', name: 'Scores', component: ScoresPage, useAsDefault: true },
+  { path: '/teams', name: 'Teams', component: AllTeamsPage },
   { path: '/teams/:slug', name: 'Team', component: FantasyTeamPage },
   { path: '/games', name: 'Games', component: GamesPage }
 ];
@@ -46,7 +48,8 @@ if (!__PRODUCTION__) {
     RouterLink,
     RouterOutlet,
     MATERIAL_DIRECTIVES,
-    FantasyTeamsPage,
+    ScoresPage,
+    AllTeamsPage,
     FantasyTeamPage,
     DraftPicksPage,
     DraftOrderPage,
@@ -103,7 +106,7 @@ export class App {
   }
 
   showBackButton() {
-    return this._location.path().indexOf('/teams/') !== -1;
+    return this._location.path().indexOf('/teams') !== -1;
   }
 
   hasMedia(breakSize: string): boolean {

@@ -9,16 +9,16 @@ import {FantasyTeamCard} from '../card/fantasy-team-card.component';
 import {Spinner} from '../../spinner/spinner.component';
 
 @Component({
-  selector: 'fantasy-teams-page',
-  template: require('./fantasy-teams-page.component.html'),
-  styles: [require('./fantasy-teams-page.component.scss')],
+  selector: 'scores-page',
+  template: require('./scores-page.component.html'),
+  styles: [require('./scores-page.component.scss')],
   directives: [
     FantasyTeamCard,
     RouterLink,
     Spinner
   ]
 })
-export class FantasyTeamsPage {
+export class ScoresPage {
 
   fantasyTeams: FantasyTeam[] = [];
   loading: boolean = true;

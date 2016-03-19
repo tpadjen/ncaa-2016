@@ -1,7 +1,7 @@
 {
-  "name": "ng2-material-test",
+  "name": "ncaa-2016",
   "version": "0.0.1",
-  "description": "Angular2 webpack starter",
+  "description": "NCAA Bracket Draft Challenge built with Angular2, Material Design, and Firebase",
   "scripts": {
     "start": "npm run dev",
     "dist": "cross-env NODE_ENV=production node server.js",
@@ -54,14 +54,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/tpadjen/ng2-webpack.git"
+    "url": "http://github.com/tpadjen/ncaa-2016.git"
   },
   "bugs": {
-    "url": "http://github.com/tpadjen/ng2-webpack/issues"
+    "url": "http://github.com/tpadjen/ncaa-2016/issues"
   },
   "license": "MIT",
   "keywords": [
     "angular2",
+    "material design",
+    "firebase",
     "webpack"
   ]
 }

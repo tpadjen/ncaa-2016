@@ -43,6 +43,11 @@ export class FantasyTeam {
     return FantasyTeam.slugify(this.name);
   }
 
+  get eliminated(): boolean {
+    return this.schools && this.schools.length === 8 &&
+            this.schools.every((school) => school.eliminated);
+  }
+
   constructor();
   constructor(obj: FantasyTeamOptions, schoolService: SchoolService);
   constructor(obj?: any, schoolService?: any) {

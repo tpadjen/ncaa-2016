@@ -17,12 +17,16 @@
           <div class="score-row" *ngFor="#team of fantasyTeams; #index = index">
             <h4>
               <span class="seed">{{ index + 1 }}</span>
-              <span class="name"><a
+              <span class="name"
+                [class.cant-win]="team.eliminated && (index + 1) > 3"><a
                                   class="team-link"
+                                  [class.eliminated]="team.eliminated"
                                   md-button
                                   [routerLink]="['Team', {slug: team.slug}]"
                                   >{{team.name}}</a></span>
-              <span class="points" *ngIf="team.loaded">{{ team.points }}</span>
+              <span class="points"
+                [class.eliminated]="team.eliminated"
+                *ngIf="team.loaded">{{ team.points }}</span>
               <span class="points" *ngIf="!team.loaded"><spinner size="16"></spinner></span>
             </h4>
           </div>

@@ -11,6 +11,7 @@ import {FantasyTeam} from '../fantasyTeams/fantasy-team';
 import {School} from '../schools/school';
 import {DRAFT_NAME} from '../../config';
 
+
 @Injectable()
 export class GameService {
 

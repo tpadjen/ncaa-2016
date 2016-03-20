@@ -62,142 +62,130 @@ export class GameService {
 
   win(game: Game, index): Promise<any> {
     return new Promise((resolve) => {
-      // set winner id
-      this.games.child(game.id.toString()).child('winner').set(game.schools[index].id, () => {
-        // get next game
-        this.games.child(game.next.toString()).once('value', (snap) => {
-          // setup next game
-          let next = snap.val();
-          let schools = next.schools || [];
-          let nextSpot = 0;
-          if (next.prev1 === game.id) {
-            nextSpot = 1;
-          }
-          schools[nextSpot] = game.schools[index];
+      let tasks = [];
+      let winner = game.schools[index];
+      let loser = game.schools[index === 0 ? 1 : 0];
 
-          // save next game
-          this.games.child(game.next.toString()).child('schools').set(schools, () => {
-            // add new game to school's gameIds
-            let add = this.schools
-                            .child(game.schools[index].id)
-                            .child('gameIds')
-                            .child(next.id)
-                            .set(true);
-
-            // increase school wins
-            add.then(() => {
-              this.schools
-                    .child(game.schools[index].id)
-                    .child('wins')
-                    .transaction((wins) => {
-                      return (wins || 0) + 1;
-                    }, () => {
-
-                      // eliminate other team
-                      this.schools
-                            .child(game.schools[index === 0 ? 1 : 0].id)
-                            .child('eliminated').set(true, () => {
-
-                              // get reference to winning fantasyTeam
-                              this.schools
-                                    .child(game.schools[index].id)
-                                    .child('pick')
-                                    .child('team')
-                                    .child('id')
-                                    .once('value', (s) => {
-                                      // increase # of wins so team updates
-                                      this.teams
-                                            .child(s.val())
-                                            .child('wins')
-                                            .transaction((wins) => {
-                                              return (wins || 0) + 1;
-                                            }, () => {
-                                              resolve();
-                                            });
-                                    });
-                            });
-
-                    });
-            });
-
-          });
-
+      tasks.push(this._setWinnerId(game, winner));
+      tasks.push(new Promise((r) => {
+        this._saveNextGame(game, winner).then((next) => {
+          this._addGameId(next, winner).then(() => r());
         });
+      }));
+      tasks.push(this._updateSchoolWins(winner.id, 1));
+      tasks.push(this._setEliminated(loser, true));
+      tasks.push(this._updateFantasyTeamWins(winner.id, 1));
 
-      });
+      Promise.all(tasks).then(() => resolve());
     });
   }
 
   undoWin(game: Game): Promise<any> {
     return new Promise((resolve) => {
-      // undo set winner id
-      this.games.child(game.id.toString()).child('winner').set(null, () => {
-        // get next game
-        this.games.child(game.next.toString()).once('value', (snap) => {
-          // setup next game
-          let next = snap.val();
-          let schools = next.schools || [];
-          let nextSpot = 0;
-          if (next.prev1 === game.id) {
-            nextSpot = 1;
-          }
-          schools[nextSpot] = null;
+      let tasks = [];
 
-          // save next game
-          this.games.child(game.next.toString()).child('schools').set(schools, () => {
-            // remove game from school's gameIds
-            let add = this.schools
-                            .child(game.winner)
-                            .child('gameIds')
-                            .child(next.id)
-                            .remove();
-
-            // decrease school wins
-            add.then(() => {
-              this.schools
-                    .child(game.winner)
-                    .child('wins')
-                    .transaction((wins) => {
-                      return (wins || 0) - 1;
-                    }, () => {
-
-                      // de-eliminate other team
-                      let eliminated = 0;
-                      if (game.schools[0].id === game.winner) {
-                        eliminated = 1;
-                      }
-                      this.schools
-                            .child(game.schools[eliminated].id)
-                            .child('eliminated').set(false, () => {
-
-                              // get reference to winning fantasyTeam
-                              this.schools
-                                    .child(game.winner)
-                                    .child('pick')
-                                    .child('team')
-                                    .child('id')
-                                    .once('value', (s) => {
-                                      // decrease # of wins so team updates
-                                      this.teams
-                                            .child(s.val())
-                                            .child('wins')
-                                            .transaction((wins) => {
-                                            return (wins || 0) - 1;
-                                            }, () => {
-                                              resolve();
-                                            });
-                                    });
-                            });
-                    });
-            });
-
-          });
-
+      tasks.push(this._setWinnerId(game, null));
+      tasks.push(new Promise((r) => {
+        this._saveNextGame(game, null).then((next) => {
+          this._removeGameId(next, game.winner).then(() => r());
         });
+      }));
+      tasks.push(this._updateSchoolWins(game.winner, -1));
+      let eliminated = 0;
+      if (game.schools[0].id === game.winner) {
+        eliminated = 1;
+      }
+      tasks.push(this._setEliminated(game.schools[eliminated], false));
+      tasks.push(this._updateFantasyTeamWins(game.winner, -1));
 
+      Promise.all(tasks).then(() => resolve());
+    });
+
+  }
+
+  _setWinnerId(game: Game, winner: any): Promise<any> {
+    return this.games.child(game.id.toString()).child('winner').set(winner && winner.id || null);
+  }
+
+  _saveNextGame(game: Game, winner: any) {
+    return new Promise((resolve) => {
+      this._getNextGame(game).then((next) => {
+        let schools = next.schools || [];
+        let nextSpot = 0;
+        if (next.prev1 === game.id) {
+          nextSpot = 1;
+        }
+        schools[nextSpot] = winner;
+
+        // save next game
+        this.games.child(game.next.toString()).child('schools').set(schools, () => {
+          resolve(next);
+        });
       });
     });
   }
 
+  _getNextGame(game: Game): Promise<any> {
+    return new Promise((resolve) => {
+      this.games.child(game.next.toString()).once('value', (snap) => {
+        resolve(snap.val());
+      });
+    });
+  }
+
+  _addGameId(next: any, winner: any): Promise<any> {
+    return this.schools
+                .child(winner.id)
+                .child('gameIds')
+                .child(next.id.toString())
+                .set(true);
+  }
+
+  _removeGameId(next: any, winner: any): Promise<any> {
+    return this.schools
+                .child(winner)
+                .child('gameIds')
+                .child(next.id)
+                .remove();
+  }
+
+  _updateSchoolWins(winnerId: string, amount: number): Promise<any> {
+    return new Promise((resolve) => {
+      this.schools
+          .child(winnerId)
+          .child('wins')
+          .transaction((wins) => {
+            return (wins || 0) + amount;
+          }, () => resolve());
+    });
+  }
+
+  _setEliminated(loser: any, value: boolean): Promise<any> {
+    return this.schools
+                .child(loser.id)
+                .child('eliminated').set(value);
+  }
+
+  _updateFantasyTeamWins(winnerId: string, updateAmount: number): Promise<any> {
+    return new Promise((resolve) => {
+      // get winning school's fantasy team
+      this.schools
+            .child(winnerId)
+            .child('pick')
+            .child('team')
+            .child('id')
+            .once('value', (snapshot) => {
+              // increase # of wins so team updates
+              this.teams
+                    .child(snapshot.val())
+                    .child('wins')
+                    .transaction((wins) => {
+                      return (wins || 0) + updateAmount;
+                    }, () => {
+                      resolve();
+                    });
+            });
+    });
+  }
 
 }

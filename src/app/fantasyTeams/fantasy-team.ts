@@ -48,6 +48,11 @@ export class FantasyTeam {
             this.schools.every((school) => school.eliminated);
   }
 
+  get schoolsLeft(): School[] {
+    if (!this.schools) { return []; }
+    return this.schools.filter((school) => !school.eliminated);
+  }
+
   constructor();
   constructor(obj: FantasyTeamOptions, schoolService: SchoolService);
   constructor(obj?: any, schoolService?: any) {

@@ -23,13 +23,14 @@
                                   [class.eliminated]="team.eliminated"
                                   md-button
                                   [routerLink]="['Team', {slug: team.slug}]"
-                                  >{{team.name}}</a></span>
+                                  >{{team.name}}</a><teams-left [team]="team"></teams-left></span>
               <span class="points"
                 [class.eliminated]="team.eliminated"
                 *ngIf="team.loaded">{{ team.points }}</span>
               <span class="points" *ngIf="!team.loaded"><spinner size="16"></spinner></span>
             </h4>
           </div>
+          <p class="key"><spinner size="12" [rotating]="false"></spinner> = A team still alive in the tournament</p>
           <p class="instructions">Select a team for more details.</p>
         </div>
       </md-content>

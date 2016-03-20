@@ -7,6 +7,7 @@ import {FantasyTeamService} from '../fantasy-team.service';
 import {FantasyTeamCard} from '../card/fantasy-team-card.component';
 
 import {Spinner} from '../../spinner/spinner.component';
+import {TeamsLeft} from "../teamsLeft/teams-left.component";
 
 @Component({
   selector: 'scores-page',
@@ -15,7 +16,8 @@ import {Spinner} from '../../spinner/spinner.component';
   directives: [
     FantasyTeamCard,
     RouterLink,
-    Spinner
+    Spinner,
+    TeamsLeft
   ]
 })
 export class ScoresPage {

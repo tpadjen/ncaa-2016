@@ -5,9 +5,17 @@
     margin-bottom: 20px;
   }
 
-  .instructions {
-    margin-top: 20px;
+  p {
     margin-left: 20px;
+  }
+
+  .key {
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  .instructions {
+    margin-top: 4px;
   }
 }
 
@@ -48,12 +56,33 @@
 .seed {
   box-sizing: border-box;
   display: inline-block;
-  width: 30px;
+  width: 10px;
   text-align: right;
-  margin-right: 12px;
+  margin-right: 2px;
   font-size: 16px;
   position: relative;
   top: -2px;
+}
+
+@media screen and (min-width: 401px) {
+  .seed {
+    width: 12px;
+    margin-right: 4px;
+  }
+}
+
+@media screen and (min-width: 430px) {
+  .seed {
+    width: 20px;
+    margin-right: 8px;
+  }
+}
+
+@media screen and (min-width: 460px) {
+  .seed {
+    width: 28px;
+    margin-right: 12px;
+  }
 }
 
 .name {
@@ -62,6 +91,11 @@
   position: absolute;
   white-space: nowrap;
   height: 30px;
+
+  a {
+    margin-left: 0;
+    margin-right: 0;
+  }
 
   &.cant-win {
     a {
@@ -81,4 +115,11 @@
   &.eliminated {
     color: rgb(223, 19, 50);
   }
+}
+
+teams-left {
+  position: relative;
+  top: -12px;
+  left: -8px;
+  z-index: 9;
 }

@@ -60,7 +60,7 @@ export class GamesTable {
     return this.getOwnedSchool(game).seed * (6 - round);
   }
 
-  getOwnedSchool(game: Game): School {
+  getOwnedSchool(game: Game): {id: string; name: string; seed: number} {
     return game.schools[0] &&
             this.fantasyTeam.hasSchool(game.schools[0].id) ? game.schools[0] : game.schools[1];
   }

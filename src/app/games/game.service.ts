@@ -1,49 +1,42 @@
 import {
-  Injectable
+  Injectable, provide
 } from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
-import {
-  observableFirebaseObject,
-  observableFirebaseArray
-} from '../firebase/observableFirebase';
-import {Game, GameOptions} from './game';
+import {NgFirebase, FirebaseData} from '../firebase/ng-firebase';
+import {Game} from './game';
 import {FantasyTeam} from '../fantasyTeams/fantasy-team';
 import {School} from '../schools/school';
-import {DRAFT_NAME} from '../../config';
+import {SchoolService} from '../schools/school.service';
+
+import {
+  DRAFT_NAME,
+  DRAFT_URL
+} from '../../config';
 
 
 @Injectable()
 export class GameService {
 
-  draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
-  teams = new Firebase(this.draftURL).child('teams').child(DRAFT_NAME);
-  games = new Firebase(this.draftURL).child('games').child(DRAFT_NAME);
-  schools = new Firebase(this.draftURL).child('schools').child(DRAFT_NAME);
+  teams = new Firebase(DRAFT_URL).child('teams').child(DRAFT_NAME);
+  games = new Firebase(DRAFT_URL).child('games').child(DRAFT_NAME);
+  schools = new Firebase(DRAFT_URL).child('schools').child(DRAFT_NAME);
 
   constructor() { }
 
-  getSchoolForGame(school: School) {
-    return Observable.create((observer) => {
-      this.schools.child(school.id).once('value', (snap) => {
-        observer.next(new School(snap.val(), null));
-      });
-    });
-  }
+  // getSchoolForGame(school: School) {
+  //   return Observable.create((observer) => {
+  //     this.schools.child(school.id).once('value', (snap) => {
+  //       observer.next(new School(snap.val(), null));
+  //     });
+  //   });
+  // }
 
   getGame(id: string): Observable<Game> {
-    return observableFirebaseObject(this.games.child(id), 'id')
-            .map((gameOptions: GameOptions) => { return new Game(gameOptions, this); });
+    return NgFirebase.object(this.games.child(id), Game);
   }
 
-  getGames(): any {
-    return Observable.create((observer) => {
-      this.games.on('value', (snap) => {
-        let games = snap.val();
-        observer.next(games.map((g: GameOptions) => {
-          return new Game(g, this);
-        }));
-      });
-    });
+  getGames(): Observable<Game[]> {
+    return NgFirebase.array(this.games, Game);
   }
 
   getGamesForFantasyTeam(team: FantasyTeam): Observable<any[]> {
@@ -53,7 +46,11 @@ export class GameService {
         let games = [];
         for (let gId of gameIds) {
           this.games.child(gId).once('value', (snap) => {
-            games.push(new Game(snap.val(), this));
+            let providers = [provide(FirebaseData, {useValue: snap.val()}), SchoolService];
+            let injector = window['app'].injector;
+            let childInjector = injector.resolveAndCreateChild(providers);
+            let game = childInjector.resolveAndInstantiate(Game);
+            games.push(game);
             observer.next(games);
           });
         }

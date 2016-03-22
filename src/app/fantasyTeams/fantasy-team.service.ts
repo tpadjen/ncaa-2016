@@ -1,41 +1,31 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/empty';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
-
-import {FantasyTeam, FantasyTeamOptions} from './fantasy-team';
+import {FantasyTeam} from './fantasy-team';
 import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
 import {Game} from '../games/game';
 import {GameService} from '../games/game.service';
 import {DraftPick} from '../draft/draft-pick';
-
+import {NgFirebase} from '../firebase/ng-firebase';
+import {isPresent} from 'angular2/src/facade/lang';
 import {
-  observableFirebaseObject,
-  observableFirebaseArray
-} from '../firebase/observableFirebase';
-
-import {DRAFT_NAME} from '../../config';
+  DRAFT_NAME,
+  DRAFT_URL
+} from '../../config';
 
 @Injectable()
 export class FantasyTeamService {
 
-  draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
-  teams = new Firebase(this.draftURL).child('teams').child(DRAFT_NAME);
-  games = new Firebase(this.draftURL).child('games').child(DRAFT_NAME);
-  order = new Firebase(this.draftURL).child('draft').child(DRAFT_NAME).child('order');
+  teams = new Firebase(DRAFT_URL).child('teams').child(DRAFT_NAME);
+  games = new Firebase(DRAFT_URL).child('games').child(DRAFT_NAME);
+  order = new Firebase(DRAFT_URL).child('draft').child(DRAFT_NAME).child('order');
 
   constructor(
-    private _schoolService: SchoolService,
-    private _gameService: GameService) { }
+    private _schoolService: SchoolService) { }
 
   getTeam(id: string): any {
-    return observableFirebaseObject(this.teams.child(id), 'id')
-            .map((team: FantasyTeamOptions) => {
-                return new FantasyTeam(team, this._schoolService);
-            });
+    return NgFirebase.object(this.teams.child(id), FantasyTeam);
   }
 
   getIdFromSlug(slug: string): Promise<string> {
@@ -67,13 +57,8 @@ export class FantasyTeamService {
     });
   }
 
-  getTeams(): any {
-    return observableFirebaseArray(this.teams, 'id')
-            .map((teams) => {
-              return teams.map((t: FantasyTeamOptions) => {
-                return new FantasyTeam(t, this._schoolService);
-              });
-            });
+  getTeams(): Observable<FantasyTeam[]> {
+    return NgFirebase.array(this.teams, FantasyTeam);
   }
 
   getFantasyTeamList(): Observable<Array<any>> {
@@ -93,6 +78,10 @@ export class FantasyTeamService {
     });
   }
 
+  _hasSchool(team, school) {
+    return isPresent(school) && isPresent(school.id) && team.hasSchool(school.id);
+  }
+
   getGamesForTeam(team: FantasyTeam) {
     if (!team) { return Observable.empty(); }
     return Observable.create((observer) => {
@@ -101,11 +90,11 @@ export class FantasyTeamService {
         let teamGames = [];
         games.forEach((game) => {
           if (game.schools) {
-            if (game.schools[0] && game.schools[0].id && team.hasSchool(game.schools[0].id)) {
-              teamGames.push(new Game(game, this._gameService));
+            if (this._hasSchool(team, game.schools[0])) {
+              teamGames.push(new Game(game, this._schoolService));
             }
-            if (game.schools[1] && game.schools[1].id && team.hasSchool(game.schools[1].id)) {
-              teamGames.push(new Game(game, this._gameService));
+            if (this._hasSchool(team, game.schools[1])) {
+              teamGames.push(new Game(game, this._schoolService));
             }
           }
         });

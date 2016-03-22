@@ -3,6 +3,7 @@ import {
   Output,
   EventEmitter
 } from 'angular2/core';
+import {isPresent} from 'angular2/src/facade/lang';
 import {Observable} from 'rxjs/Observable';
 
 import {Game} from '../game';
@@ -27,7 +28,10 @@ export class GamesPage {
       this.rounds = [];
       [1, 2, 3, 4, 5, 6].forEach((round) => {
         this.rounds[round-1] = this.games.filter(game => {
-          return game.round === round && game.schools && game.schools[0] && game.schools[1];
+          return game.round === round && 
+                  isPresent(game.schools) &&
+                  isPresent(game.schools[0]) &&
+                  isPresent(game.schools[1]);
         });
       });
     });

@@ -6,6 +6,7 @@ import {FantasyTeamService} from './app/fantasyTeams/fantasy-team.service';
 import {SchoolService} from './app/schools/school.service';
 import {DraftService} from './app/draft/draft.service';
 import {GameService} from './app/games/game.service';
+import {NgFirebase} from './app/firebase/ng-firebase';
 
 import {
   ROUTER_PROVIDERS,
@@ -24,6 +25,7 @@ if (__PRODUCTION__) {
   APP_LOCATION_STRATEGY = provide(LocationStrategy, {useClass: PathLocationStrategy});
 }
 
+
 bootstrap(App, [
   ROUTER_PROVIDERS,
   APP_LOCATION_STRATEGY,
@@ -32,4 +34,7 @@ bootstrap(App, [
   FantasyTeamService,
   DraftService,
   GameService
-]);
+])
+  .then((app) => {
+    NgFirebase.appRef = app;
+  });

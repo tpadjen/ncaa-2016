@@ -1,42 +1,40 @@
-import {GameService} from './game.service';
+import {
+  Injectable,
+  Inject,
+  forwardRef
+} from 'angular2/core';
+import {FirebaseData, extend} from '../firebase/ng-firebase';
+import {SchoolService} from '../schools/school.service';
 
-export interface GameOptions {
-  id: number;
-  next: number; // next game id
-  region: string;
-  round: number;
-  schools: any[]; // [0] and [1] are the two teams playing in this game
-  winner: string;
-}
-
+@Injectable()
 export class Game {
   id: number;
   next: number; // next game id
   region: string;
   round: number;
-  schools: any[]; // [0] and [1] are the two teams playing in this game
+
+  // [0] and [1] are the two teams playing in this game
+  schools: { id: string; name: string; seed: number; }[] = [];
   teams: any[];
-  opponent: string; // name of the fantasy team opponent for this game
+
+  // name of the fantasy team opponent for this game
+  opponent: string;
   winner: string;
 
-  constructor();
-  constructor(obj: GameOptions, gameService: GameService);
-  constructor(obj?: any, gameService?: any) {
-    this.id = obj && obj.id || 0;
-    this.next = obj && obj.next || null;
-    this.region = obj && obj.region || null;
-    this.round = obj && obj.round || null;
-    this.winner = obj && obj.winner || null;
-    this.schools = obj && obj.schools || [];
-    if (gameService) {
-      this._loadTeams(this.schools, gameService);
-    }
+  _schoolService;
+  constructor(
+    data: FirebaseData,
+    @Inject(forwardRef(() => SchoolService)) _schoolService: SchoolService
+  ) {
+    this._schoolService = _schoolService;
+    extend(this, data);
+    if (_schoolService) { this._loadSchools(); }
   }
 
-  _loadTeams(schools: any[], gameService: GameService) {
+  _loadSchools() {
     this.teams = [];
-    schools.forEach((school, i) => {
-      gameService.getSchoolForGame(school).first().subscribe((s) => {
+    this.schools.forEach((school, i) => {
+      this._schoolService.getSchool(school.id, {load: false}).first().subscribe((s) => {
         if (s.pick) {
           this.teams[i] = s.pick.team;
         }

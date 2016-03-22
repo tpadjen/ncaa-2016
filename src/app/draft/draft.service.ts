@@ -11,10 +11,7 @@ import {SchoolService} from '../schools/school.service';
 import {FantasyTeam} from '../fantasyTeams/fantasy-team';
 import {FantasyTeamService} from '../fantasyTeams/fantasy-team.service';
 
-import {
-  observableFirebaseObject,
-  observableFirebaseArray
-} from '../firebase/observableFirebase';
+import {NgFirebase} from '../firebase/ng-firebase';
 
 import {DRAFT_NAME} from '../../config';
 
@@ -49,8 +46,8 @@ export class DraftService {
     private _schoolService: SchoolService,
     private _fantasyTeamService: FantasyTeamService) { }
 
-  getDraftPicks(): Observable<any []> {
-    return observableFirebaseArray(this.draftF.child('picks'), 'id');
+  getDraftPicks(): Observable<DraftPick[]> {
+    return NgFirebase.array(this.draftF.child('picks'), DraftPick);
   }
 
   getDraftOrder(): Observable<any []> {

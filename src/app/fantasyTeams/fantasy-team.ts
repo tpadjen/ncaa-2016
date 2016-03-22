@@ -1,37 +1,38 @@
+import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
+import {FirebaseData, extend} from '../firebase/ng-firebase';
 import 'rxjs/add/observable/fromArray';
 import {School} from '../schools/school';
 import {Game} from '../games/game';
 import {SchoolService} from '../schools/school.service';
+import {Deferred} from '../utils/deferred';
 
-class Deferred<T> {
-  reject: Function;
-  resolve: Function;
-  promise: Promise<T>;
 
-  constructor() {
-    this.promise = new Promise((resolve, reject)=> {
-      this.reject = reject;
-      this.resolve = resolve;
-    });
-  }
-}
+let byPick = (a, b) => {
+  if (!a || !a.pick) { return -1; }
+  if (!b || !b.pick) { return -1; }
+  return a.pick.n < b.pick.n ? -1 : 1;
+};
 
-export interface FantasyTeamOptions {
-  name: string;
-  id: string;
-  wins: number;
-  schoolIds: Array<string>;
-}
-
+@Injectable()
 export class FantasyTeam {
   name: string;
   id: string;
-  wins: number;
-  schools: Array<School>;
+  wins: number = 0;
+  schoolIds: string[];
+  schools: School[] = [];
 
   loaded: boolean = false;
   doneLoading: Deferred<any> = new Deferred();
+
+  constructor(data: FirebaseData, private _schoolService: SchoolService) {
+    extend(this, data);
+    if (_schoolService) {
+      this._loadSchools();
+    } else {
+      this.loaded = true;
+    }
+  }
 
   get points() {
     return this.schools
@@ -53,20 +54,6 @@ export class FantasyTeam {
     return this.schools.filter((school) => !school.eliminated);
   }
 
-  constructor();
-  constructor(obj: FantasyTeamOptions, schoolService: SchoolService);
-  constructor(obj?: any, schoolService?: any) {
-    this.name = obj && obj.name || null;
-    this.id   = obj && obj.id   || null;
-    this.wins = obj && obj.wins || 0;
-    this.schools = obj && obj.schools || [];
-    if (schoolService) {
-      this._loadSchools(obj && obj.schoolIds || [], schoolService);
-    } else {
-      this.loaded = true;
-    }
-  }
-
   isDoneLoading(): Promise<any> {
     return this.doneLoading.promise;
   }
@@ -80,11 +67,9 @@ export class FantasyTeam {
     return name.replace(' | ', '-').toLowerCase();
   }
 
-  _schoolIds;
-
   hasSchool(schoolId: string): boolean {
-    if (this._schoolIds) {
-      for (let id of Object.keys(this._schoolIds)) {
+    if (this.schoolIds) {
+      for (let id of Object.keys(this.schoolIds)) {
         if (id === schoolId) {
           return true;
         }
@@ -112,19 +97,14 @@ export class FantasyTeam {
     return -1;
   }
 
-  _loadSchools(schoolIds: {}, schoolService: SchoolService) {
+  _loadSchools() {
     this.schools = [];
-    this._schoolIds = schoolIds;
-    for (let schoolId in schoolIds) {
-      if (schoolIds.hasOwnProperty(schoolId)) {
-        schoolService.getSchool(schoolId).subscribe((school: School) => {
+    for (let schoolId in this.schoolIds) {
+      if (this.schoolIds.hasOwnProperty(schoolId)) {
+        this._schoolService.getSchool(schoolId).subscribe((school: School) => {
           this._addSchool(school);
-          this.schools.sort((a, b) => {
-            if (!a || !a.pick) { return -1; }
-            if (!b || !b.pick) { return -1; }
-            return a.pick.n < b.pick.n ? -1 : 1;
-          });
-          if (this.schools.length === Object.keys(this._schoolIds).length) {
+          this.schools.sort(byPick);
+          if (this.schools.length === Object.keys(this.schoolIds).length) {
             this.finishLoading();
           }
         });

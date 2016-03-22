@@ -6,6 +6,7 @@ import {
   EventEmitter
 } from 'angular2/core';
 
+import 'script!uglify!./sortable.js';
 declare var Sortable: any;
 
 @Component({

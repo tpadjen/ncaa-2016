@@ -1,3 +1,4 @@
+import {Injectable} from 'angular2/core';
 import {FirebaseData, extend} from '../firebase/ng-firebase';
 
 interface SimpleSchool {
@@ -10,6 +11,7 @@ interface SimpleTeam {
   name: string;
 }
 
+@Injectable()
 export class DraftPick {
   id: string;
   team: SimpleTeam;

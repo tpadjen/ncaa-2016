@@ -6,6 +6,8 @@ import {
   Provider
 } from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
+import {BehaviorSubject} from 'rxjs/subject/BehaviorSubject';
 
 import 'firebase/lib/firebase-web';
 
@@ -80,11 +82,11 @@ export class NgFirebase {
            FirebaseModel1<T> |
            FirebaseModel2<T> |
            FirebaseModel3<T>,
-    keyName?: string): Observable<T[]> {
+    keyName?: string): BehaviorSubject<T[]> {
 
-    return Observable.create(function(observer: any) {
+    let observableArray = Observable.create(function(observer: Observer<T[]>) {
       // Looking for how to type this well.
-      let arr: Array<any> = [];
+      let arr: T[] = [];
       const keyFieldName = keyName ? keyName :
             (type && type['FirebaseKeyName'] ? type['FirebaseKeyName'] : '$$fbKey');
       let lastIdInSnapshot = null;
@@ -156,9 +158,7 @@ export class NgFirebase {
         observer.next(arr.slice());
         lastIdInSnapshot = keys[keys.length-1];
 
-        ref.limitToLast(1).on('child_added', (snap, prev) => {
-
-        });
+        ref.limitToLast(1).on('child_added', child_added);
         ref.on('child_changed', child_changed);
         ref.on('child_removed', child_removed);
         ref.on('child_moved', child_moved);
@@ -171,6 +171,10 @@ export class NgFirebase {
         ref.off('child_moved', child_moved);
       };
     });
+
+    let subject: BehaviorSubject<T[]> = new BehaviorSubject([]);
+    observableArray.subscribe(subject);
+    return subject;
   }
 
 

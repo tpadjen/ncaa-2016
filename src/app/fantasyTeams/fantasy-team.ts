@@ -5,7 +5,7 @@ import 'rxjs/add/observable/fromArray';
 import {School} from '../schools/school';
 import {Game} from '../games/game';
 import {SchoolService} from '../schools/school.service';
-import {Deferred} from '../utils/deferred';
+import {Deferred} from '../util/deferred';
 
 
 let byPick = (a, b) => {
@@ -19,8 +19,9 @@ export class FantasyTeam {
   name: string;
   id: string;
   wins: number = 0;
-  schoolIds: string[];
+  schoolIds: string[] = [];
   schools: School[] = [];
+  gameIds: string[] = [];
 
   loaded: boolean = false;
   doneLoading: Deferred<any> = new Deferred();

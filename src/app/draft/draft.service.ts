@@ -1,33 +1,40 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from "rxjs/subject/BehaviorSubject";
 import {Subject} from 'rxjs/Subject';
-import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
-
 import {DraftPick} from './draft-pick';
-
 import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
 import {FantasyTeam} from '../fantasyTeams/fantasy-team';
 import {FantasyTeamService} from '../fantasyTeams/fantasy-team.service';
-
 import {NgFirebase} from '../firebase/ng-firebase';
-
-import {DRAFT_NAME} from '../../config';
-
-const TEAMS_LENGTH = 8;
+import {
+  DRAFT_NAME,
+  DRAFT_URL,
+  NUMBER_OF_FANTASY_TEAMS
+} from '../../config';
 
 @Injectable()
 export class DraftService {
 
-  draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
-  draftF = new Firebase(this.draftURL).child('draft').child(DRAFT_NAME);
-  teamsF = new Firebase(this.draftURL).child('teams').child(DRAFT_NAME);
+  draftRef = new Firebase(DRAFT_URL).child('draft').child(DRAFT_NAME);
+  teamsRef = new Firebase(DRAFT_URL).child('teams').child(DRAFT_NAME);
+
+  draftPicks$: BehaviorSubject<DraftPick[]>;
 
   updating: Subject<boolean> = new Subject<boolean>();
 
+  constructor(
+    private _schoolService: SchoolService,
+    private _fantasyTeamService: FantasyTeamService) {
+
+    this.draftPicks$ = NgFirebase.array(this.draftRef.child('picks'), DraftPick);
+    this.draftPicks$.subscribe();
+  }
+
   currentPick: Observable<number> = Observable.create((observer) => {
-    this.draftF.child('currentPick').on('value', (snapshot) => {
+    this.draftRef.child('currentPick').on('value', (snapshot) => {
       observer.next(snapshot.val());
     });
   });
@@ -36,28 +43,25 @@ export class DraftService {
     return Observable.create((observer) => {
       this._observeTeamChange(observer);
 
-      this.draftF.child('order').on('value', (snapshot) => {
+      this.draftRef.child('order').on('value', (snapshot) => {
         this._observeTeamChange(observer);
       });
     });
   }
 
-  constructor(
-    private _schoolService: SchoolService,
-    private _fantasyTeamService: FantasyTeamService) { }
 
   getDraftPicks(): Observable<DraftPick[]> {
-    return NgFirebase.array(this.draftF.child('picks'), DraftPick);
+    return this.draftPicks$;
   }
 
   getDraftOrder(): Observable<any []> {
     return Observable.create((observer) => {
-      this.draftF.child('order').on('value', (snap) => {
+      this.draftRef.child('order').on('value', (snap) => {
         let order = snap.val();
         let ps = [];
         order.forEach((teamId) => {
           ps.push(new Promise((resolve, reject) => {
-            this.teamsF.child(teamId).once('value', (snapshot) => {
+            this.teamsRef.child(teamId).once('value', (snapshot) => {
               let team = snapshot.val();
               team['id'] = teamId;
               resolve(team);
@@ -72,18 +76,18 @@ export class DraftService {
   }
 
   updateDraftOrder(order) {
-    this.draftF.child('order').set(order);
+    this.draftRef.child('order').set(order);
   }
 
   draft(school: School) {
     this.updating.next(true);
-    this.draftF.child('currentPick').once('value', (s) => {
+    this.draftRef.child('currentPick').once('value', (s) => {
       let n = s.val();
 
       this.currentTeam.first().subscribe((fantasyTeam) => {
         this._fantasyTeamService.draft(school, fantasyTeam);
 
-        let pickRef = this.draftF.child('picks').push({
+        let pickRef = this.draftRef.child('picks').push({
           n: n,
           school: {
             id: school.id,
@@ -105,7 +109,7 @@ export class DraftService {
         };
         this._schoolService.draft(school, pickInfo);
 
-        this.draftF.child('currentPick').transaction((current) => {
+        this.draftRef.child('currentPick').transaction((current) => {
           return (current || 0) + 1;
         });
       });
@@ -115,12 +119,12 @@ export class DraftService {
 
   undraft(pick: DraftPick) {
     this.updating.next(true);
-    this.draftF.child('picks').child(pick.id).remove();
+    this.draftRef.child('picks').child(pick.id).remove();
 
     this._fantasyTeamService.undraft(pick);
     this._schoolService.undraft(pick);
 
-    this.draftF.child('currentPick').transaction((current) => {
+    this.draftRef.child('currentPick').transaction((current) => {
       return (current || 0) - 1;
     });
   }
@@ -133,11 +137,11 @@ export class DraftService {
 
   // snake draft
   _getNextPick(pick: number): number {
-    if (Math.floor(pick / TEAMS_LENGTH) % 2 === 0) {
-      return pick % TEAMS_LENGTH;
+    if (Math.floor(pick / NUMBER_OF_FANTASY_TEAMS) % 2 === 0) {
+      return pick % NUMBER_OF_FANTASY_TEAMS;
     }
 
-    return TEAMS_LENGTH - pick % TEAMS_LENGTH - 1;
+    return NUMBER_OF_FANTASY_TEAMS - pick % NUMBER_OF_FANTASY_TEAMS - 1;
   }
 
   // update fantasy team when pick changes

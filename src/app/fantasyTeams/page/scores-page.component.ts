@@ -31,7 +31,7 @@ export class ScoresPage {
   ngOnInit() {
     this._fantasyTeamService.getTeams().subscribe((teams) => {
       this.fantasyTeams = teams;
-      this.loading = false;
+      if (teams.length > 0) this.loading = false;
 
       Promise.all(teams.map(team => team.isDoneLoading())).then(() => {
         this.fantasyTeams = this.fantasyTeams.sort((a, b) => {

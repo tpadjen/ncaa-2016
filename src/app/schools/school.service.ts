@@ -33,10 +33,47 @@ export class SchoolService {
     return new Promise((resolve) => {
       this.schools$.subscribe((schools) => {
         if (schools.length > 0) {
-          resolve(schools[schoolId].pick.team);
+          for (let school of schools) {
+            if (school.id === schoolId) {
+              resolve(school.pick.team);
+            }
+          }
         }
       });
     });
+  }
+
+  updateWins(schoolId: string, updateAmount: number): Promise<any> {
+    return new Promise((resolve) => {
+      this.schoolsRef
+          .child(schoolId)
+          .child('wins')
+          .transaction((wins) => {
+            return (wins || 0) + updateAmount;
+          }, () => resolve());
+    });
+  }
+
+  setEliminated(schoolId: string, eliminated: boolean) {
+    return this.schoolsRef
+                .child(schoolId)
+                .child('eliminated').set(eliminated);
+  }
+
+  addGameId(gameId: string, schoolId: string) {
+    return this.schoolsRef
+                .child(schoolId)
+                .child('gameIds')
+                .child(gameId)
+                .set(true);
+  }
+
+  removeGameId(gameId: string, schoolId: string) {
+    return this.schoolsRef
+                .child(schoolId)
+                .child('gameIds')
+                .child(gameId)
+                .remove();
   }
 
   draft(school: School, pickInfo: any) {

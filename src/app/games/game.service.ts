@@ -22,8 +22,6 @@ import {
 export class GameService {
 
   gamesRef = new Firebase(DRAFT_URL).child('games').child(DRAFT_NAME);
-  schoolsRef = new Firebase(DRAFT_URL).child('schools').child(DRAFT_NAME);
-
   games$: BehaviorSubject<Game[]>;
 
   constructor(
@@ -69,7 +67,7 @@ export class GameService {
 
       tasks.push(this._setWinnerId(game, winner));
       tasks.push(new Promise((r) => {
-        this._saveNextGame(game, winner).then((next) => {
+        this._saveNextGame(game, winner).then((next: {id: string}) => {
           this._addGameId(next, winner).then(() => r());
         });
       }));
@@ -134,37 +132,20 @@ export class GameService {
     });
   }
 
-  _addGameId(next: any, winner: any): Promise<any> {
-    return this.schoolsRef
-                .child(winner.id)
-                .child('gameIds')
-                .child(next.id.toString())
-                .set(true);
+  _addGameId(next: {id: string}, winner: {id: string}): Promise<any> {
+    return this._schoolService.addGameId(next.id, winner.id);
   }
 
   _removeGameId(next: any, winner: any): Promise<any> {
-    return this.schoolsRef
-                .child(winner)
-                .child('gameIds')
-                .child(next.id)
-                .remove();
+    return this._schoolService.removeGameId(next.id, winner);
   }
 
-  _updateSchoolWins(winnerId: string, amount: number): Promise<any> {
-    return new Promise((resolve) => {
-      this.schoolsRef
-          .child(winnerId)
-          .child('wins')
-          .transaction((wins) => {
-            return (wins || 0) + amount;
-          }, () => resolve());
-    });
+  _updateSchoolWins(winnerId: string, updateAmount: number): Promise<any> {
+    return this._schoolService.updateWins(winnerId, updateAmount);
   }
 
   _setEliminated(loser: any, value: boolean): Promise<any> {
-    return this.schoolsRef
-                .child(loser.id)
-                .child('eliminated').set(value);
+    return this._schoolService.setEliminated(loser.id, value);
   }
 
   _updateFantasyTeamWins(winnerId: string, updateAmount: number): Promise<any> {

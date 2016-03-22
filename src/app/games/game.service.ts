@@ -21,14 +21,14 @@ import {
 @Injectable()
 export class GameService {
 
-  teamsRef = new Firebase(DRAFT_URL).child('teams').child(DRAFT_NAME);
   gamesRef = new Firebase(DRAFT_URL).child('games').child(DRAFT_NAME);
   schoolsRef = new Firebase(DRAFT_URL).child('schools').child(DRAFT_NAME);
 
   games$: BehaviorSubject<Game[]>;
 
   constructor(
-    @Inject(forwardRef(() => FantasyTeamService)) private _teamService: FantasyTeamService
+    @Inject(forwardRef(() => FantasyTeamService)) private _fantasyTeamService: FantasyTeamService,
+    @Inject(forwardRef(() => SchoolService)) private _schoolService: SchoolService
   ) {
     this.games$ = NgFirebase.array(this.gamesRef, Game);
     this.games$.subscribe();
@@ -169,23 +169,11 @@ export class GameService {
 
   _updateFantasyTeamWins(winnerId: string, updateAmount: number): Promise<any> {
     return new Promise((resolve) => {
-      // get winning school's fantasy team
-      this.schoolsRef
-            .child(winnerId)
-            .child('pick')
-            .child('team')
-            .child('id')
-            .once('value', (snapshot) => {
-              // increase # of wins so team updates
-              this.teamsRef
-                    .child(snapshot.val())
-                    .child('wins')
-                    .transaction((wins) => {
-                      return (wins || 0) + updateAmount;
-                    }, () => {
-                      resolve();
-                    });
-            });
+      this._schoolService.getPickedTeam(winnerId).then(team => {
+        this._fantasyTeamService.updateWins(team, updateAmount).then(() => {
+          resolve();
+        });
+      });
     });
   }
 

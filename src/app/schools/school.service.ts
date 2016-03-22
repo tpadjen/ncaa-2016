@@ -29,6 +29,16 @@ export class SchoolService {
     return this.schools$;
   }
 
+  getPickedTeam(schoolId: string): Promise<{ id: string, name: string; }> {
+    return new Promise((resolve) => {
+      this.schools$.subscribe((schools) => {
+        if (schools.length > 0) {
+          resolve(schools[schoolId].pick.team);
+        }
+      });
+    });
+  }
+
   draft(school: School, pickInfo: any) {
     this.schoolsRef
       .child(school.id)

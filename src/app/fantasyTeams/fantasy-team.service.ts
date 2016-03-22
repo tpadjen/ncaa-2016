@@ -81,6 +81,19 @@ export class FantasyTeamService {
     });
   }
 
+  updateWins(team: {id: string}, updateAmount: number): Promise<any> {
+    return new Promise((resolve) => {
+      this.teamsRef
+          .child(team.id)
+          .child('wins')
+          .transaction((wins) => {
+            return (wins || 0) + updateAmount;
+          }, () => {
+            resolve();
+          });
+    });
+  }
+
   draft(school: School, fantasyTeam: FantasyTeam) {
     this.teamsRef
       .child(fantasyTeam.id)

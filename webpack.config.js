@@ -50,6 +50,7 @@ module.exports = {
     app: './src/main.ts',
     vendor: [
       'es6-shim',
+      'es6-promise',
       'angular2/bundles/angular2-polyfills',
       'angular2/bootstrap',
       'angular2/platform/browser',

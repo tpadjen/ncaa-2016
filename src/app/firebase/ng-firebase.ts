@@ -88,7 +88,7 @@ export class NgFirebase {
       // Looking for how to type this well.
       let arr: T[] = [];
       const keyFieldName = keyName ? keyName :
-            (type && type['FirebaseKeyName'] ? type['FirebaseKeyName'] : '$$fbKey');
+            (type && type['FirebaseKeyName'] ? type['FirebaseKeyName'] : 'id');
       let lastIdInSnapshot = null;
 
       function child_added(snapshot: FirebaseDataSnapshot, prevChildKey: string) {

@@ -19,8 +19,6 @@ import {
 export class DraftService {
 
   draftRef = new Firebase(DRAFT_URL).child('draft').child(DRAFT_NAME);
-  teamsRef = new Firebase(DRAFT_URL).child('teams').child(DRAFT_NAME);
-
   draftPicks$: BehaviorSubject<DraftPick[]>;
 
   updating: Subject<boolean> = new Subject<boolean>();
@@ -58,17 +56,7 @@ export class DraftService {
     return Observable.create((observer) => {
       this.draftRef.child('order').on('value', (snap) => {
         let order = snap.val();
-        let ps = [];
-        order.forEach((teamId) => {
-          ps.push(new Promise((resolve, reject) => {
-            this.teamsRef.child(teamId).once('value', (snapshot) => {
-              let team = snapshot.val();
-              team['id'] = teamId;
-              resolve(team);
-            });
-          }));
-        });
-        Promise.all(ps).then((teams) => {
+        this._fantasyTeamService.getTeamsFromIds(order).subscribe(teams => {
           observer.next(teams);
         });
       });

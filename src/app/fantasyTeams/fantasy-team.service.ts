@@ -81,6 +81,23 @@ export class FantasyTeamService {
     });
   }
 
+  getTeamsFromIds(ids: string[]): Observable<FantasyTeam[]> {
+    return Observable.create((observer) => {
+      this.teams$.subscribe(teams => {
+        let teamOrder = [];
+        ids.forEach(id => {
+          for (let team of teams) {
+            if (team.id === id) {
+              teamOrder.push(team);
+              break;
+            }
+          }
+        });
+        observer.next(teamOrder);
+      });
+    });
+  }
+
   updateWins(team: {id: string}, updateAmount: number): Promise<any> {
     return new Promise((resolve) => {
       this.teamsRef

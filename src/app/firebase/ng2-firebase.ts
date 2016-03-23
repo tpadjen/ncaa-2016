@@ -20,34 +20,12 @@ import {
 import {Observable} from 'rxjs/Observable';
 import {Observer} from 'rxjs/Observer';
 import {BehaviorSubject} from 'rxjs/subject/BehaviorSubject';
-
 import 'firebase/lib/firebase-web';
+import {FirebaseData} from './firebase-data';
+import {FirebaseModel} from './firebase-model';
 
-
-@Injectable()
-export class FirebaseData {}
-
-export function extend(obj: {}, data: {}) {
-  for (let key in data) {
-    if (data.hasOwnProperty(key)) {
-      obj[key] = data[key];
-    }
-  }
-}
-
-interface FirebaseModel0<T> {
-  new(obj: FirebaseData): T;
-}
-interface FirebaseModel1<T> {
-  new(obj: FirebaseData, b: any): T;
-}
-interface FirebaseModel2<T> {
-  new(obj: FirebaseData, b: any, c: any): T;
-}
-interface FirebaseModel3<T> {
-  new(obj: FirebaseData, b: any, c: any, d: any): T;
-}
-
+export {extend} from './extend';
+export {FirebaseData};
 
 export class Ng2Firebase {
 
@@ -55,10 +33,7 @@ export class Ng2Firebase {
 
   static object<T>(
     ref: FirebaseQuery,
-    type?: FirebaseModel0<T> |
-           FirebaseModel1<T> |
-           FirebaseModel2<T> |
-           FirebaseModel3<T>,
+    type?: FirebaseModel<T>,
     opts?: { load: boolean, keyName?: string; }
   ): Observable<T> {
     return Observable.create(function(observer: any) {
@@ -90,10 +65,7 @@ export class Ng2Firebase {
 
   static array<T>(
     ref: FirebaseQuery,
-    type?: FirebaseModel0<T> |
-           FirebaseModel1<T> |
-           FirebaseModel2<T> |
-           FirebaseModel3<T>,
+    type?: FirebaseModel<T>,
     keyName?: string): BehaviorSubject<T[]> {
 
     let observableArray = Observable.create(function(observer: Observer<T[]>) {

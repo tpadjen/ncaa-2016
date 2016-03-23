@@ -6,7 +6,7 @@ import {FantasyTeamService} from './app/fantasyTeams/fantasy-team.service';
 import {SchoolService} from './app/schools/school.service';
 import {DraftService} from './app/draft/draft.service';
 import {GameService} from './app/games/game.service';
-import {NgFirebase} from './app/firebase/ng-firebase';
+import {Ng2Firebase} from './app/firebase/ng2-firebase';
 
 import {
   ROUTER_PROVIDERS,
@@ -36,5 +36,5 @@ bootstrap(App, [
   GameService
 ])
   .then((app) => {
-    NgFirebase.appRef = app;
+    Ng2Firebase.appRef = app;
   });

@@ -6,7 +6,7 @@ import {
 import {isPresent} from 'angular2/src/facade/lang';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from "rxjs/subject/BehaviorSubject";
-import {NgFirebase, FirebaseData} from '../firebase/ng-firebase';
+import {Ng2Firebase, FirebaseData} from '../firebase/ng2-firebase';
 import {Game} from './game';
 import {FantasyTeam} from '../fantasyTeams/fantasy-team';
 import {FantasyTeamService} from '../fantasyTeams/fantasy-team.service';
@@ -28,12 +28,12 @@ export class GameService {
     @Inject(forwardRef(() => FantasyTeamService)) private _fantasyTeamService: FantasyTeamService,
     @Inject(forwardRef(() => SchoolService)) private _schoolService: SchoolService
   ) {
-    this.games$ = NgFirebase.array(this.gamesRef, Game);
+    this.games$ = Ng2Firebase.array(this.gamesRef, Game);
     this.games$.subscribe();
   }
 
   getGame(id: string): Observable<Game> {
-    return NgFirebase.object(this.gamesRef.child(id), Game);
+    return Ng2Firebase.object(this.gamesRef.child(id), Game);
   }
 
   getGames(): Observable<Game[]> {

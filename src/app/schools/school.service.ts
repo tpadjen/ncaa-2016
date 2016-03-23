@@ -1,7 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from "rxjs/subject/BehaviorSubject";
-import {NgFirebase} from '../firebase/ng-firebase';
+import {Ng2Firebase} from '../firebase/ng2-firebase';
 import {School} from './school';
 import {DraftPick} from '../draft/draft-pick';
 import {
@@ -16,13 +16,13 @@ export class SchoolService {
   schools$: BehaviorSubject<School[]>;
 
   constructor() {
-    this.schools$ = NgFirebase.array(this.schoolsRef, School);
+    this.schools$ = Ng2Firebase.array(this.schoolsRef, School);
     this.schools$.subscribe();
   }
 
   getSchool(id: string, opts?: { load: boolean; }): Observable<School> {
     opts = opts || { load: true };
-    return NgFirebase.object(this.schoolsRef.child(id), School, opts);
+    return Ng2Firebase.object(this.schoolsRef.child(id), School, opts);
   }
 
   getSchools(): Observable<School[]> {

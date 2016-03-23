@@ -8,7 +8,7 @@ import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
 import {FantasyTeam} from '../fantasyTeams/fantasy-team';
 import {FantasyTeamService} from '../fantasyTeams/fantasy-team.service';
-import {NgFirebase} from '../firebase/ng-firebase';
+import {Ng2Firebase} from '../firebase/ng2-firebase';
 import {
   DRAFT_NAME,
   DRAFT_URL,
@@ -27,7 +27,7 @@ export class DraftService {
     private _schoolService: SchoolService,
     private _fantasyTeamService: FantasyTeamService) {
 
-    this.draftPicks$ = NgFirebase.array(this.draftRef.child('picks'), DraftPick);
+    this.draftPicks$ = Ng2Firebase.array(this.draftRef.child('picks'), DraftPick);
     this.draftPicks$.subscribe();
   }
 

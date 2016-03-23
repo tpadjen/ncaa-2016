@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import {FirebaseData, extend} from '../firebase/ng-firebase';
+import {FirebaseData, extend} from '../firebase/ng2-firebase';
 
 interface SimpleSchool {
   id: string;

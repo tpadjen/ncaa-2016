@@ -3,7 +3,7 @@ import {
   Inject,
   forwardRef
 } from 'angular2/core';
-import {FirebaseData, extend} from '../firebase/ng-firebase';
+import {FirebaseData, extend} from '../firebase/ng2-firebase';
 import {FantasyTeam} from '../fantasyTeams/fantasy-team';
 import {SchoolService} from '../schools/school.service';
 

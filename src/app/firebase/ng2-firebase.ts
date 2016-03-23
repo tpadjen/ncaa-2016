@@ -1,6 +1,6 @@
 /**
- * NgFirebase
- * Copyright 2016 
+ * Ng2Firebase
+ * Copyright 2016
  */
 
 /* Based On:
@@ -49,7 +49,7 @@ interface FirebaseModel3<T> {
 }
 
 
-export class NgFirebase {
+export class Ng2Firebase {
 
   static appRef: ComponentRef;
 
@@ -72,9 +72,9 @@ export class NgFirebase {
       function value(snapshot: FirebaseDataSnapshot) {
         let child = snapshot.val();
         child[keyFieldName] = snapshot.key();
-        if (type && NgFirebase.appRef) {
+        if (type && Ng2Firebase.appRef) {
           let providers = [provide(FirebaseData, {useValue: child})];
-          let injector = NgFirebase.appRef.injector;
+          let injector = Ng2Firebase.appRef.injector;
           if (!opts.load) injector = Injector.resolveAndCreate([]);
           let childInjector = injector.resolveAndCreateChild(providers);
           child = childInjector.resolveAndInstantiate(type);
@@ -108,7 +108,7 @@ export class NgFirebase {
 
         let child = snapshot.val();
         child[keyFieldName] = snapshot.key();
-        if (type) child = NgFirebase._instantiateObject(child, type);
+        if (type) child = Ng2Firebase._instantiateObject(child, type);
         let prevEntry = arr.find((y) => y[keyFieldName] === prevChildKey);
         arr.splice(prevChildKey ? arr.indexOf(prevEntry) + 1 : 0, 0, child);
         observer.next(arr.slice()); // Safe copy
@@ -118,7 +118,7 @@ export class NgFirebase {
         let key = snapshot.key();
         let child = snapshot.val();
         child[keyFieldName] = key;
-        if (type) child = NgFirebase._instantiateObject(child, type);
+        if (type) child = Ng2Firebase._instantiateObject(child, type);
         let i = arr.findIndex((y) => y[keyFieldName] === key);
         if (i !== -1) { arr[i] = child; }
         observer.next(arr.slice()); // Safe copy
@@ -144,7 +144,7 @@ export class NgFirebase {
         if (x) {
           changed = arr.splice(arr.indexOf(x), 1);
         } else {
-          if (type) child = NgFirebase._instantiateObject(child, type);
+          if (type) child = Ng2Firebase._instantiateObject(child, type);
           changed = child;
         }
         // Add in new slot
@@ -164,7 +164,7 @@ export class NgFirebase {
         let keys = Object.keys(array);
         for (let key of keys) {
           array[key][keyFieldName] = key;
-          if (type) array[key] = NgFirebase._instantiateObject(array[key], type);
+          if (type) array[key] = Ng2Firebase._instantiateObject(array[key], type);
           arr.push(array[key]);
         }
         observer.next(arr.slice());
@@ -191,7 +191,7 @@ export class NgFirebase {
 
 
   static _instantiateObject(obj: {}, type: any) {
-    return NgFirebase.appRef.injector.resolveAndCreateChild(
+    return Ng2Firebase.appRef.injector.resolveAndCreateChild(
       [provide(FirebaseData, {useValue: obj})]
     ).resolveAndInstantiate(type);
   }

@@ -1,3 +1,15 @@
+/**
+ * NgFirebase
+ * Copyright 2016 
+ */
+
+/* Based On:
+// Angular 2 Toolkit - Firebase Observables
+// Copyright 2015 Oasis Digital - http://oasisdigital.com
+//     written by Kyle Cordes - http://kylecordes.com
+// November 2015
+*/
+
 import {
   ComponentRef,
   Injectable,

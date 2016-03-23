@@ -5,7 +5,7 @@ import {
   Optional
 } from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
-import {FirebaseData, extend} from '../firebase/ng2-firebase';
+import {FirebaseData, extend} from 'ng2-firebase-observables/ng2-firebase-observables';
 import {Game} from '../games/game';
 import {GameService} from '../games/game.service';
 

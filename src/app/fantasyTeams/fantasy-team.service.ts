@@ -6,7 +6,7 @@ import {School} from '../schools/school';
 import {SchoolService} from '../schools/school.service';
 import {Game} from '../games/game';
 import {DraftPick} from '../draft/draft-pick';
-import {Ng2Firebase} from '../firebase/ng2-firebase';
+import {Ng2Firebase} from 'ng2-firebase-observables/ng2-firebase-observables';
 import {
   DRAFT_NAME,
   DRAFT_URL

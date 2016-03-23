@@ -1,6 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
-import {FirebaseData, extend} from '../firebase/ng2-firebase';
+import {FirebaseData, extend} from 'ng2-firebase-observables/ng2-firebase-observables';
 import 'rxjs/add/observable/fromArray';
 import {School} from '../schools/school';
 import {Game} from '../games/game';

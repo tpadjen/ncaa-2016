@@ -58,7 +58,8 @@ module.exports = {
       'angular2/core',
       'angular2/router',
       'angular2/http',
-      'firebase'
+      'firebase',
+      'ng2-firebase-observables/ng2-firebase-observables'
     ]
   },
 

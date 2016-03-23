@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "firebase": "^2.4.1",
+    "ng2-firebase-observables": "0.0.1",
     "ng2-material": "^0.2.12",
     "style-loader": "^0.13.0"
   },

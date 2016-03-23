@@ -6,7 +6,7 @@ import {FantasyTeamService} from './app/fantasyTeams/fantasy-team.service';
 import {SchoolService} from './app/schools/school.service';
 import {DraftService} from './app/draft/draft.service';
 import {GameService} from './app/games/game.service';
-import {Ng2Firebase} from './app/firebase/ng2-firebase';
+import {Ng2Firebase} from 'ng2-firebase-observables/ng2-firebase-observables';
 
 import {
   ROUTER_PROVIDERS,

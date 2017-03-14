@@ -3,147 +3,147 @@
 const Firebase = require('firebase');
 const fs = require('fs')
 
-const YEAR = '2016'
+const YEAR = '2017'
 
-// let fantasyTeams = [
-//   {
-//     name: 'Brookfield | Mires',
-//     id: 0,
-//     wins: 0
-//   },
-//   {
-//     name: 'Cary | Tingstrom',
-//     id: 1,
-//     wins: 0
-//   },
-//   {
-//     name: 'Flannigan | G',
-//     id: 2,
-//     wins: 0
-//   },
-//   {
-//     name: 'Haskell | Willihan',
-//     id: 3,
-//     wins: 0
-//   },
-//   {
-//     name: 'Kinder | Padjen',
-//     id: 4,
-//     wins: 0
-//   },
-//   {
-//     name: 'Kruse | Hoefs',
-//     id: 5,
-//     wins: 0
-//   },
-//   {
-//     name: 'Wood | Wood',
-//     id: 6,
-//     wins: 0
-//   },
-//   {
-//     name: 'Wurst | Goldson',
-//     id: 7,
-//     wins: 0
-//   },
-// ];
+let fantasyTeams = [
+  {
+    name: 'Brookfield | Mires',
+    id: 0,
+    wins: 0
+  },
+  {
+    name: 'Cary | Tingstrom',
+    id: 1,
+    wins: 0
+  },
+  {
+    name: 'Flannigan | G',
+    id: 2,
+    wins: 0
+  },
+  {
+    name: 'Haskell | Willihan',
+    id: 3,
+    wins: 0
+  },
+  {
+    name: 'Kinder | Padjen',
+    id: 4,
+    wins: 0
+  },
+  {
+    name: 'Hoefs | Fisher',
+    id: 5,
+    wins: 0
+  },
+  {
+    name: 'Wood | Wood',
+    id: 6,
+    wins: 0
+  },
+  {
+    name: 'Wurst | Goldson',
+    id: 7,
+    wins: 0
+  },
+];
 
-let draftURL = 'https://mvhs-ncaa-2016.firebaseio.com/';
+let draftURL = 'https://mvhs-ncaa-2017.firebaseio.com/';
 let schoolsRef = new Firebase(draftURL).child('schools').child(YEAR);
 let draftRef   = new Firebase(draftURL).child('draft').child(YEAR);
 let teamsRef   = new Firebase(draftURL).child('teams').child(YEAR);
 let gamesRef   = new Firebase(draftURL).child('games').child(YEAR);
 
-// var loadTeams = () => {
-//   let data = fs.readFileSync('scripts/ncaa' + YEAR + '.csv', 'utf8');
-//
-//   let teams = [];
-//   let id = 0;
-//   let region = null;
-//
-//   data.split("\n").forEach((line) => {
-//     if (line.trim() === '') return;
-//
-//     if (line.indexOf(',') === -1) {
-//       region = line.trim();
-//       return;
-//     }
-//
-//     if (region) {
-//       let team = line.split(',');
-//       teams.push({
-//         name: team[1],
-//         seed: parseInt(team[0], 10),
-//         ep: parseFloat(team[2], 10),
-//         region: region,
-//         id: id,
-//         wins: 0,
-//         eliminated: false
-//       });
-//       id++;
-//     }
-//   });
-//
-//   return teams;
-// }
-//
-// var createSchools = () => {
-//   return new Promise((resolve, reject) => {
-//     schoolsRef.remove(() => {
-//       let teams = loadTeams();
-//
-//       teams.forEach((team) => {
-//         schoolsRef.push(team, (err) => {
-//           if (err) {
-//             console.log(err);
-//             process.exit(1);
-//           } else {
-//             if (team.id === 63) {
-//               resolve();
-//             }
-//           }
-//         });
-//       });
-//     });
-//   })
-// }
-//
-// var createTeams = () => {
-//   return new Promise((resolve, rejects) => {
-//     teamsRef.remove(() => {
-//       fantasyTeams.forEach((team) => {
-//         teamsRef.push(team, (err) => {
-//           if (err) {
-//             console.log(err);
-//             process.exit(1);
-//           } else {
-//             if (team.id === 7) {
-//               resolve();
-//             }
-//           }
-//         });
-//       });
-//     })
-//   });
-// }
-//
-// var createDraft = () => {
-//   return new Promise((resolve, reject) => {
-//     draftRef.remove(() => {
-//       draftRef.child('currentPick').set(0).then(() => {
-//         teamsRef.once('value', (snapshot) => {
-//           draftRef.child('order').set(Object.keys(snapshot.val()), (err) => {
-//             if (err) {
-//               reject(err);
-//             } else {
-//               resolve();
-//             }
-//           });
-//         })
-//       });
-//     });
-//   });
-// }
+var loadTeams = () => {
+  let data = fs.readFileSync('scripts/ncaa' + YEAR + '.csv', 'utf8');
+
+  let teams = [];
+  let id = 0;
+  let region = null;
+
+  data.split("\n").forEach((line) => {
+    if (line.trim() === '') return;
+
+    if (line.indexOf(',') === -1) {
+      region = line.trim();
+      return;
+    }
+
+    if (region) {
+      let team = line.split(',');
+      teams.push({
+        name: team[1],
+        seed: parseInt(team[0], 10),
+        ep: parseFloat(team[2], 10),
+        region: region,
+        id: id,
+        wins: 0,
+        eliminated: false
+      });
+      id++;
+    }
+  });
+
+  return teams;
+}
+
+var createSchools = () => {
+  return new Promise((resolve, reject) => {
+    schoolsRef.remove(() => {
+      let teams = loadTeams();
+
+      teams.forEach((team) => {
+        schoolsRef.push(team, (err) => {
+          if (err) {
+            console.log(err);
+            process.exit(1);
+          } else {
+            if (team.id === 63) {
+              resolve();
+            }
+          }
+        });
+      });
+    });
+  })
+}
+
+var createTeams = () => {
+  return new Promise((resolve, rejects) => {
+    teamsRef.remove(() => {
+      fantasyTeams.forEach((team) => {
+        teamsRef.push(team, (err) => {
+          if (err) {
+            console.log(err);
+            process.exit(1);
+          } else {
+            if (team.id === 7) {
+              resolve();
+            }
+          }
+        });
+      });
+    })
+  });
+}
+
+var createDraft = () => {
+  return new Promise((resolve, reject) => {
+    draftRef.remove(() => {
+      draftRef.child('currentPick').set(0).then(() => {
+        teamsRef.once('value', (snapshot) => {
+          draftRef.child('order').set(Object.keys(snapshot.val()), (err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        })
+      });
+    });
+  });
+}
 
 let SEED_ORDER = [1, 16, 8, 9, 5, 12, 4, 13, 6, 11, 3, 14, 7, 10, 2, 15];
 
@@ -276,10 +276,28 @@ let createGames = () => {
         });
 
         Promise.all(setGameIds.concat(regionPromises)).then(() => {
+          // 2016 South vs West
+          // games.FinalFour.push({
+          //   id: gameId++,
+          //   region: 'Final Four',
+          //   prev0: games.South.last().id,
+          //   prev1: games.West.last().id,
+          //   round: 5
+          // });
+
+          // games.FinalFour.push({
+          //   id: gameId++,
+          //   region: 'Final Four',
+          //   prev0: games.East.last().id,
+          //   prev1: games.Midwest.last().id,
+          //   round: 5
+          // });
+
+          // 2017 East vs West
           games.FinalFour.push({
             id: gameId++,
             region: 'Final Four',
-            prev0: games.South.last().id,
+            prev0: games.East.last().id,
             prev1: games.West.last().id,
             round: 5
           });
@@ -287,8 +305,8 @@ let createGames = () => {
           games.FinalFour.push({
             id: gameId++,
             region: 'Final Four',
-            prev0: games.East.last().id,
-            prev1: games.Midwest.last().id,
+            prev0: games.Midwest.last().id,
+            prev1: games.South.last().id,
             round: 5
           });
 
@@ -325,21 +343,21 @@ let createGames = () => {
   })
 };
 
-// createTeams().then(() => {
-//   console.log("Created Fantasy Teams");
-//   createSchools().then(() => {
-//     console.log("Created Schools");
-//     createGames().then(() => {
-//       console.log("Created Games");
-//       createDraft().then(() => {
-//         console.log("Created Draft");
-//         process.exit(0);
-//       });
-//     });
-//   });
-// });
-
-createGames().then(() => {
-  console.log("Created Games");
-  process.exit(0)
+createTeams().then(() => {
+  console.log("Created Fantasy Teams");
+  createSchools().then(() => {
+    console.log("Created Schools");
+    createGames().then(() => {
+      console.log("Created Games");
+      createDraft().then(() => {
+        console.log("Created Draft");
+        process.exit(0);
+      });
+    });
+  });
 });
+
+// createGames().then(() => {
+//   console.log("Created Games");
+//   process.exit(0)
+// });

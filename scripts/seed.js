@@ -343,21 +343,39 @@ let createGames = () => {
   })
 };
 
-// createTeams().then(() => {
-//   console.log("Created Fantasy Teams");
-//   createSchools().then(() => {
-//     console.log("Created Schools");
-//     createGames().then(() => {
-//       console.log("Created Games");
-//       createDraft().then(() => {
-//         console.log("Created Draft");
-//         process.exit(0);
-//       });
-//     });
-//   });
-// });
 
-createGames().then(() => {
-  console.log("Created Games");
-  process.exit(0)
-});
+let completeReset = () => {
+
+  createTeams().then(() => {
+    console.log("Created Fantasy Teams");
+    createSchools().then(() => {
+      console.log("Created Schools");
+      createGames().then(() => {
+        console.log("Created Games");
+        createDraft().then(() => {
+          console.log("Created Draft");
+          process.exit(0);
+        });
+      });
+    });
+  });
+
+};
+
+
+// reset games after draft
+let resetOnlyGames = () => {
+
+  createGames().then(() => {
+    console.log("Created Games");
+    process.exit(0)
+  });
+
+};
+
+
+// only one of these at a time
+// completeReset();
+resetOnlyGames();
+
+

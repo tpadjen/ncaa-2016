@@ -15,7 +15,7 @@
     </a>
     <h1><span>MVHS NCAA 2017</span></h1>
     <span flex></span>
-    <!-- <h2>Current Team: <span> currentTeam?.name }}</span></h2> -->
+    <h2 *ngIf="!PRODUCTION">Current Team: <span>{{ currentTeam?.name }}</span></h2>
   </div>
 </md-toolbar>
 

@@ -24,7 +24,6 @@ export class School  {
     n: number;
     team: any;
   };
-  draftTeam: string;
   eliminated: boolean = false;
 
   _gameService;
@@ -47,7 +46,7 @@ export class School  {
     return score;
   }
 
-  get drafted(): boolean { return this.draftTeam !== null; }
+  get drafted(): boolean { return this.pick !== null && typeof(this.pick) != "undefined"; }
 
   _loadGames(gameIds: {}) {
     this.games = [];

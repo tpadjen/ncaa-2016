@@ -25,6 +25,7 @@
             md-raised-button
             class="md-raised draft"
             (click)="showOnlyAvailable = false">Show All</button></th>
+        <th>Drafted By</th>
       </tr>
     </thead>
     <tbody click="console.log('ifjsdijfidjf')">
@@ -40,6 +41,9 @@
             md-raised-button
             class="md-raised md-primary draft"
             (click)="draft(school)">Draft</button>
+        </td>
+        <td>
+          {{school.pick?.team?.name}}
         </td>
       </tr>
     </tbody>

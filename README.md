@@ -31,3 +31,8 @@ Run the production build from a local node.js server (direct sub-route access wi
 ```
 $ npm run dist
 ```
+
+## Deploy
+```
+$ firebase deploy
+```

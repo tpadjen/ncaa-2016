@@ -1,6 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from "rxjs/subject/BehaviorSubject";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Ng2Firebase} from 'ng2-firebase-observables/ng2-firebase-observables';
 import {School} from './school';
 import {DraftPick} from '../draft/draft-pick';

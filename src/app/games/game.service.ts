@@ -5,7 +5,7 @@ import {
 } from 'angular2/core';
 import {isPresent} from 'angular2/src/facade/lang';
 import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from "rxjs/subject/BehaviorSubject";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Ng2Firebase, FirebaseData} from 'ng2-firebase-observables/ng2-firebase-observables';
 import {Game} from './game';
 import {FantasyTeam} from '../fantasyTeams/fantasy-team';

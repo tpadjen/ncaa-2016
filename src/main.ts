@@ -15,7 +15,7 @@ import {
   PathLocationStrategy
 } from 'angular2/router';
 
-import '!style!css!../node_modules/bootstrap/dist/css/bootstrap.css';
+import '!style-loader!css-loader!../node_modules/bootstrap/dist/css/bootstrap.css';
 
 let APP_LOCATION_STRATEGY = provide(LocationStrategy, {useClass: HashLocationStrategy});
 

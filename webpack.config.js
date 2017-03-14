@@ -74,22 +74,20 @@ module.exports = {
   devtool: 'source-map',
 
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
+    extensions: ['.webpack.js', '.web.js', '.ts', '.js']
   },
 
   plugins: plugins,
 
   module: {
-    preLoaders: [
-      { test: /\.ts$/, loader: 'tslint' }
-    ],
-    loaders: [
-      { test: /\.ts$/,                      loader: 'ts',    exclude: /node_modules/ },
-      { test: /\.html$/,                    loader: 'exports?module.exports.toString()!html' },
-      { test: /\.css$/,                     loader: 'exports?module.exports.toString()!css' },
-      { test: /\.scss$/,                    loader: 'exports?module.exports.toString()!css!sass' },
-      { test: /\.(svg|eot|woff|woff2|ttf)/, loader: 'file?name=fonts/[name].[ext]' },
-      { test: /\.(jpeg|jpg|png|gif)/,       loader: 'file?name=[path][name].[ext]&attrs=img:src link:href' }
+    rules: [
+      { test: /\.ts$/, loader: 'tslint-loader', enforce: 'pre' },
+      { test: /\.ts$/,                      loader: 'ts-loader',    exclude: /node_modules/ },
+      { test: /\.html$/,                    loader: 'exports-loader?module.exports.toString()!html-loader' },
+      { test: /\.css$/,                     loader: 'exports-loader?module.exports.toString()!css-loader' },
+      { test: /\.scss$/,                    loader: 'exports-loader?module.exports.toString()!css-loader!sass-loader' },
+      { test: /\.(svg|eot|woff|woff2|ttf)/, loader: 'file-loader?name=fonts/[name].[ext]' },
+      { test: /\.(jpeg|jpg|png|gif)/,       loader: 'file-loader?name=[path][name].[ext]&attrs=img:src link:href' }
     ],
     noParse: [ /zone\.js\/dist\/.+/, /angular2\/bundles\/.+/ ]
   }

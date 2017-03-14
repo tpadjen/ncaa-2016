@@ -1,5 +1,5 @@
 {
-  "firebase": "mvhs-ncaa-2016",
+  "firebase": "mvhs-ncaa-2017",
   "public": "dist",
   "ignore": [
     "firebase.json",

@@ -343,21 +343,21 @@ let createGames = () => {
   })
 };
 
-createTeams().then(() => {
-  console.log("Created Fantasy Teams");
-  createSchools().then(() => {
-    console.log("Created Schools");
-    createGames().then(() => {
-      console.log("Created Games");
-      createDraft().then(() => {
-        console.log("Created Draft");
-        process.exit(0);
-      });
-    });
-  });
-});
-
-// createGames().then(() => {
-//   console.log("Created Games");
-//   process.exit(0)
+// createTeams().then(() => {
+//   console.log("Created Fantasy Teams");
+//   createSchools().then(() => {
+//     console.log("Created Schools");
+//     createGames().then(() => {
+//       console.log("Created Games");
+//       createDraft().then(() => {
+//         console.log("Created Draft");
+//         process.exit(0);
+//       });
+//     });
+//   });
 // });
+
+createGames().then(() => {
+  console.log("Created Games");
+  process.exit(0)
+});

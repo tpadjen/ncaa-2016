@@ -111,7 +111,7 @@ export class GameService {
       this._getNextGame(game).then((next) => {
         let schools = next.schools || [];
         let nextSpot = 0;
-        if (next.prev1 === game.id) {
+        if (next.prev1 === parseInt(game.id, 10)) {
           nextSpot = 1;
         }
         schools[nextSpot] = winner;

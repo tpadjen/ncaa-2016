@@ -9,7 +9,7 @@ import {SchoolService} from '../schools/school.service';
 
 @Injectable()
 export class Game {
-  id: number;
+  id: string;
   next: number; // next game id
   region: string;
   round: number;

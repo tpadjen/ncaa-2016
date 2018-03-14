@@ -40,7 +40,8 @@ export class GamesPage {
     });
   }
 
-  win(game: Game, index: number) {
+  win(game: Game, index: number, winner: any) {
+    if (winner) return; // game already has a winner, needs to be undone to change
     this._gameService.win(game, index);
   }
 

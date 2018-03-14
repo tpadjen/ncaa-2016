@@ -22,7 +22,7 @@
   font-size: 22px;
   font-weight: 500;
 
-  &:hover {
+  &.clickable:hover {
     cursor: pointer;
     background: rgb(67, 204, 64);
     color: white;

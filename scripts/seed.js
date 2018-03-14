@@ -392,7 +392,7 @@ let resetOnlyGames = () => {
 
 
 // only one of these at a time
-completeReset();
-// resetOnlyGames();
+// completeReset();
+resetOnlyGames();
 
 

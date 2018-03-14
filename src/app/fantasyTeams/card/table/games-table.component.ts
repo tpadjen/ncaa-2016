@@ -26,7 +26,8 @@ export class GamesTable {
     if (!team) return;
 
     this._gameService.getGamesForFantasyTeam(team).subscribe((games) => {
-      this.games = games;
+      this.games = this.uniqueGames(games);
+
       this.rounds = [];
       [1, 2, 3, 4, 5, 6].forEach((round) => {
         this.rounds[round-1] = this.games.filter(game => game.round === round);
@@ -68,5 +69,11 @@ export class GamesTable {
             this.fantasyTeam.hasSchool(game.schools[0].id) ? game.schools[0] : game.schools[1];
   }
 
+  uniqueGames(rawGames: Game[]): Game[] {
+    let seenIds = {};
+    return rawGames.filter(function(game) {
+      return seenIds.hasOwnProperty(game.id) ? false : (seenIds[game.id] = true);
+    });
+  }
 
 }

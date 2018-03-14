@@ -17,6 +17,8 @@ import {FantasyTeam} from "../fantasy-team";
   styles: [`
     .teams-left {
       display: inline-block;
+      position: relative;
+      top: -4px;
     }
     spinner {
       margin-right: 1px;

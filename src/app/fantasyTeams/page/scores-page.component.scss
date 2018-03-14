@@ -30,8 +30,8 @@
 
 .team-link {
   position: relative;
-  top: -14px;
-  font-size: 18px;
+  top: -20px;
+  font-size: 16px;
   padding-top: 4px;
 }
 
@@ -68,6 +68,10 @@
   .seed {
     width: 12px;
     margin-right: 4px;
+  }
+
+  .team-link {
+    font-size: 18px;
   }
 }
 

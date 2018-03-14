@@ -3,7 +3,7 @@
 const Firebase = require('firebase');
 const fs = require('fs')
 
-const YEAR = '2017'
+const YEAR = '2018'
 
 let fantasyTeams = [
   {
@@ -12,7 +12,7 @@ let fantasyTeams = [
     wins: 0
   },
   {
-    name: 'Cary | Tingstrom',
+    name: 'Tingstrom | McRae',
     id: 1,
     wins: 0
   },
@@ -294,10 +294,27 @@ let createGames = () => {
           // });
 
           // 2017 East vs West
+          // games.FinalFour.push({
+          //   id: gameId++,
+          //   region: 'Final Four',
+          //   prev0: games.East.last().id,
+          //   prev1: games.West.last().id,
+          //   round: 5
+          // });
+
+          // games.FinalFour.push({
+          //   id: gameId++,
+          //   region: 'Final Four',
+          //   prev0: games.Midwest.last().id,
+          //   prev1: games.South.last().id,
+          //   round: 5
+          // });
+
+          // 2018 South vs West
           games.FinalFour.push({
             id: gameId++,
             region: 'Final Four',
-            prev0: games.East.last().id,
+            prev0: games.South.last().id,
             prev1: games.West.last().id,
             round: 5
           });
@@ -305,8 +322,8 @@ let createGames = () => {
           games.FinalFour.push({
             id: gameId++,
             region: 'Final Four',
-            prev0: games.Midwest.last().id,
-            prev1: games.South.last().id,
+            prev0: games.East.last().id,
+            prev1: games.Midwest.last().id,
             round: 5
           });
 
@@ -375,7 +392,7 @@ let resetOnlyGames = () => {
 
 
 // only one of these at a time
-// completeReset();
-resetOnlyGames();
+completeReset();
+// resetOnlyGames();
 
 

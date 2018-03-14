@@ -23,11 +23,11 @@ export class GamesPage {
 
   ngOnInit() {
     this._gameService.getGames().subscribe((games) => {
-      if (games.length > 63 && games[0].id != "0") {
+      if (games.length > 63 && games[0].id !== "0") {
         games.shift();
       }
       this.games = games;
-      console.log(games);
+
       this.rounds = [];
       [1, 2, 3, 4, 5, 6].forEach((round) => {
         this.rounds[round-1] = this.games.filter(game => {

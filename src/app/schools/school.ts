@@ -46,7 +46,7 @@ export class School  {
     return score;
   }
 
-  get drafted(): boolean { return this.pick !== null && typeof(this.pick) != "undefined"; }
+  get drafted(): boolean { return this.pick !== null && typeof(this.pick) !== "undefined"; }
 
   _loadGames(gameIds: {}) {
     this.games = [];

@@ -29,8 +29,7 @@ let routes: RouteDefinition[] = [
   { path: '/', name: 'Scores', component: ScoresPage, useAsDefault: true },
   { path: '/teams', name: 'Teams', component: AllTeamsPage },
   { path: '/teams/:slug', name: 'Team', component: FantasyTeamPage },
-  { path: '/games', name: 'Games', component: GamesPage },
-  { path: '/admin', name: 'Admin', component: GamesPage }
+  { path: '/games', name: 'Games', component: GamesPage }
 ];
 
 if (!__PRODUCTION__) {

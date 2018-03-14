@@ -30,7 +30,7 @@ let routes: RouteDefinition[] = [
   { path: '/teams', name: 'Teams', component: AllTeamsPage },
   { path: '/teams/:slug', name: 'Team', component: FantasyTeamPage },
   { path: '/games', name: 'Games', component: GamesPage },
-  { path: '/admin', name: 'Games', component: GamesPage }
+  { path: '/admin', name: 'Admin', component: GamesPage }
 ];
 
 if (!__PRODUCTION__) {

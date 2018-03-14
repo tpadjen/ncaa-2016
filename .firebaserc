@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "mvhs-march-madness"
+    "default": "mvhs-march-madness",
+    "madness": "mvhs-march-madness"
   }
 }

@@ -48,7 +48,7 @@ let fantasyTeams = [
   },
 ];
 
-let draftURL = 'https://mvhs-ncaa-2017.firebaseio.com/';
+let draftURL = 'https://mvhs-march-madness.firebaseio.com/';
 let schoolsRef = new Firebase(draftURL).child('schools').child(YEAR);
 let draftRef   = new Firebase(draftURL).child('draft').child(YEAR);
 let teamsRef   = new Firebase(draftURL).child('teams').child(YEAR);
